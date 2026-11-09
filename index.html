@@ -195,6 +195,12 @@ table.sub th{font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;colo
 .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.82rem;color:var(--muted)}
 .sticky-note{position:sticky;top:calc(64px + env(safe-area-inset-top,0px));z-index:5}
 
+*,*::before,*::after{font-feature-settings:"locl" 0 !important}
+body{padding-block:0 150px}
+.fab{transition:transform .2s,opacity .2s}
+.fab.hide{transform:translateY(130px);opacity:0;pointer-events:none}
+.chip[disabled]{opacity:.4;cursor:not-allowed}
+
 .fld{display:grid;gap:6px;font-weight:600;font-size:.9rem}
 .fld .search{font-weight:400}
 textarea.search{font:inherit;resize:vertical}
@@ -1525,12 +1531,24 @@ function filteredRecipes(){
 function recipeGrid(){
   const list=filteredRecipes();
   $("#rcount").textContent=list.length+" "+(list.length===1?"рецепта":"рецепти");
-  $("#rgrid").innerHTML=list.length?list.slice(0,RLIM).map(rcardHTML).join(""):'<div class="card"><p>Нищо не съвпада. Махни филтър или провери настройките за храни.</p></div>';
+  $("#rgrid").innerHTML=list.length?list.slice(0,RLIM).map(rcardHTML).join(""):emptyHelp();
   $("#rmore").innerHTML=list.length>RLIM?'<button class="btn ghost" data-act="more">Покажи още ('+(list.length-RLIM)+')</button>':"";
+}
+function emptyHelp(){
+  const tryWith=o=>{const s=Object.assign({},RF,o);const q=s.q.trim().toLowerCase();return RECIPES.some(r=>dietOK(r)&&(s.meal==='all'||r.meal===s.meal)&&(s.base==='all'||r.base===s.base)&&(!s.mine||eligible(r))&&(!s.fav||S.fav[r.id])&&(!q||r.n.toLowerCase().includes(q)||r.keys.some(k=>k.toLowerCase().includes(q))));};
+  const opts=[];
+  if(RF.base!=='all'&&tryWith({base:'all'}))opts.push(['base','Избери „Всякаква основа“',(RF.meal==='bf'||RF.meal==='dessert')?'Закуските и десертите нямат основа с месо или риба. Натисни „Всякаква основа“, за да ги видиш.':'Няма такива ястия с избраната основа. Натисни „Всякаква основа“, за да видиш всички.']);
+  if(RF.meal!=='all'&&tryWith({meal:'all'}))opts.push(['meal','Покажи всички видове','Няма такива ястия в избрания вид. Натисни „Всички“, за да махнеш избора на вид.']);
+  if(RF.mine&&tryWith({mine:false}))opts.push(['mine','Покажи и без моите уреди','Няма ястия, които да се готвят само с твоите уреди. Можеш да включиш още уреди в настройките.']);
+  if(RF.fav&&tryWith({fav:false}))opts.push(['fav','Покажи всички','Още нямаш любими ястия при тези филтри. Добавяй с ♥.']);
+  if(RF.q&&tryWith({q:''}))opts.push(['q','Изчисти търсенето','Няма ястие или продукт с това име.']);
+  const o=opts[0];
+  if(!o)return '<div class="card"><p>Нищо не съвпада. Провери любимите и нежеланите продукти в настройките.</p></div>';
+  return '<div class="card" style="display:grid;gap:12px"><p>'+o[2]+'</p><div><button class="btn sm" data-act="rf-clear" data-f="'+o[0]+'">'+o[1]+'</button></div></div>';
 }
 function recipeFilters(){
   $("#rmeal").innerHTML=[["all","Всички"],...Object.entries(MEALS)].map(([k,l])=>`<button class="chip" data-act="rf" data-f="meal" data-v="${k}" aria-pressed="${RF.meal===k}">${l}</button>`).join("");
-  $("#rbase").innerHTML=[["all","Всякаква основа"],...BASES.map(b=>[b,cap(b)])].map(([k,l])=>`<button class="chip" data-act="rf" data-f="base" data-v="${k}" aria-pressed="${RF.base===k}">${l}</button>`).join("");
+  const nb=(RF.meal==="bf"||RF.meal==="dessert");$("#rbase").innerHTML=[["all","Всякаква основа"],...BASES.map(b=>[b,cap(b)])].map(([k,l])=>`<button class="chip" data-act="rf" data-f="base" data-v="${k}" aria-pressed="${RF.base===k}" ${nb&&k!=="all"?"disabled":""}>${l}</button>`).join("")+(nb?'<span class="muted small" style="align-self:center">Закуските и десертите са без основа</span>':"");
   $("#rtools").innerHTML=`<button class="chip" data-act="rf" data-f="mine" data-v="x" aria-pressed="${RF.mine}">Само с моите уреди</button><button class="chip" data-act="rf" data-f="fav" data-v="x" aria-pressed="${RF.fav}">♥ Любими</button>`;
 }
 
@@ -1669,8 +1687,9 @@ document.addEventListener("click",e=>{
     case "day-list":{const day=S.cur.days[+d.d];const ids=SLOTS.flatMap(([k])=>day[k]);if(!ids.length){toast("Денят е празен");break;}const n=addToShop(aggregateIds(ids,S.people/2),dayShort(S.cur,+d.d));day.listed=true;save();toast(n+" продукта са добавени в списъка");render();break;}
     case "pl-list":openPlanToList();break;
     case "pld-go":{const ids=[];PLD.forEach(i=>{const day=S.cur.days[i];SLOTS.forEach(([k])=>day[k].forEach(id=>ids.push(id)));});const n=addToShop(aggregateIds(ids,S.people/2),"План");PLD.forEach(i=>S.cur.days[i].listed=true);save();closeDlg();toast(n+" продукта са добавени");location.hash="#list";render();break;}
-    case "rf":RLIM=48;if(d.f==="mine")RF.mine=!RF.mine;else if(d.f==="fav")RF.fav=!RF.fav;else RF[d.f]=d.v;recipeFilters();recipeGrid();break;
+    case "rf":RLIM=48;if(d.f==="meal"&&(d.v==="bf"||d.v==="dessert"))RF.base="all";if(d.f==="mine")RF.mine=!RF.mine;else if(d.f==="fav")RF.fav=!RF.fav;else RF[d.f]=d.v;recipeFilters();recipeGrid();break;
     case "more":RLIM+=48;recipeGrid();break;
+    case "rf-clear":RLIM=48;if(d.f==="mine"||d.f==="fav")RF[d.f]=false;else if(d.f==="q"){RF.q="";const qi=$("#rq");if(qi)qi.value="";}else RF[d.f]="all";recipeFilters();recipeGrid();break;
     case "fav":{if(S.fav[d.id])delete S.fav[d.id];else S.fav[d.id]=1;save();if(t.closest("dialog"))renderRecipe();else{t.setAttribute("aria-pressed",!!S.fav[d.id]);t.textContent=S.fav[d.id]?"♥":"♡";}break;}
     case "gtab":GT=d.t;render();break;
     case "fs":FS=d.s;{const c=$("#gbody");if(c){c.innerHTML=guideBody();}}break;
@@ -1723,6 +1742,7 @@ document.addEventListener("input",e=>{
 });
 dlg.addEventListener("close",()=>{render();});
 
+(function(){let last=window.scrollY||0;window.addEventListener("scroll",()=>{const y=window.scrollY||0,f=$(".fab");if(!f)return;if(y>last+6&&y>100)f.classList.add("hide");else if(y<last-6||y<100)f.classList.remove("hide");last=y;},{passive:true});})();
 applyLook();
 if(!S.cur||!S.cur.days)S.cur=genPlan(S.planDays,S.mode);
 save();
