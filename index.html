@@ -4,10 +4,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Щадящо меню и рецепти при гастрит">
-<title>Лайка</title>
+<meta name="theme-color" content="#2D6A58">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Pissi">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Pissi Food App</title>
 <script>try{var c=JSON.parse(localStorage.getItem("layka-look")||"null");if(c){var r=document.documentElement;for(var k in c.vars)r.style.setProperty(k,c.vars[k]);if(c.scheme)r.style.colorScheme=c.scheme;}}catch(e){}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;700;800&family=Manrope:wght@400;500;600;700&display=swap">
 <style>
+.iconbtn{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;color:var(--brand);flex:none}
+.iconbtn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+.hs{display:flex;gap:8px;max-width:520px}.hs .search{flex:1;min-width:0}
+.brand b{font-size:1.45rem}
 /* Layout: мобилно приложение с долна навигация; на широк екран – централна колона до 1040px.
    Палитра: бор (мастило), градинска лайка (акцент), мъхесто зелено (основен бутон), порцелан (фон). */
 :root{
@@ -273,19 +285,23 @@ ul.an li.ok b{background:var(--ok-bg);color:var(--ok)}ul.an li.warn b{background
 
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="#home" aria-label="Начало">
-      <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true">
-        <g fill="#fff" stroke="#C9D8CC" stroke-width=".8">
-          <ellipse cx="20" cy="9" rx="3.6" ry="7.5"/><ellipse cx="20" cy="9" rx="3.6" ry="7.5" transform="rotate(45 20 20)"/>
-          <ellipse cx="20" cy="9" rx="3.6" ry="7.5" transform="rotate(90 20 20)"/><ellipse cx="20" cy="9" rx="3.6" ry="7.5" transform="rotate(135 20 20)"/>
-          <ellipse cx="20" cy="9" rx="3.6" ry="7.5" transform="rotate(180 20 20)"/><ellipse cx="20" cy="9" rx="3.6" ry="7.5" transform="rotate(225 20 20)"/>
-          <ellipse cx="20" cy="9" rx="3.6" ry="7.5" transform="rotate(270 20 20)"/><ellipse cx="20" cy="9" rx="3.6" ry="7.5" transform="rotate(315 20 20)"/>
-        </g><circle cx="20" cy="20" r="5.2" fill="#EBBD3F"/></svg>
-      <div><b>Лайка</b><span>щадящо меню</span></div>
-    </a>
+    <a class="brand" href="#home" aria-label="Pissi Food App – начало"><svg width="38" height="38" viewBox="70 118 372 346" aria-hidden="true"><circle cx="138" cy="182" r="28" fill="#8A5A3A"/><circle cx="138" cy="182" r="13" fill="#D9A58A"/>
+<circle cx="374" cy="182" r="28" fill="#8A5A3A"/><circle cx="374" cy="182" r="13" fill="#D9A58A"/>
+<ellipse cx="256" cy="278" rx="182" ry="140" fill="#9C6841"/>
+<ellipse cx="256" cy="212" rx="96" ry="50" fill="#B27F55" opacity=".6"/>
+<ellipse cx="256" cy="340" rx="128" ry="84" fill="#F3E0C4"/><ellipse cx="256" cy="412" rx="70" ry="22" fill="#F3E0C4"/>
+<circle cx="182" cy="262" r="19" fill="#2A1810"/><circle cx="330" cy="262" r="19" fill="#2A1810"/>
+<circle cx="189" cy="255" r="7" fill="#fff"/><circle cx="337" cy="255" r="7" fill="#fff"/>
+<circle cx="158" cy="322" r="21" fill="#F2A59B" opacity=".65"/><circle cx="354" cy="322" r="21" fill="#F2A59B" opacity=".65"/>
+<path d="M222 310 q34 -26 68 0 q-5 30 -34 34 q-29 -4 -34 -34z" fill="#3B2418"/>
+<ellipse cx="243" cy="312" rx="9" ry="4" fill="#fff" opacity=".35"/>
+<path d="M256 338 v22 M256 360 q-22 22 -46 6 M256 360 q22 22 46 6" stroke="#3B2418" stroke-width="7" fill="none" stroke-linecap="round"/>
+<g fill="#B58E68"><circle cx="210" cy="346" r="4"/><circle cx="222" cy="358" r="4"/><circle cx="302" cy="346" r="4"/><circle cx="290" cy="358" r="4"/></g>
+<g stroke="#7A5535" stroke-width="5" stroke-linecap="round"><path d="M150 342 l-58 -12"/><path d="M152 358 l-58 10"/><path d="M362 342 l58 -12"/><path d="M360 358 l58 10"/></g></svg><div><b>Pissi</b><span>Food App</span></div></a>
     <nav class="tabs" aria-label="Основна навигация">
       <a href="#home">Начало</a><a href="#recipes">Рецепти</a><a href="#plan">Планер</a><a href="#list">Пазаруване</a><a href="#guide">Правила и съвети</a>
     </nav>
+    <a class="iconbtn" href="#search" aria-label="Търсене"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></a>
     <button class="chip-set" data-act="settings" aria-label="Настройки">
       <i><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></i><span class="t">Настройки<small>Вид, уреди, храни</small></span>
     </button>
@@ -954,8 +970,8 @@ const FOOD=[
  {c:"Сладко",ok:["конфитюр или мармалад в малко количество","компот от меки плодове","мед (малко)"],lim:["шоколад"],no:["торти с крем и много мазнина","вафли и сладкиши с много мазнина"]}
 ];
 const SUBS=[
- ["Лук","Бялата част на праз, луковица от копър"],
- ["Чесън","Смлян кимион или смес от сушени билки: босилек, риган, розмарин, мащерка"],
+ ["Лук","Бялата част на праз, луковица от копър или съвсем малко асафетида (подправка, която имитира вкуса на лук)"],
+ ["Чесън","Малко асафетида, смлян кимион или смес от сушени билки: босилек, риган, розмарин, мащерка"],
  ["Чили, лют и черен пипер","Смлян кимион, смлян кориандър"],
  ["Оцет и лимон","Копър, магданоз; за аромат – настъргана кора от плод, ако се понася"],
  ["Готови подправъчни миксове","Сол и сушени билки (мащерка, розмарин, босилек, риган)"],
@@ -984,7 +1000,11 @@ const TRICKS=[
  ["Печене с фолио","Покритото печене запазва сока. Махни фолиото за последните 10 минути, за да се зачервят леко."],
  ["Пазарувай по списък","Седмичният списък се събира от плана. Така не купуваш излишни продукти."],
  ["Нарязвай месото на малки хапки","Малките парчета се готвят равномерно и се смилат по-лесно."],
- ["Въвеждай нови храни една по една","Така лесно разбираш коя храна дразни."]
+ ["Въвеждай нови храни една по една","Така лесно разбираш коя храна дразни."],
+ ["Смутита, които не дразнят","Използвай зрели меки плодове (банан, круша, праскова, папая), растително мляко и малко мед. Пий смутито на стайна температура и на малки глътки. Киселите плодове (ягоди, малини, цитруси) добавяй само ако ги понасяш, в малко количество и разредени с повече растително мляко."],
+ ["Накисвай бобовите, ядките и семената","Накиснати за няколко часа, те се готвят по-лесно и се смилат по-леко. Водата от накисването се излива. Бобовите, суровите ядки и семена често подуват, затова започни с малко."],
+ ["Билкови чайове","Чаят от лайка, копър, анасон и липа е обичаен избор при стомашни оплаквания. Пий го топъл, не горещ, без захар или с малко мед. Жълтият кантарион трябва да е от аптека и взаимодейства с много лекарства, например противозачатъчни, антидепресанти и лекарства за кръвта. Не го пий без съвет от лекар или фармацевт."],
+ ["Добавяй мазнината накрая","Зехтинът и маслото се слагат в готовото ястие, а не по време на готвенето. Така не се прегряват и ястието е по-леко."]
 ];
 const TIPS_HOME=[
  "Добавяй зехтина или маслото в чинията, след като храната е сготвена.",
@@ -1065,7 +1085,7 @@ const SK=(bg,sf,ink,mu,ln,br,onb,so,ch,onc,dark)=>({"--bg":bg,"--surface":sf,"--
  "--ok":dark?"#78D0A3":"#2E7D5B","--ok-bg":dark?"#17352A":"#DDF0E4","--lim":dark?"#E8BE5A":"#8F6310","--lim-bg":dark?"#3A3115":"#FBEFCB","--no":dark?"#F09089":"#B0382E","--no-bg":dark?"#43211F":"#F8DEDA",
  "--shadow":dark?"0 6px 20px rgba(0,0,0,.3)":"0 1px 2px rgba(30,40,40,.06),0 6px 20px rgba(30,40,40,.08)"});
 const SKINS={
- auto:{n:"Лайка",sw:["#F5F8F2","#2D6A58","#EBBD3F"],v:null},
+ auto:{n:"Класическа",sw:["#F5F8F2","#2D6A58","#EBBD3F"],v:null},
  mint:{n:"Мента",sw:["#EEF7F6","#0F7C7A","#F2C94C"],v:SK("#EEF7F6","#FFFFFF","#12353A","#4A6B6F","#CFE3E2","#0F7C7A","#FFFFFF","#DCEFED","#F2C94C","#3B2E00")},
  peach:{n:"Праскова",sw:["#FFF4EC","#C2603F","#F2B84B"],v:SK("#FFF4EC","#FFFFFF","#4A2C22","#85604F","#F1DCCF","#B9532F","#FFFFFF","#FCE5D8","#F2B84B","#3B2A00")},
  lav:{n:"Лавандула",sw:["#F5F2FB","#6247AA","#F0C14B"],v:SK("#F5F2FB","#FFFFFF","#2D2650","#64608A","#E1DBF1","#6247AA","#FFFFFF","#E9E3F7","#F0C14B","#33270A")},
@@ -1311,6 +1331,7 @@ home(){
     <div class="eyebrow">Щадящо меню при гастрит</div>
     <h1>Какво ще готвим днес?</h1>
     <p class="lead">Нежни ястия без пържене, люти подправки, лук, чесън, домати и лимон. Кажи какво имаш у дома и ще предложим какво да сготвиш.</p>
+    <form id="hsearch" class="hs" role="search"><input class="search" id="hq" type="search" placeholder="Търси: пиле, картофи, лук…" aria-label="Търсене в приложението" autocomplete="off"><button class="btn" type="submit">Търси</button></form>
     <div class="row"><button class="btn big cham" data-act="quick">Бърза рецепта</button></div>
     <div class="row">
       <button class="btn" data-act="plan-days" data-n="1">План за деня</button>
@@ -1439,7 +1460,7 @@ prefs(){
       <div><div class="eyebrow" style="margin-bottom:6px">Ъгли</div>${segB("r",[["sharp","Остри"],["mid","Меки"],["round","Овални"]])}</div>
       <div><div class="eyebrow" style="margin-bottom:6px">Заглавия</div>${segB("font",[["serif","С засечки"],["sans","Без засечки"]])}</div>
     </div>
-    <p class="muted small">„Лайка“ следва светлия или тъмния режим на устройството. Останалите теми са с фиксирани цветове.</p></section>
+    <p class="muted small">„Класическа“ следва светлия или тъмния режим на устройството. Останалите теми са с фиксирани цветове.</p></section>
   <section class="card" style="display:grid;gap:14px"><h2>Кухня</h2>
     <p class="muted small">С какво готвиш? Показват се само рецепти, които могат да се сготвят с тези уреди. Котлонът е за готвене в тенджера без мазнина.</p>
     <div class="chips">${Object.entries(METHODS).filter(([k])=>k!=="raw").map(([k,l])=>`<button class="chip" data-act="set-eq" data-m="${k}" aria-pressed="${!!S.equip[k]}">${l}</button>`).join("")}</div>
@@ -1589,7 +1610,7 @@ function renderRecipe(){
 
 /* ---- бърза рецепта ---- */
 let Q={};
-function openQuick(){Q={step:1,meal:"any",picks:new Set(),equip:Object.assign({},S.equip),time:90};renderQuick();}
+function openQuick(){Q={step:1,meal:"any",picks:new Set(),equip:Object.assign({},S.equip),time:90,maxIng:null};renderQuick();}
 function renderQuick(){
   const dots=`<div class="dots" aria-hidden="true">${[1,2,3,4].map(i=>`<i class="${i<=Q.step?"on":""}"></i>`).join("")}</div>`;
   let body="",foot="";
@@ -1604,11 +1625,14 @@ function renderQuick(){
   }else if(Q.step===3){
     body=`<h2>С какво готвиш и колко време имаш?</h2>
     <div class="chips">${Object.entries(METHODS).filter(([k])=>k!=="raw").map(([k,l])=>`<button class="chip" data-act="q-eq" data-m="${k}" aria-pressed="${!!Q.equip[k]}">${l}</button>`).join("")}</div>
-    <div><div class="eyebrow" style="margin-bottom:8px">Колко време</div><div class="chips">${[[20,"до 20 мин"],[45,"до 45 мин"],[90,"до 1,5 часа"],[999,"без значение"]].map(([v,l])=>`<button class="chip" data-act="q-time" data-v="${v}" aria-pressed="${Q.time===v}">${l}</button>`).join("")}</div></div>`;
+    <div><div class="eyebrow" style="margin-bottom:8px">Колко време</div><div class="chips">${[[20,"до 20 мин"],[45,"до 45 мин"],[90,"до 1,5 часа"],[999,"без значение"]].map(([v,l])=>`<button class="chip" data-act="q-time" data-v="${v}" aria-pressed="${Q.time===v}">${l}</button>`).join("")}</div></div>
+    <div><div class="eyebrow" style="margin-bottom:8px">Колко продукта да има в рецептата</div><div class="chips">${[[null,"Автоматично"],[3,"до 3 продукта"],[5,"до 5 продукта"],[99,"без значение"]].map(([v,l])=>`<button class="chip" data-act="q-max" data-v="${v}" aria-pressed="${Q.maxIng===v}">${l}</button>`).join("")}</div>
+    <p class="muted small" style="margin-top:6px">„Автоматично“ показва най-простите рецепти (до 3 продукта), когато си избрал малко продукти.</p></div>`;
     foot=`<button class="btn ghost" data-act="q-back">Назад</button><button class="btn cham" data-act="q-next">Покажи рецепти</button>`;
   }else{
-    const res=quickResults();
-    body=`<h2>${res.length?"Ето какво предлагаме":"Няма точно съвпадение"}</h2>
+    const qr=quickResults(),res=qr.list;
+    const qnote=qr.relaxed?`<div class="note">Няма рецепти с толкова малко продукти, затова показваме и по-сложни.</div>`:(qr.cap<99?`<div class="note">Показваме най-простите рецепти: до ${qr.cap} продукта. <button class="btn sm ghost" data-act="q-max" data-v="99">Покажи и по-сложни</button></div>`:"");
+    body=`<h2>${res.length?"Ето какво предлагаме":"Няма точно съвпадение"}</h2>${qnote}
     ${res.length?`<div style="display:grid;gap:10px">${res.map(x=>`
       <button class="rcard" data-act="open-q" data-id="${x.r.id}" data-m="${x.m}">
         <div class="meta"><span class="tag">${MEALS[x.r.meal]}</span><span>${x.r.time} мин</span><span class="dot"></span><span>${METHODS[x.m]}</span></div>
@@ -1622,32 +1646,110 @@ function renderQuick(){
 function quickResults(){
   const sel=new Set();Q.picks.forEach(i=>GROUPS[i].k.forEach(k=>sel.add(k)));
   const selProt=[...Q.picks].some(i=>GROUPS[i].p);
-  const out=[];
-  for(const r of RECIPES){
-    if(!dietOK(r))continue;
-    if(Q.meal!=="any"&&r.meal!==Q.meal)continue;
-    const ms=ownedMethods(r,Q.equip);if(!ms.length)continue;
-    if(r.time>Q.time)continue;
-    if(selProt&&r.prot.some(p=>!sel.has(p)))continue;
-    const main=r.ing.filter(i=>!i.opt&&!STAPLE.has(i.n)&&i.c!=="o");
-    const miss=[...new Set(main.filter(i=>!sel.has(i.n)).map(i=>i.n))];
-    if(Q.picks.size&&main.length&&main.every(i=>!sel.has(i.n)))continue;
-    const have=main.length-main.filter(i=>!sel.has(i.n)).length;
-    out.push({r,m:ms[0],miss,s:miss.length*100-have*30+r.time/10-likeScore(r)*20+Math.random()*8});
-  }
-  const seen={},res=[];for(const x of out.sort((a,b)=>a.s-b.s)){const k=x.r.n.split(" ").slice(0,2).join(" ");seen[k]=(seen[k]||0)+1;if(seen[k]<=2)res.push(x);if(res.length>=8)break;}
-  return res;
+  const run=cap=>{
+    const out=[];
+    for(const r of RECIPES){
+      if(!dietOK(r))continue;
+      if(Q.meal!=="any"&&r.meal!==Q.meal)continue;
+      const ms=ownedMethods(r,Q.equip);if(!ms.length)continue;
+      if(r.time>Q.time)continue;
+      if(selProt&&r.prot.some(p=>!sel.has(p)))continue;
+      const main=[...new Set(r.ing.filter(i=>!i.opt&&!STAPLE.has(i.n)&&i.c!=="o").map(i=>i.n))];
+      if(main.length>cap)continue;
+      const miss=main.filter(n=>!sel.has(n));
+      if(Q.picks.size&&main.length&&main.every(n=>!sel.has(n)))continue;
+      const have=main.length-miss.length;
+      out.push({r,m:ms[0],miss,s:miss.length*100+main.length*6-have*30+r.time/10-likeScore(r)*20+Math.random()*8});
+    }
+    const seen={},res=[];for(const x of out.sort((a,b)=>a.s-b.s)){const k=x.r.n.split(" ").slice(0,2).join(" ");seen[k]=(seen[k]||0)+1;if(seen[k]<=2)res.push(x);if(res.length>=8)break;}
+    return res;
+  };
+  const auto=Q.maxIng==null;
+  const cap=auto?(Q.picks.size>0&&Q.picks.size<=2?3:99):Q.maxIng;
+  let list=run(cap),relaxed=false,used=cap;
+  if(!list.length&&cap<99){list=run(99);relaxed=list.length>0;used=99;}
+  return {list,cap:used,relaxed};
 }
+/* ============ ОБЩО ТЪРСЕНЕ ============ */
+let SQ={q:"",all:false,tab:"all",lim:24};
+const NORM=s=>String(s).toLowerCase();
+function stem(t){t=NORM(t);for(const e of ["ите","ата","ето","ове","ият","ия"]){if(t.length>=e.length+3&&t.endsWith(e))return t.slice(0,-e.length);}return t.length>=5?t.slice(0,-1):t;}
+function hit(tx,t){if(t.length>3)return tx.includes(t);const safe=t.replace(/[^а-яa-z0-9]/g,"");return new RegExp("(^|[^а-яa-z0-9])"+safe+"[а-я]{0,2}($|[^а-яa-z0-9])").test(tx);}
+function qTerms(q){return NORM(q).split(/[\s,;+]+/).filter(Boolean).map(stem);}
+function rtext(r){return r._t||(r._t=NORM([r.n,MEALS[r.meal],r.base,...r.keys,...Object.keys(r.cook).map(m=>METHODS[m]),r.tags.includes("dairy")?"млечни":"",r.tags.includes("red")?"червено месо":""].join(" ")));}
+function searchAll(q){
+  const T=qTerms(q);if(!T.length)return null;
+  const rec=[];let hidden=0;
+  for(const r of RECIPES){
+    const tx=rtext(r);let n=0;for(const t of T)if(hit(tx,t))n++;
+    if(!n)continue;
+    if(!SQ.all&&!dietOK(r)){hidden++;continue;}
+    rec.push({r,n});
+  }
+  const full=rec.filter(x=>x.n===T.length).sort((a,b)=>likeScore(b.r)-likeScore(a.r)||a.r.time-b.r.time);
+  const part=rec.filter(x=>x.n<T.length).sort((a,b)=>b.n-a.n||likeScore(b.r)-likeScore(a.r)||a.r.time-b.r.time);
+  const foods=[];
+  SECTIONS.forEach(s=>FOOD.forEach(c=>c[s.k].forEach(it=>{const tx=NORM(it+" "+c.c);const n=T.filter(t=>hit(tx,t)).length;if(n)foods.push({s,c:c.c,it,n});})));
+  foods.sort((a,b)=>b.n-a.n);
+  const tips=[];
+  const addT=(k,t,d)=>{const tx=NORM(t+" "+d);const n=T.filter(x=>hit(tx,x)).length;if(n)tips.push({k,t,d,n});};
+  HABITS.forEach(h=>addT("Навик",h[0],h[1]));
+  TRICKS.forEach(h=>addT("Трик",h[0],h[1]));
+  SUBS.forEach(h=>addT("Замяна",h[0],h[1]));
+  ALARM.forEach(a=>addT("Алармен симптом",a,"Потърси лекар."));
+  tips.sort((a,b)=>b.n-a.n);
+  const shop=S.shop.filter(i=>T.some(t=>hit(NORM(i.n),t)));
+  return {T,full,part,hidden,foods,tips,shop};
+}
+function searchHTML(){
+  const R=searchAll(SQ.q);
+  if(!R)return `<div class="card" style="display:grid;gap:12px"><p>Напиши една или повече думи, например „пиле картофи“ или „банан“. Ще покажем всичко в приложението по тях: рецепти, храни, съвети и продуктите в списъка ти.</p>
+    <div class="chips">${["пиле картофи","риба броколи","банан","лук","тиква","смути","чай"].map(x=>`<button class="chip" data-act="sq-ex" data-q="${x}">${x}</button>`).join("")}</div></div>`;
+  const nR=R.full.length+R.part.length;
+  const total=nR+R.foods.length+R.tips.length+R.shop.length;
+  const tabs=[["all","Всичко",total],["rec","Рецепти",nR],["food","Храни",R.foods.length],["tip","Съвети",R.tips.length],["shop","Списък",R.shop.length]];
+  const seg=`<div class="seg" role="group" aria-label="Резултати">${tabs.map(([k,l,n])=>`<button data-act="sq-tab" data-t="${k}" aria-pressed="${SQ.tab===k}">${l} <span class="muted">${n}</span></button>`).join("")}</div>`;
+  const hid=R.hidden?`<div class="note">${R.hidden} ${R.hidden===1?"ястие е скрито":"ястия са скрити"} според твоите настройки (нежелани продукти, режим на храна). <button class="btn sm ghost" data-act="sq-all">Покажи ги</button></div>`:(SQ.all?`<div class="note">Показани са и ястията, скрити от настройките. <button class="btn sm ghost" data-act="sq-all">Скрий ги</button></div>`:"");
+  const show=k=>SQ.tab==="all"||SQ.tab===k;
+  let out=seg+hid;
+  if(!total)return out+`<div class="card"><p>Не намерихме нищо за „${esc(SQ.q)}“. Опитай с по-кратка дума или с друг продукт.</p></div>`;
+  if(show("rec")&&nR){
+    const lim=SQ.tab==="all"?6:SQ.lim;
+    const list=R.full.concat(R.part);
+    out+=`<section style="display:grid;gap:12px"><h2>Рецепти <span class="muted small">${nR}</span></h2>
+      ${R.T.length>1&&R.full.length?`<p class="muted small">Първо са ястията, в които има всички думи (${R.full.length}). След тях са тези с част от думите.</p>`:""}
+      <div class="grid">${list.slice(0,lim).map(x=>rcardHTML(x.r)).join("")}</div>
+      ${list.length>lim?(SQ.tab==="all"?`<div><button class="btn ghost" data-act="sq-tab" data-t="rec">Покажи всички ${nR} рецепти</button></div>`:`<div class="more"><button class="btn ghost" data-act="sq-more">Покажи още (${list.length-lim})</button></div>`):""}</section>`;
+  }
+  if(show("food")&&R.foods.length){
+    out+=`<section style="display:grid;gap:12px"><h2>Какво може и какво не <span class="muted small">${R.foods.length}</span></h2>
+      ${SECTIONS.map(s=>{const it=R.foods.filter(f=>f.s.k===s.k);return it.length?`<div class="gsec ${s.k}"><div class="gh"><span class="g">${s.g}</span><div><h3>${s.t}</h3></div></div><div class="gb" style="grid-template-columns:1fr"><div class="gi">${it.map(f=>`<span class="fi ${s.k}"><b>${s.g}</b> ${f.it} <small>· ${f.c}</small></span>`).join("")}</div></div></div>`:"";}).join("")}</section>`;
+  }
+  if(show("tip")&&R.tips.length){
+    out+=`<section style="display:grid;gap:12px"><h2>Съвети и трикове <span class="muted small">${R.tips.length}</span></h2><div class="grid">${R.tips.map(t=>`<div class="card"><div class="eyebrow">${t.k}</div><h3>${t.t}</h3><p class="muted" style="margin-top:6px">${t.d}</p></div>`).join("")}</div></section>`;
+  }
+  if(show("shop")&&R.shop.length){
+    out+=`<section style="display:grid;gap:12px"><h2>В списъка за пазаруване <span class="muted small">${R.shop.length}</span></h2><div class="card">${R.shop.map(i=>`<div class="lrow ${i.done?"done":""}"><span>${cap(i.n)}</span><span class="q">${fmtQ(i.q,i.u)}</span></div>`).join("")}<div style="margin-top:10px"><a class="btn sm ghost" href="#list">Отвори списъка</a></div></div></section>`;
+  }
+  return out;
+}
+views.search=function(){
+  return `<section style="display:grid;gap:12px"><div><div class="eyebrow">Търсене</div><h1 style="font-size:clamp(1.8rem,5vw,2.4rem)">Намери всичко</h1></div>
+    <input class="search" id="sq" type="search" placeholder="Напиши няколко думи: пиле, картофи, лук…" value="${esc(SQ.q)}" aria-label="Търсене в приложението" autocomplete="off"></section>
+    <div id="sres" style="display:grid;gap:18px">${searchHTML()}</div>`;
+};
+function runSearch(){const e=$("#sres");if(e)e.innerHTML=searchHTML();}
 
 /* ============ РУТЕР И СЪБИТИЯ ============ */
-const ROUTES=["home","recipes","plan","list","guide","prefs"];
+const ROUTES=["home","recipes","plan","list","guide","prefs","search"];
 function route(){const h=location.hash.slice(1);return ROUTES.includes(h)?h:"home";}
 function render(){
   const r=route();
   $("#view").innerHTML=views[r]();
   document.querySelectorAll("nav a").forEach(a=>{if(a.getAttribute("href")==="#"+r)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
   if(r==="recipes"){recipeFilters();recipeGrid();}
-  document.title="Лайка";
+  if(r==="search"&&!SQ.q){const q=$("#sq");if(q)q.focus();}
+  document.title="Pissi Food App";
 }
 window.addEventListener("hashchange",()=>{closeDlg();CONFIRM_CLEAR=false;render();window.scrollTo(0,0);});
 function toPlanDays(n){S.planDays=n;setPlan(genPlan(n,S.mode));}
@@ -1689,6 +1791,10 @@ document.addEventListener("click",e=>{
     case "pld-go":{const ids=[];PLD.forEach(i=>{const day=S.cur.days[i];SLOTS.forEach(([k])=>day[k].forEach(id=>ids.push(id)));});const n=addToShop(aggregateIds(ids,S.people/2),"План");PLD.forEach(i=>S.cur.days[i].listed=true);save();closeDlg();toast(n+" продукта са добавени");location.hash="#list";render();break;}
     case "rf":RLIM=48;if(d.f==="meal"&&(d.v==="bf"||d.v==="dessert"))RF.base="all";if(d.f==="mine")RF.mine=!RF.mine;else if(d.f==="fav")RF.fav=!RF.fav;else RF[d.f]=d.v;recipeFilters();recipeGrid();break;
     case "more":RLIM+=48;recipeGrid();break;
+    case "sq-tab":SQ.tab=d.t;SQ.lim=24;runSearch();break;
+    case "sq-ex":SQ.q=d.q;{const i=$("#sq");if(i)i.value=d.q;}runSearch();break;
+    case "sq-all":SQ.all=!SQ.all;runSearch();break;
+    case "sq-more":SQ.lim+=24;runSearch();break;
     case "rf-clear":RLIM=48;if(d.f==="mine"||d.f==="fav")RF[d.f]=false;else if(d.f==="q"){RF.q="";const qi=$("#rq");if(qi)qi.value="";}else RF[d.f]="all";recipeFilters();recipeGrid();break;
     case "fav":{if(S.fav[d.id])delete S.fav[d.id];else S.fav[d.id]=1;save();if(t.closest("dialog"))renderRecipe();else{t.setAttribute("aria-pressed",!!S.fav[d.id]);t.textContent=S.fav[d.id]?"♥":"♡";}break;}
     case "gtab":GT=d.t;render();break;
@@ -1713,6 +1819,7 @@ document.addEventListener("click",e=>{
     case "q-pick":{const i=+d.i;Q.picks.has(i)?Q.picks.delete(i):Q.picks.add(i);t.setAttribute("aria-pressed",Q.picks.has(i));break;}
     case "q-eq":Q.equip[d.m]=Q.equip[d.m]?0:1;t.setAttribute("aria-pressed",!!Q.equip[d.m]);break;
     case "q-time":Q.time=+d.v;renderQuick();break;
+    case "q-max":Q.maxIng=d.v==="null"?null:+d.v;renderQuick();break;
     case "q-next":Q.step++;renderQuick();break;
     case "q-back":Q.step=Math.max(1,Q.step-1);renderQuick();break;
     case "set-eq":S.equip[d.m]=S.equip[d.m]?0:1;save();t.setAttribute("aria-pressed",!!S.equip[d.m]);HOME_IDEA=null;break;
@@ -1723,7 +1830,7 @@ document.addEventListener("click",e=>{
     case "pref-clear":S.pref={};HOME_IDEA=null;save();render();break;
     case "bk-copy":{const txt=JSON.stringify(S);const done=()=>{$("#bk-msg").textContent="Данните са копирани. Постави ги на сигурно място.";};
       if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(done,()=>{$("#bk-in").value=txt;$("#bk-in").select();$("#bk-msg").textContent="Маркирай текста и го копирай ръчно.";});else{$("#bk-in").value=txt;$("#bk-in").select();$("#bk-msg").textContent="Маркирай текста и го копирай ръчно.";}break;}
-    case "bk-file":{try{const b=new Blob([JSON.stringify(S)],{type:"application/json"});const u=URL.createObjectURL(b);const l=document.createElement("a");l.href=u;l.download="layka-kopie.json";document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),1500);}catch(_){$("#bk-msg").textContent="Свалянето не е възможно тук. Използвай „Копирай данните“.";}break;}
+    case "bk-file":{try{const b=new Blob([JSON.stringify(S)],{type:"application/json"});const u=URL.createObjectURL(b);const l=document.createElement("a");l.href=u;l.download="pissi-kopie.json";document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),1500);}catch(_){$("#bk-msg").textContent="Свалянето не е възможно тук. Използвай „Копирай данните“.";}break;}
     case "bk-restore":{try{const x=JSON.parse($("#bk-in").value);if(!x||typeof x!=="object"||x.v!==3)throw 0;S=mergeState(x);save();applyLook();render();toast("Данните са върнати");}catch(_){$("#bk-msg").textContent="Текстът не е валидно копие.";}break;}
   }
 });
@@ -1736,11 +1843,13 @@ document.addEventListener("change",e=>{
   if(e.target.id==="pstart"&&e.target.value){S.cur.start=e.target.value;save();render();}
 });
 document.addEventListener("input",e=>{
+  if(e.target.id==="sq"){SQ.q=e.target.value;SQ.lim=24;runSearch();}
   if(e.target.id==="rq"){RF.q=e.target.value;RLIM=48;recipeGrid();}
   if(e.target.id==="pkq"){PKR.q=e.target.value;$("#pkres").innerHTML=pickerResults();}
   if(e.target.id==="fq"){FQ=e.target.value;$("#fgrid").innerHTML=foodSections(SECTIONS.filter(s=>FS==="all"||s.k===FS),FQ.trim().toLowerCase());}
 });
 dlg.addEventListener("close",()=>{render();});
+document.addEventListener("submit",e=>{if(e.target.id==="hsearch"){e.preventDefault();SQ.q=$("#hq").value;SQ.tab="all";location.hash="#search";}});
 
 (function(){let last=window.scrollY||0;window.addEventListener("scroll",()=>{const y=window.scrollY||0,f=$(".fab");if(!f)return;if(y>last+6&&y>100)f.classList.add("hide");else if(y<last-6||y<100)f.classList.remove("hide");last=y;},{passive:true});})();
 applyLook();
