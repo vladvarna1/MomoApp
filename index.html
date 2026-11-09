@@ -1,0 +1,1398 @@
+<!doctype html>
+<html lang="bg">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Меню и рецепти при хроничен гастрит">
+<title>Лайка</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;700;800&family=Manrope:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: мобилно приложение с долна навигация; на широк екран – централна колона до 1040px.
+   Палитра: бор (мастило), градинска лайка (акцент), мъхесто зелено (основен бутон), порцелан (фон). */
+:root{
+  --bg:#F5F8F2; --surface:#FFFFFF; --ink:#1B3832; --muted:#587068; --line:#DCE6DD;
+  --brand:#2D6A58; --on-brand:#FFFFFF; --soft:#E5F0E7; --chamomile:#EBBD3F; --on-chamomile:#3B2E00;
+  --ok:#2E7D5B; --ok-bg:#DDF0E4; --lim:#9A6A10; --lim-bg:#FBEFCB; --no:#B04438; --no-bg:#F8DEDA;
+  --shadow:0 1px 2px rgba(27,56,50,.06),0 6px 20px rgba(27,56,50,.07);
+  --f-display:"Alegreya",Georgia,"Times New Roman",serif; --r:18px; --r-sm:12px; --fs:1;
+  --f-body:"Manrope",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F1B18; --surface:#16251F; --ink:#E5F0EA; --muted:#9BB3A9; --line:#27392F;
+  --brand:#74C6A8; --on-brand:#0C1D17; --soft:#1C2E27; --chamomile:#EBC253; --on-chamomile:#2E2300;
+  --ok:#78D0A3; --ok-bg:#1B3528; --lim:#E5B94F; --lim-bg:#3A3015; --no:#EE8D82; --no-bg:#40201C;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1B18; --surface:#16251F; --ink:#E5F0EA; --muted:#9BB3A9; --line:#27392F;
+  --brand:#74C6A8; --on-brand:#0C1D17; --soft:#1C2E27; --chamomile:#EBC253; --on-chamomile:#2E2300;
+  --ok:#78D0A3; --ok-bg:#1B3528; --lim:#E5B94F; --lim-bg:#3A3015; --no:#EE8D82; --no-bg:#40201C;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25); color-scheme:dark}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+html{font-size:calc(16px*var(--fs))}
+body{background:var(--bg);color:var(--ink);font:400 1rem/1.55 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:0 96px}
+h1,h2,h3{font-family:var(--f-display);line-height:1.15;margin:0;text-wrap:balance;font-weight:700}
+h1{font-size:clamp(2rem,6vw,3rem);font-weight:800}
+h2{font-size:1.55rem}
+h3{font-size:1.2rem}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:var(--brand)}
+:focus-visible{outline:3px solid var(--chamomile);outline-offset:2px;border-radius:8px}
+.wrap{max-width:1040px;margin:0 auto}
+.eyebrow{font-size:.74rem;letter-spacing:.09em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.muted{color:var(--muted)}
+.small{font-size:.88rem}
+
+/* header */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line);
+  margin:0 calc(-1*max(16px,env(safe-area-inset-left,0px)));padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
+.top .wrap{display:flex;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);margin-right:auto;min-width:0}
+.brand svg{flex:none}
+.brand b{font:800 1.35rem/1 var(--f-display);display:block}
+.brand span{font-size:.72rem;color:var(--muted);display:block}
+.chip-set{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:6px 12px 6px 6px;font-size:.84rem;font-weight:600}
+.chip-set i{width:28px;height:28px;border-radius:50%;background:var(--soft);display:grid;place-items:center;color:var(--brand)}
+.chip-set i svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.chip-set small{display:block;font-weight:500;color:var(--muted);font-size:.7rem;line-height:1.1}
+nav.tabs{display:none}
+nav.bottom{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);
+  display:grid;grid-template-columns:repeat(5,1fr);padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+nav.bottom a{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;text-decoration:none;color:var(--muted);font-size:.7rem;font-weight:600;border-radius:12px}
+nav.bottom a svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+nav.bottom a[aria-current="page"]{color:var(--brand);background:var(--soft)}
+.fab{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:19;
+  background:var(--chamomile);color:var(--on-chamomile);border:0;border-radius:99px;padding:13px 18px;font-weight:800;box-shadow:var(--shadow);display:flex;gap:8px;align-items:center}
+.fab svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+main{padding-top:22px;display:flex;flex-direction:column;gap:30px}
+section{min-width:0}
+
+/* buttons & chips */
+.btn{border:0;background:var(--brand);color:var(--on-brand);border-radius:var(--r-sm);padding:12px 18px;font-weight:700;display:inline-flex;gap:8px;align-items:center;justify-content:center;text-decoration:none}
+.btn.big{padding:17px 26px;font-size:1.12rem;border-radius:var(--r)}
+.btn.cham{background:var(--chamomile);color:var(--on-chamomile)}
+.btn.ghost{background:transparent;color:var(--brand);border:1.5px solid var(--line)}
+.btn.sm{padding:7px 12px;font-size:.85rem;border-radius:10px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:var(--surface);border-radius:99px;padding:7px 14px;font-weight:600;font-size:.9rem;display:inline-flex;gap:6px;align-items:center}
+.chip[aria-pressed="true"],.chip.on{background:var(--brand);border-color:var(--brand);color:var(--on-brand)}
+.tag{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 9px;border-radius:99px;background:var(--soft);color:var(--brand)}
+.tag.lim{background:var(--lim-bg);color:var(--lim)} .tag.no{background:var(--no-bg);color:var(--no)} .tag.ok{background:var(--ok-bg);color:var(--ok)}
+.seg{display:inline-flex;background:var(--soft);border-radius:var(--r-sm);padding:4px;gap:2px;flex-wrap:wrap}
+.seg button{border:0;background:transparent;border-radius:10px;padding:8px 16px;font-weight:700;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+
+/* cards */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+
+/* hero */
+.hero{display:grid;gap:18px;padding:26px 22px;border-radius:calc(var(--r)*1.5);background:var(--soft);position:relative;overflow:hidden}
+.hero p.lead{max-width:46ch;color:var(--muted);font-size:1.05rem}
+.hero .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.hero .daisy{position:absolute;right:-38px;top:-38px;width:190px;height:190px;opacity:.9}
+.rules{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.rule{display:flex;gap:12px;align-items:flex-start}
+.rule b{font:800 1.6rem/1 var(--f-display);color:var(--brand);min-width:1.4em}
+
+/* recipe cards */
+.rcard{display:flex;flex-direction:column;gap:10px;text-align:left;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;transition:transform .15s,box-shadow .15s}
+.rcard:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.rcard h3{font-size:1.18rem}
+.rcard .meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:.82rem;color:var(--muted)}
+.dot{width:4px;height:4px;border-radius:50%;background:var(--muted);display:inline-block}
+.mchip{font-size:.72rem;font-weight:600;padding:2px 8px;border-radius:8px;border:1px solid var(--line);color:var(--muted)}
+.mchip.have{border-color:var(--brand);color:var(--brand)}
+.filters{display:grid;gap:12px}
+.search{width:100%;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:var(--r-sm);padding:12px 16px;font:inherit}
+
+/* dialog */
+dialog{border:0;padding:0;background:var(--surface);color:var(--ink);width:min(640px,100%);max-height:92dvh;border-radius:calc(var(--r)*1.4) calc(var(--r)*1.4) 0 0;margin:auto auto 0;box-shadow:0 -10px 50px rgba(0,0,0,.25)}
+dialog::backdrop{background:rgba(10,25,20,.55)}
+@media(min-width:700px){dialog{margin:auto;border-radius:24px;max-height:88dvh}}
+.dlg-in{padding:22px max(20px,env(safe-area-inset-left,0px)) calc(24px + env(safe-area-inset-bottom,0px));display:grid;gap:18px;overflow:auto;max-height:inherit}
+.dlg-head{display:flex;gap:12px;align-items:flex-start;justify-content:space-between}
+.x{border:0;background:var(--soft);width:38px;height:38px;border-radius:50%;flex:none;font-size:1.2rem;line-height:1}
+.dots{display:flex;gap:6px}.dots i{height:5px;flex:1;border-radius:9px;background:var(--line)}.dots i.on{background:var(--brand)}
+.opt{display:flex;gap:12px;align-items:center;text-align:left;width:100%;padding:14px 16px;border:1.5px solid var(--line);background:var(--surface);border-radius:var(--r);font-weight:700}
+.opt[aria-pressed="true"]{border-color:var(--brand);background:var(--soft)}
+.opt small{display:block;font-weight:500;color:var(--muted)}
+.ings{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.ings li{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.ings li b{font-variant-numeric:tabular-nums;white-space:nowrap}
+ol.steps{margin:0;padding:0;list-style:none;counter-reset:s;display:grid;gap:10px}
+ol.steps li{counter-increment:s;display:flex;gap:12px}
+ol.steps li::before{content:counter(s);flex:none;width:26px;height:26px;border-radius:50%;background:var(--soft);color:var(--brand);font-weight:800;font-size:.85rem;display:grid;place-items:center;margin-top:1px}
+.tipbox{background:var(--lim-bg);color:var(--ink);border-radius:var(--r-sm);padding:12px 14px;font-size:.92rem}
+.tipbox b{color:var(--lim)}
+.stepper{display:inline-flex;align-items:center;gap:10px}
+.stepper button{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);font-weight:800}
+
+/* planner */
+.pday{display:grid;gap:8px}
+.pday h3{display:flex;justify-content:space-between;align-items:baseline}
+.slot{display:grid;grid-template-columns:78px 1fr auto;gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--line)}
+.slot .lbl{font-size:.74rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.slot .nm{background:none;border:0;padding:0;text-align:left;font-weight:700;color:var(--ink);min-width:0}
+.slot .nm:hover{color:var(--brand);text-decoration:underline}
+.stats{display:flex;gap:10px;flex-wrap:wrap}
+.stat{background:var(--soft);border-radius:var(--r);padding:12px 16px;min-width:120px}
+.stat b{display:block;font:800 1.8rem/1 var(--f-display);color:var(--brand)}
+.stat span{font-size:.8rem;color:var(--muted)}
+.cooks{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.cooks li{display:flex;gap:2px 12px;align-items:baseline;flex-wrap:wrap}
+.cooks .d{font-weight:800;color:var(--brand);min-width:7.2em}
+.cooks li>span:last-child{flex:1 1 200px;min-width:0}
+
+/* list */
+.lgroup h3{margin-bottom:6px;display:flex;gap:10px;align-items:baseline}
+.lrow{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.lrow input{width:22px;height:22px;accent-color:var(--brand);flex:none}
+.lrow span.q{margin-left:auto;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.lrow.done span:not(.q){text-decoration:line-through;color:var(--muted)} .lrow.done .q{color:var(--muted);text-decoration:line-through}
+
+/* guide */
+.fcat{display:grid;gap:10px}
+.fl{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.fl .lb{font-size:.72rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;min-width:84px}
+.fi{font-size:.86rem;font-weight:600;padding:3px 10px;border-radius:99px}
+.fi.ok{background:var(--ok-bg);color:var(--ok)} .fi.lim{background:var(--lim-bg);color:var(--lim)} .fi.no{background:var(--no-bg);color:var(--no)}
+.fi small{font-weight:500;opacity:.85}
+table.sub{width:100%;border-collapse:collapse;font-size:.92rem}
+table.sub th,table.sub td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+table.sub th{font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.scroll-x{overflow-x:auto}
+.toast{position:fixed;left:50%;bottom:calc(150px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:99px;font-weight:600;z-index:60;font-size:.9rem}
+.sw{display:flex;justify-content:space-between;gap:16px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.sw input{width:46px;height:26px;accent-color:var(--brand);flex:none}
+.disc{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);padding-top:14px;margin-top:10px}
+
+
+.micon{width:42px;height:42px;border-radius:50%;background:var(--soft);color:var(--brand);display:grid;place-items:center;flex:none}
+.micon svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.rhead{display:flex;gap:12px;align-items:center;justify-content:space-between}
+.heart{border:0;background:transparent;font-size:1.35rem;line-height:1;padding:4px 6px;color:var(--muted);border-radius:50%}
+.heart[aria-pressed="true"]{color:var(--no)}
+.rwrap{position:relative}.rwrap .heart{position:absolute;top:10px;right:10px}
+.more{display:flex;justify-content:center;padding:18px 0}
+.pgrid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.swatches{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
+.sw-opt{border:2px solid var(--line);border-radius:var(--r);background:var(--surface);padding:10px;display:grid;gap:8px;text-align:left;font-weight:700}
+.sw-opt[aria-pressed="true"]{border-color:var(--brand);box-shadow:0 0 0 2px var(--brand) inset}
+.sw-prev{height:44px;border-radius:calc(var(--r-sm));display:flex;overflow:hidden;border:1px solid rgba(0,0,0,.08)}
+.sw-prev i{flex:1}
+.pref{font-size:.9rem;font-weight:600;border:1.5px solid var(--line);background:var(--surface);border-radius:99px;padding:6px 13px;display:inline-flex;gap:6px;align-items:center}
+.pref.like{background:var(--ok-bg);border-color:var(--ok);color:var(--ok)}
+.pref.no{background:var(--no-bg);border-color:var(--no);color:var(--no);text-decoration:line-through}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.82rem;color:var(--muted)}
+.sticky-note{position:sticky;top:calc(64px + env(safe-area-inset-top,0px));z-index:5}
+@media(min-width:820px){
+  body{padding-block:0 60px}
+  nav.bottom{display:none}
+  nav.tabs{display:flex;gap:4px}
+  nav.tabs a{padding:8px 14px;border-radius:12px;text-decoration:none;color:var(--muted);font-weight:700;font-size:.92rem}
+  nav.tabs a[aria-current="page"]{background:var(--soft);color:var(--brand)}
+  .fab{bottom:28px}
+  .toast{bottom:90px}
+  .hero{padding:44px 40px}
+  .brand{margin-right:12px}
+  .top .wrap .spacer{flex:1}
+}
+@media(max-width:819px){.chip-set span.t{display:none}.chip-set{padding:4px}.brand span{display:none}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#home" aria-label="Начало">
+      <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true">
+        <g fill="#fff" stroke="#C9D8CC" stroke-width=".8">
+          <ellipse cx="20" cy="9" rx="3.6" ry="7.5"/><ellipse cx="20" cy="9" rx="3.6" ry="7.5" transform="rotate(45 20 20)"/>
+          <ellipse cx="20" cy="9" rx="3.6" ry="7.5" transform="rotate(90 20 20)"/><ellipse cx="20" cy="9" rx="3.6" ry="7.5" transform="rotate(135 20 20)"/>
+          <ellipse cx="20" cy="9" rx="3.6" ry="7.5" transform="rotate(180 20 20)"/><ellipse cx="20" cy="9" rx="3.6" ry="7.5" transform="rotate(225 20 20)"/>
+          <ellipse cx="20" cy="9" rx="3.6" ry="7.5" transform="rotate(270 20 20)"/><ellipse cx="20" cy="9" rx="3.6" ry="7.5" transform="rotate(315 20 20)"/>
+        </g><circle cx="20" cy="20" r="5.2" fill="#EBBD3F"/></svg>
+      <div><b>Лайка</b><span>меню при гастрит</span></div>
+    </a>
+    <nav class="tabs" aria-label="Основна навигация">
+      <a href="#home">Начало</a><a href="#recipes">Рецепти</a><a href="#plan">Планер</a><a href="#list">Пазаруване</a><a href="#guide">Правила и съвети</a>
+    </nav>
+    <button class="chip-set" data-act="settings" aria-label="Настройки">
+      <i><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></i><span class="t">Настройки<small>Хроничен гастрит</small></span>
+    </button>
+  </div>
+</header>
+
+<div class="wrap">
+  <main id="view"></main>
+</div>
+
+<button class="fab" data-act="quick" aria-label="Бърза рецепта">
+  <svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>Бърза рецепта
+</button>
+
+<nav class="bottom" aria-label="Навигация">
+  <a href="#home"><svg viewBox="0 0 24 24"><path d="M3 11 12 3l9 8M5 10v10h14V10"/></svg>Начало</a>
+  <a href="#recipes"><svg viewBox="0 0 24 24"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3zM5 17a3 3 0 0 1 3-3h11"/></svg>Рецепти</a>
+  <a href="#plan"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>Планер</a>
+  <a href="#list"><svg viewBox="0 0 24 24"><path d="M5 9h14l-1.5 10h-11zM9 9l3-5 3 5"/></svg>Пазаруване</a>
+  <a href="#guide"><svg viewBox="0 0 24 24"><path d="M12 21c-5-3-7-7-7-12 4 0 7 2 7 5 0-3 3-5 7-5 0 5-2 9-7 12z"/></svg>Правила</a>
+</nav>
+
+<dialog id="dlg" aria-label="Диалог"></dialog>
+
+<script>
+"use strict";
+/* ============ ДАННИ: рецепти ============
+   Всяка рецепта е за 2 порции. Формат на съставка: [име, количество, мярка, категория, по желание?]
+   Категории: m месо и риба · z зеленчуци · f плодове · d млечни и яйца · g хляб, ориз, зърнени · o билки и други
+   За да добавите нова рецепта – добавете ред в RAW. Таговете (млечни, червено месо, глутен) се изчисляват сами от съставките. */
+const METHODS={oven:"Фурна",air:"Еърфрайър",stove:"Котлон",steam:"На пара",slow:"Мултикукър",blend:"Блендер",micro:"Микровълнова",raw:"Без готвене"};
+const MEALS={bf:"Закуска",soup:"Супа",main:"Основно",salad:"Салата",dessert:"Десерт"};
+const RAW=[
+/* ---- ЗАКУСКИ ---- */
+["b1","Овесена каша с ябълка","bf","-",15,"ново",
+ [["овесени ядки",70,"г","g"],["ябълки",1,"бр","f"],["вода",350,"мл","o"],["мед",1,"ч.л.","o"]],
+ ["Обели ябълката и я настържи."],
+ {stove:"Свари овесените ядки във водата 8–10 мин на слаб огън, като бъркаш. Добави ябълката за последните 2 минути и свали от огъня.",slow:"Сложи ядките, водата и ябълката в купата и пусни програма „Каша“ или 30 мин на ниско."},
+ "Яж я топла, не гореща. Медът се слага накрая, когато кашата леко поизстине."],
+["b2","Оризова каша с банан","bf","-",30,"ново",
+ [["ориз",70,"г","g"],["вода",400,"мл","o"],["банани",1,"бр","f"],["мед",1,"ч.л.","o"]],
+ ["Измий ориза. Намачкай банана с вилица (най-добре е леко покафенял)."],
+ {stove:"Вари ориза във водата на слаб огън 20–25 мин, докато стане кашест. Разбъркай банана накрая.",slow:"Ориз и вода – програма „Каша“ около 35 мин."},
+ "Може да се прави от вечерта и да се претопля на водна баня."],
+["b3","Рохки яйца с препечен хляб","bf","-",10,"осн",
+ [["яйца",3,"бр","d"],["бял хляб",2,"филии","g"],["масло",1,"ч.л.","o"]],
+ ["Извади яйцата от хладилника 10 мин по-рано. Препечи хляба леко – да не е топъл и мек, нито загорял."],
+ {stove:"Спусни яйцата във вряща вода за 5–6 мин. Охлади под студена вода и обели. Белтъкът е стегнат, жълтъкът – рохък.",steam:"Яйцата на пара 8 мин."},
+ "Жълтъкът е в категория „ограничено“. Ако стомахът е раздразнен, яж повече белтък и само 1 жълтък."],
+["b4","Омлет на водна баня","bf","-",15,"осн",
+ [["яйца",3,"бр","d"],["прясно мляко",100,"мл","d"],["кашкавал",30,"г","d"],["масло",1,"ч.л.","o"]],
+ ["Разбий яйцата с млякото и малко сол. Намасли стъклена купа и настърже кашкавала (несолен)."],
+ {steam:"Сложи купата над тенджера с врящата вода (водна баня), покрий и готви 10–12 мин, докато стегне.",slow:"В купа над вода в мултикукъра – 15 мин на пара."},
+ "Пържен омлет е забранен – водната баня го прави пухкав и без мазнина."],
+["b5","Бананови мъфини","bf","-",35,"осн",
+ [["банани",3,"бр","f"],["овесени ядки",200,"г","g"],["кисело мляко",100,"г","d"]],
+ ["Намачкай бананите. Смеси с фино смлени овесени ядки и киселото мляко. Разпредели в 6 формички."],
+ {oven:"180 °C, 20–25 мин, докато се зачервят леко.",air:"160 °C, 15–18 мин в силиконови формички."},
+ "Стигат за 2 порции (по 3 мъфина). Престояват 2 дни в хладилник."],
+["b6","Котидж с мед и печена круша","bf","-",25,"ново",
+ [["котидж",200,"г","d"],["круши",2,"бр","f"],["мед",1,"с.л.","o"]],
+ ["Обели крушите, раздели ги на половинки и махни семките."],
+ {oven:"Печи крушите 20 мин на 180 °C, докато омекнат. Сервирай до котиджа и полей с мед.",air:"180 °C за 12–15 мин."},
+ "Избирай меки, сладки круши. Твърдите и киселите дразнят."],
+["b7","Смути с бадемово мляко и банан","bf","-",5,"осн",
+ [["бадемово мляко",300,"мл","d"],["банани",1,"бр","f"],["круши",1,"бр","f"],["мед",1,"ч.л.","o",1]],
+ ["Обели крушата и махни семките."],
+ {blend:"Блендирай всичко до гладко. Пий бавно, на малки глътки, на стайна температура.",raw:"Без блендер: намачкай плодовете с вилица и разбий с млякото."},
+ "Правилото от изследването: на 1 чаша плод (напр. ягоди) – 2 чаши бадемово мляко. Така киселинността се неутрализира."],
+/* ---- СУПИ ---- */
+["s1","Пилешка супа с ориз и моркови","soup","пиле",45,"осн",
+ [["пилешко филе",250,"г","m"],["моркови",200,"г","z"],["ориз",40,"г","g"],["магданоз",3,"стръка","o"],["вода",1200,"мл","o"]],
+ ["Нарежи морковите на кубчета. Измий ориза."],
+ {stove:"Свари месото в студена вода 20 мин, като махаш пяната. Извади го и го нарежи. Добави морковите и ориза за 15 мин, върни месото, посипи магданоз.",slow:"Всичко, без магданоза – 4 часа на ниско. Магданозът – накрая."},
+ "Не слагай лимон и пипер (в старата версия ги имаше). Лек бульон: излей първата вода след завиране."],
+["s2","Крем супа от моркови и картофи","soup","без месо",30,"осн",
+ [["моркови",400,"г","z"],["картофи",300,"г","z"],["котидж",100,"г","d",1],["вода",800,"мл","o"],["зехтин",1,"ч.л.","o"]],
+ ["Обели и нарежи зеленчуците на едро."],
+ {stove:"Вари 20 мин до омекване. Пасирай с блендер, върни на огъня, добави котиджа (по желание). Зехтинът – в чинията.",slow:"3 часа на високо, после пасирай."},
+ "Нямаш блендер? Намачкай картофите с картофомачкалка и прецеди морковите през гевгир."],
+["s3","Крем супа от тиква и моркови","soup","без месо",35,"осн",
+ [["тиква",400,"г","z"],["моркови",200,"г","z"],["картофи",150,"г","z"],["вода",700,"мл","o"],["зехтин",1,"ч.л.","o"]],
+ ["Обели тиквата и я нарежи на кубчета."],
+ {stove:"Свари всичко 20 мин. Пасирай до гладко.",oven:"Запечи тиквата и морковите 25 мин на 180 °C за по-сладък вкус, после ги свари с картофите 10 мин и пасирай."},
+ "Тиквата е сред най-безопасните зеленчуци при гастрит."],
+["s4","Крем супа от броколи и картофи с котидж","soup","без месо",30,"осн",
+ [["броколи",250,"г","z"],["картофи",300,"г","z"],["котидж",100,"г","d"],["вода",700,"мл","o"]],
+ ["Раздели броколите на розички, картофите нарежи на кубчета."],
+ {stove:"Картофите 12 мин, после броколите още 6–8 мин. Пасирай и разбий котиджа в супата."},
+ "Броколите могат да подуват. Започни с по-малко количество и наблюдавай."],
+["s5","Пасирана супа от моркови и карфиол","soup","без месо",30,"осн",
+ [["моркови",300,"г","z"],["карфиол",300,"г","z"],["картофи",100,"г","z"],["вода",800,"мл","o"],["зехтин",1,"ч.л.","o"]],
+ ["Нарежи зеленчуците."],
+ {stove:"Вари 20 мин, пасирай. Зехтин в чинията.",slow:"3 часа на високо."},
+ "Карфиолът е „внимателен“ зеленчук – ако дразни, увеличи морковите и намали карфиола."],
+["s6","Супа топчета с пуешка кайма","soup","пуйка",45,"осн",
+ [["пуешка кайма",250,"г","m"],["ориз",60,"г","g"],["моркови",150,"г","z"],["картофи",200,"г","z"],["магданоз",3,"стръка","o"],["вода",1200,"мл","o"]],
+ ["Смеси каймата с 30 г ориз и 1 с.л. вода (без яйце). Оформи малки топчета."],
+ {stove:"Свари зеленчуците с останалия ориз 12 мин. Пусни топчетата и вари още 15 мин на слаб огън. Магданоз накрая.",slow:"Всичко заедно 4 часа на ниско."},
+ "Не запържвай нищо – така супата е по-лека."],
+/* ---- ПИЛЕ ---- */
+["m1","Пиле с ориз на фурна","main","пиле",50,"осн",
+ [["пилешко филе",300,"г","m"],["ориз",150,"г","g"],["моркови",100,"г","z"],["зехтин",1,"с.л.","o"],["вода",450,"мл","o"]],
+ ["Нарежи пилешкото на хапки. Измий ориза. Нареди месо, ориз и моркови в тава, залей с водата."],
+ {oven:"Покрий с фолио и пече 35–40 мин на 180 °C. Зехтинът – след печенето.",stove:"В тенджера на слаб огън, покрито, 25 мин.",slow:"Програма „Ориз“, около 35 мин."},
+ "Оризът се готви в същата тава – измиването му е важно, за да не е лепкав."],
+["m2","Пиле с картофи и моркови","main","пиле",55,"осн",
+ [["пилешко филе",300,"г","m"],["картофи",500,"г","z"],["моркови",100,"г","z"],["зехтин",1,"с.л.","o"]],
+ ["Нарежи всичко на еднакви парчета. Разбъркай с малко вода и част от зехтина."],
+ {oven:"Покрито с фолио 40 мин на 180 °C, после 10 мин без фолио.",air:"180 °C, 25 мин; разбъркай по средата.",slow:"6 часа на ниско."},
+ "Най-лесното ястие за седмицата – 10 минути работа."],
+["m3","Пилешко филе с пюре от карфиол и моркови","main","пиле",45,"осн",
+ [["пилешко филе",300,"г","m"],["карфиол",300,"г","z"],["моркови",150,"г","z"],["прясно мляко",2,"с.л.","d"],["масло",1,"ч.л.","o"],["зехтин",1,"ч.л.","o"]],
+ ["Карфиолът на розички, морковите на шайби – свари ги 15–20 мин, отцеди много добре и пасирай с млякото и маслото."],
+ {oven:"Пилешкото във форма, покрито, 25 мин на 180 °C.",steam:"Пилешкото на пара 20–25 мин.",air:"180 °C за 15 мин, обърни по средата."},
+ "Не слагай много мляко – карфиолът е воднист. За по-гъсто пюре добави една картофа."],
+["m4","Пилешки кюфтета с гарнитура ориз","main","пиле",40,"осн",
+ [["пилешка кайма",300,"г","m"],["картофи",100,"г","z"],["моркови",70,"г","z"],["котидж",50,"г","d"],["ориз",120,"г","g"]],
+ ["Настъргай картофа и моркова, изцеди ги. Смеси с каймата и котиджа – без яйце. Оформи кюфтета. Свари ориза."],
+ {air:"180 °C, 12–14 мин; обърни по средата.",oven:"180 °C, 20–25 мин върху хартия.",steam:"На пара 20–25 мин – най-нежният вариант."},
+ "Картофът в сместа замества яйцето."],
+["m5","Пиле с броколи и сметана","main","пиле",45,"осн",
+ [["пилешко филе",300,"г","m"],["броколи",300,"г","z"],["сметана",100,"мл","d"],["кашкавал",40,"г","d"],["зехтин",1,"ч.л.","o"]],
+ ["Бланширай броколите 3–4 мин. Нареди пилешките хапки и броколите в тава, залей със сметаната (10–12 %)."],
+ {oven:"Покрито с фолио 20 мин на 180 °C, после без фолио с кашкавал за златиста коричка."},
+ "Сметаната да е нискомаслена. Кашкавалът – несолен."],
+["m6","Запеканка с пилешко, картофи и броколи","main","пиле",60,"осн",
+ [["пилешко филе",250,"г","m"],["картофи",300,"г","z"],["броколи",150,"г","z"],["котидж",100,"г","d"],["сметана",50,"мл","d"],["кашкавал",30,"г","d"]],
+ ["Свари шайби от картофи 8–10 мин, бланширай броколите. Смеси котиджа със сметаната до гладък сос."],
+ {oven:"Пластове: картофи, пиле, броколи, сос. Покрито 25 мин на 180 °C, после 10–15 мин без фолио."},
+ "Готви двойно количество – на следващия ден се претопля чудесно."],
+["m7","Пилешки гърди на пара с ориз и моркови","main","пиле",35,"ново",
+ [["пилешко филе",300,"г","m"],["ориз",150,"г","g"],["моркови",150,"г","z"],["магданоз",3,"стръка","o"]],
+ ["Свари ориза отделно. Нарежи морковите на пръчици."],
+ {steam:"Филето и морковите в паро-сито над врящата вода 20–25 мин, докато месото стане бяло и сочно в средата.",stove:"Задуши в тенджера с малко вода, покрито, 20 мин."},
+ "Най-нежният начин. Зехтин и магданоз – след готвенето."],
+["m8","Пица с блат от котидж и пиле","main","пиле",50,"осн",
+ [["котидж",200,"г","d"],["брашно",100,"г","g"],["пилешко филе",175,"г","m"],["сметана",60,"мл","d"],["моцарела",60,"г","d"],["кашкавал",40,"г","d"]],
+ ["Смеси котиджа, брашното и ½ пакетче бакпулвер – получава се тесто без яйце. Разстели върху хартия за печене. Свари пилешкото и го накъсай."],
+ {oven:"Намажи блата със сметаната, нареди пилешко и сирена. 180 °C, 25 мин."},
+ "По-тежко ястие заради сирената – за 1 път на 1–2 седмици, не повече."],
+/* ---- ПУЙКА ---- */
+["t1","Пуешки кюфтета с картофи","main","пуйка",45,"осн",
+ [["пуешка кайма",300,"г","m"],["картофи",470,"г","z"],["моркови",100,"г","z"],["зехтин",1,"ч.л.","o"]],
+ ["70 г от картофите настъргай и смеси с каймата. Оформи кюфтета без яйце. Останалите картофи и моркови нарежи."],
+ {air:"Кюфтетата 180 °C, 12–15 мин, обръщай. Картофите – на втора фаза 20 мин.",oven:"Всичко в тава, 180 °C, 35–40 мин."},
+ "Може да се замрази суров – оформи, замрази на тавичка, после в кутия."],
+["t2","Пълнени тиквички с пуешка кайма и ориз","main","пуйка",60,"осн",
+ [["тиквички",500,"г","z"],["пуешка кайма",250,"г","m"],["ориз",70,"г","g"],["моркови",80,"г","z"],["зехтин",1,"с.л.","o"],["вода",150,"мл","o"]],
+ ["Разреж тиквичките по дължина и издълбай. Смеси каймата, ориза, настъргания морков и малко от дълбаното."],
+ {oven:"Напълни, подреди в тава с водата, покрито 45 мин на 180 °C.",slow:"4 часа на ниско с малко вода."},
+ "Изкопаното от тиквичките не се хвърля – влиза в плънката или в супа."],
+["t3","Пуешко със задушени броколи и ориз","main","пуйка",40,"осн",
+ [["пуешко филе",300,"г","m"],["ориз",150,"г","g"],["броколи",200,"г","z"],["моркови",100,"г","z"],["зехтин",1,"ч.л.","o"]],
+ ["Нарежи пуешкото на хапки. Свари ориза отделно."],
+ {stove:"Задуши месото с малко вода 15 мин, добави морковите, после броколите за още 8 мин. Поднеси върху ориза.",slow:"Месо и зеленчуци 3 часа на високо."},
+ "Зехтинът се слага след готвенето – запазва се вкусът и не натоварва стомаха."],
+["t4","Пуешко руло с моркови и картофено пюре","main","пуйка",60,"осн",
+ [["пуешка кайма",350,"г","m"],["моркови",70,"г","z"],["котидж",50,"г","d"],["картофи",500,"г","z"],["масло",1,"ч.л.","o"]],
+ ["Настъргай морковите. Смеси с каймата и котиджа и оформи руло. Свари картофите."],
+ {oven:"Рулото върху хартия, малко вода в тавата, 180 °C около 40 мин (74 °C в центъра). Пюре с масло."},
+ "Нарязвай рулото, когато е изстинало 10 минути – не се разпада."],
+["t5","Пуешко с броколи и кремообразен сос","main","пуйка",40,"осн",
+ [["пуешко филе",300,"г","m"],["броколи",250,"г","z"],["котидж",75,"г","d"],["сметана",40,"мл","d"],["ориз",120,"г","g"],["зехтин",1,"ч.л.","o"]],
+ ["Смеси котиджа със сметаната в гладък сос. Свари ориза."],
+ {stove:"Задуши пуешкото с вода 15 мин, добави броколите 7 мин, сложи соса и дръпни от огъня след 3 мин.",slow:"3 часа на високо, соса – накрая."},
+ "Соса не се вари дълго – котиджът се пресича."],
+/* ---- ТЕЛЕШКО ---- */
+["v1","Телешко с картофи и моркови на фурна","main","телешко",110,"осн",
+ [["телешко",300,"г","m"],["картофи",450,"г","z"],["моркови",125,"г","z"],["зехтин",1,"с.л.","o"],["вода",100,"мл","o"]],
+ ["Нарежи месото на малки парчета без сухожилия."],
+ {oven:"Подреди в тава, покрий с фолио и пече 90–100 мин на 170–180 °C до пълно омекване.",slow:"7–8 часа на ниско.",stove:"В тенджера 70 мин на слаб огън, после зеленчуците."},
+ "Купувай младо, крехко месо. Червеното месо – не повече от 1–2 пъти седмично."],
+["v2","Телешко с ориз и броколи","main","телешко",90,"осн",
+ [["телешко",300,"г","m"],["ориз",160,"г","g"],["броколи",200,"г","z"],["моркови",75,"г","z"],["зехтин",1,"ч.л.","o"]],
+ ["Нарежи месото на малки парчета."],
+ {stove:"Свари телешкото 60–70 мин до омекване, нарежи на хапки. Задуши броколи и моркови, свари ориза. Смеси.",slow:"Месо 6 часа на ниско, после добави зеленчуците и ориза за последния час."},
+ "Бульонът от месото е силен – не го използвай за супа."],
+["v3","Телешки кюфтета на пара","main","телешко",35,"осн",
+ [["телешка кайма",300,"г","m"],["картофи",150,"г","z"],["моркови",70,"г","z"],["ориз",120,"г","g"]],
+ ["Настъргай картофите и морковите, изцеди и смеси с каймата. Оформи без яйце. Свари ориза."],
+ {steam:"На пара 25 мин.",air:"180 °C, 12–15 мин, обръщай по средата.",oven:"180 °C, 20–25 мин."},
+ "„Кюфтета на пара“ са точно формата, препоръчана за младо говеждо."],
+/* ---- СВИНСКО ---- */
+["sv1","Крехко свинско бонфиле с картофи","main","свинско",70,"осн",
+ [["свинско бонфиле",300,"г","m"],["картофи",500,"г","z"],["моркови",100,"г","z"],["зехтин",1,"с.л.","o"],["вода",100,"мл","o"]],
+ ["Нарежи месото на порции, махни всяка мазнина."],
+ {oven:"Покрито с фолио, 180 °C, около 60 мин.",slow:"6 часа на ниско."},
+ "Само чисто контрафиле или бонфиле – без врат и тлъсти части."],
+["sv2","Свинско бонфиле с ориз и моркови","main","свинско",50,"осн",
+ [["свинско бонфиле",300,"г","m"],["ориз",150,"г","g"],["моркови",100,"г","z"],["зехтин",1,"с.л.","o"]],
+ ["Нарежи месото на малки хапки. Свари ориза отделно."],
+ {stove:"Задуши месото с малко вода 30 мин, добави морковите за 15 мин. Поднеси върху ориза.",slow:"4 часа на високо."},
+ "Не го запържвай предварително."],
+/* ---- РИБА ---- */
+["f1","Печена бяла риба със задушени броколи","main","риба",35,"осн",
+ [["хек",300,"г","m"],["броколи",300,"г","z"],["картофи",300,"г","z"],["зехтин",1,"ч.л.","o"],["копър",3,"стръка","o"]],
+ ["Рибата да е без кожа и кости. Свари картофите 12 мин."],
+ {air:"Рибата 180 °C, 10–12 мин.",oven:"180 °C, 15–18 мин върху хартия.",steam:"На пара 12 мин. Броколите – на пара 6–7 мин."},
+ "Подходящи са хек, мерлуза, пъстърва, кефал. Не използвай лимон – копърът дава свежест."],
+["f2","Риба на пара с картофи и моркови","main","риба",30,"ново",
+ [["хек",300,"г","m"],["картофи",400,"г","z"],["моркови",150,"г","z"],["копър",3,"стръка","o"],["зехтин",1,"ч.л.","o"]],
+ ["Нарежи картофите и морковите на шайби."],
+ {steam:"Зеленчуците 10 мин, добави рибата още 10–12 мин.",stove:"Вари зеленчуците, рибата в покрита тиган с малко вода 10 мин."},
+ "Най-леката вечеря за вечер, когато стомахът е раздразнен."],
+["f3","Сьомга със зеленчуци и картофи","main","риба",40,"осн",
+ [["сьомга",300,"г","m"],["картофи",375,"г","z"],["броколи",125,"г","z"],["моркови",100,"г","z"],["зехтин",1,"ч.л.","o"]],
+ ["Сьомгата върху хартия за печене. Свари картофите, задуши броколите и морковите."],
+ {oven:"180 °C, 15 мин.",air:"180 °C, 10 мин."},
+ "Сьомгата е тлъста риба – в категория „ограничено“. Не повече от 1 път седмично."],
+["f4","Пъстърва с картофено пюре","main","риба",35,"ново",
+ [["пъстърва",300,"г","m"],["картофи",450,"г","z"],["прясно мляко",50,"мл","d"],["масло",1,"ч.л.","o"],["копър",3,"стръка","o"]],
+ ["Рибата без кожа и кости. Свари картофите и ги пасирай с млякото и маслото."],
+ {oven:"180 °C, 15–20 мин върху хартия.",air:"180 °C, 10–12 мин.",steam:"На пара 12–14 мин."},
+ "Пъстървата е нетлъста и мека – една от най-подходящите риби."],
+/* ---- БЕЗ МЕСО ---- */
+["n1","Картофена запеканка с броколи и котидж","main","без месо",50,"осн",
+ [["картофи",500,"г","z"],["броколи",200,"г","z"],["котидж",150,"г","d"],["сметана",50,"мл","d"],["кашкавал",40,"г","d"]],
+ ["Свари картофите наполовина и нарежи на шайби. Бланширай броколите. Смеси котиджа и сметаната."],
+ {oven:"Пластове в намаслена форма, 180 °C, 30 мин; последните 10 – без фолио."},
+ "Подходяща вечеря – лека, но засищаща."],
+["n2","Пълнени тиквички с ориз, моркови и котидж","main","без месо",55,"осн",
+ [["тиквички",500,"г","z"],["ориз",70,"г","g"],["моркови",80,"г","z"],["котидж",100,"г","d"],["зехтин",1,"ч.л.","o"],["вода",150,"мл","o"]],
+ ["Издълбай тиквичките. Смеси ориз, настърган морков, котидж и малко от дълбаното."],
+ {oven:"Пълни, водата в тавата, покрито, 180 °C, 45 мин."},
+ "Може да се приготви предния ден и да се допече."],
+["n3","Карфиолена запеканка със сметанов сос","main","без месо",50,"осн",
+ [["карфиол",350,"г","z"],["картофи",300,"г","z"],["сметана",100,"мл","d"],["кашкавал",30,"г","d"]],
+ ["Накъсай карфиола, нарежи картофите и ги подвари 8 мин."],
+ {oven:"Залей със сметаната, посипи кашкавал. 180 °C, 30 мин."},
+ "Ако карфиолът дразни, замени половината с тиква."],
+["n4","Картофени кюфтета с котидж","main","без месо",40,"осн",
+ [["картофи",500,"г","z"],["котидж",100,"г","d"],["моркови",70,"г","z"],["кашкавал",30,"г","d"],["брашно",2,"с.л.","g"]],
+ ["Свари картофите и ги намачкай. Добави котиджа, настърган морков и кашкавал. Брашно, ако е много мека. Оформи кюфтета."],
+ {air:"180 °C, 12–15 мин, обръщай внимателно.",oven:"190 °C, 20–25 мин върху хартия."},
+ "Добре пасват с кисело мляко (прясно) като сос."],
+["n5","Кремообразно ризото с тиквички и котидж","main","без месо",35,"осн",
+ [["ориз",150,"г","g"],["тиквички",300,"г","z"],["котидж",120,"г","d"],["зехтин",1,"ч.л.","o"],["вода",600,"мл","o"]],
+ ["Настъргай тиквичките. Нагрей водата."],
+ {stove:"Вари ориза с част от водата 15 мин, добави тиквичките и остатъка вода още 8 мин. В края разбъркай котиджа.",slow:"Ориз, вода и тиквички 40 мин на високо, после котидж."},
+ "Не запържвай ориза – ризотото ще е по-леко."],
+["n6","Картофени лодки с броколи и моцарела","main","без месо",55,"осн",
+ [["картофи",600,"г","z"],["броколи",150,"г","z"],["котидж",100,"г","d"],["моцарела",60,"г","d"]],
+ ["Свари картофите почти до готовност, разреж на половинки и издълбай. Смеси вътрешността с накълцани броколи и котидж."],
+ {oven:"Напълни и посипи с моцарела. 180 °C, 20 мин.",air:"180 °C, 12–15 мин."},
+ "Подходящо ястие и за гости."],
+/* ---- САЛАТИ ---- */
+["sa1","Салата с печена тиква и марула","salad","без месо",30,"осн",
+ [["тиква",400,"г","z"],["марула",100,"г","z"],["прясно сирене",80,"г","d"],["зехтин",1,"с.л.","o"]],
+ ["Нарежи тиквата на кубчета. Накъсай крехка марула."],
+ {oven:"Тиквата 180 °C, 25 мин.",air:"180 °C, 15 мин."},
+ "Подправи със зехтин накрая. Сиренето да е прясно, несолено."],
+["sa2","Салата с моркови и ябълка","salad","без месо",10,"осн",
+ [["моркови",200,"г","z"],["ябълки",1,"бр","f"],["зехтин",1,"ч.л.","o"],["мед",1,"ч.л.","o",1]],
+ ["Настъргай морковите на ситно. Ябълката – сладка и зряла, обелена."],
+ {raw:"Смеси, добави зехтин (и мед). Ако суровото дразни – задуши морковите 5 мин на пара."},
+ "Суровите зеленчуци се понасят по-трудно – започни с малка порция."],
+["sa3","Салата с цвекло, моркови и ябълка","salad","без месо",50,"осн",
+ [["цвекло",250,"г","z"],["моркови",100,"г","z"],["ябълки",1,"бр","f"],["зехтин",1,"ч.л.","o"]],
+ ["Настъргай печеното/варено цвекло, морковите и ябълката."],
+ {stove:"Свари цвеклото 40 мин, обели и настъргай.",oven:"Печи цвеклото увито във фолио 50 мин на 190 °C."},
+ "Без оцет и лимон – цвеклото е достатъчно сладко."],
+["sa4","Топла картофена салата с копър","salad","без месо",30,"осн",
+ [["картофи",500,"г","z"],["копър",4,"стръка","o"],["магданоз",3,"стръка","o"],["зехтин",1,"с.л.","o"]],
+ ["Свари картофите с кората 20 мин, обели и нарежи."],
+ {stove:"Подправи, докато са още топли, с билките и зехтин.",steam:"Картофите на пара 25 мин."},
+ "Без лук и оцет. Билките дават цялото ухание."],
+/* ---- ДЕСЕРТИ ---- */
+["d1","Печени ябълки","dessert","-",30,"осн",
+ [["ябълки",3,"бр","f"],["мед",2,"ч.л.","o"]],
+ ["Избери сладки, зрели ябълки. Измий, извади сърцевината."],
+ {oven:"180 °C, 25 мин. Полей с мед.",air:"180 °C, 15 мин."},
+ "Печените плодове са много по-щадящи от суровите."],
+["d2","Печени круши","dessert","-",30,"осн",
+ [["круши",3,"бр","f"],["мед",2,"ч.л.","o"]],
+ ["Разреж крушите на половинки, махни семките."],
+ {oven:"180 °C, 20–25 мин.",air:"180 °C, 12–15 мин."},
+ "Подходящи са меки и сладки сортове."],
+["d3","Домашно ябълково пюре","dessert","-",20,"осн",
+ [["ябълки",4,"бр","f"],["вода",50,"мл","o"],["мед",1,"ч.л.","o",1]],
+ ["Обели и нарежи ябълките."],
+ {stove:"Вари с водата 15 мин, пасирай. Охлади до стайна температура.",steam:"На пара 15 мин, после пасирай."},
+ "Стои 4 дни в хладилник. Добро е и за закуска с каша."],
+["d4","Домашен бананов сладолед","dessert","-",10,"осн",
+ [["банани",3,"бр","f"]],
+ ["Нарежи зрелите банани, замрази ги поне 4 часа."],
+ {blend:"Блендирай замразените банани до кремообразна консистенция."},
+ "Изчакай 5 мин преди да го ядеш – силно студеното дразни."],
+["d5","Крем с котидж и кисело мляко","dessert","-",10,"осн",
+ [["котидж",150,"г","d"],["кисело мляко",100,"г","d"],["банани",1,"бр","f"],["мед",1,"ч.л.","o"]],
+ ["Пасирай котиджа."],
+ {raw:"Смеси с киселото мляко до гладък крем, добави нарязания банан и мед."},
+ "Киселото мляко да е прясно подквасено, не престояло."],
+["d6","Йогурт десерт с плодове","dessert","-",10,"осн",
+ [["кисело мляко",300,"г","d"],["банани",1,"бр","f"],["круши",1,"бр","f"]],
+ ["Нарежи плодовете."],
+ {raw:"Разпредели киселото мляко в чаши, добави плодовете. Охлади леко преди сервиране."},
+ "Прясно мляко – да не е студено от хладилника."],
+["d7","Печена тиква с мед","dessert","-",30,"осн",
+ [["тиква",400,"г","z"],["мед",1,"с.л.","o"]],
+ ["Нарежи тиквата на парчета."],
+ {oven:"180 °C, 25 мин. Полей с мед.",air:"180 °C, 15 мин."},
+ "Подходящо и като гарнитура."],
+["d8","Чийзкейк без блат","dessert","-",45,"осн",
+ [["котидж",250,"г","d"],["крема сирене",100,"г","d"],["мед",2,"с.л.","o"]],
+ ["Пасирай котиджа с крема сиренето и меда до гладко."],
+ {oven:"Изсипи в малка форма и пече на 160 °C 30–35 мин, докато се стегне."},
+ "Ванилията е „ограничена“ – ако я понасяш, малко на върха на ножа."]
+];
+
+/* ============ ГЕНЕРАТОР НА РЕЦЕПТИ ============
+   Над 1000 допълнителни варианти се съставят от проверени комбинации: основа × зеленчук × гарнитура × сос.
+   В тях влизат само разрешените продукти (без лук, чесън, домати, чушки, лимон, пържене, люти подправки).
+   Всеки вариант има свой списък с продукти, стъпки за всеки уред и съвет. */
+const NAME=new Set(RAW.map(r=>r[1]));
+const GEN=[];let GN=0;
+function add(n,meal,base,time,ing,prep,cook,tip){if(NAME.has(n))return;NAME.add(n);GEN.push(["g"+(++GN),n,meal,base,time,"gen",ing,prep,cook,tip]);}
+const w=x=>/^[сзСЗ]/.test(x)?"със":"с";
+const WITH=x=>w(x)+" "+x;
+const I=(n,q,u,c,o)=>o?[n,q,u,c,1]:[n,q,u,c];
+const rr=(q,s=10)=>Math.max(s,Math.round(q/s)*s);
+const cap1=s=>s.charAt(0).toUpperCase()+s.slice(1);
+const pk=a=>a[GN%a.length];
+const V={"картофи":{q:400,b:15,root:1},"сладък картоф":{q:350,b:15,root:1},"пащърнак":{q:200,b:15,root:1},"целина":{q:200,b:15,root:1},"моркови":{q:150,b:15,root:1},
+ "цвекло":{q:250,b:40,root:1},"тиква":{q:350,b:12},"тиквички":{q:350,b:8},"броколи":{q:250,b:6},"карфиол":{q:300,b:10},"аспержи":{q:200,b:5},"бамя":{q:250,b:15}};
+const FRESH=new Set(["копър","магданоз","босилек"]);
+function herb(list){const h=pk(list);return {n:h,i:FRESH.has(h)?I(h,3,"стръка","o"):I(h,1,"ч.л.","o")};}
+const vi=(k,f=1)=>I(k,rr(V[k].q*f),"г","z");
+const soft=(k,mins)=>V[k].root?"":` ${cap1(k)} добави за последните ${mins} мин, за да не се разпадне.`;
+const FIN={"":{t:"Зехтинът добави в чинията, след готвенето.",ing:[],suf:""},
+ "сметана":{t:"Смеси 80 мл нискомаслена сметана (10–12 %) с билките и разбъркай в ястието за последните 5 мин на слаб огън.",ing:[I("сметана",80,"мл","d")],suf:", със сметанов сос"},
+ "котидж":{t:"Пасирай 100 г котидж с 2 с.л. вода и разбъркай в ястието накрая – не го вари дълго.",ing:[I("котидж",100,"г","d")],suf:", с котидж сос"}};
+
+/* ---- 1. Месо с корени и зеленчук ---- */
+const P={
+ pile:{k:"пилешко филе",n:"Пилешко филе",base:"пиле",herbs:["мащерка","магданоз","риган","розмарин"],t:55,oven:"40 мин на 180 °C",air:"180 °C, 22–25 мин; разбъркай по средата",stove:30,slow:"4 часа на високо",tips:["Не запържвай месото предварително – така е по-леко.","Нарязано на малки хапки, пилето остава сочно.","Готви двойно количество – утре обядът е готов."]},
+ pue:{k:"пуешко филе",n:"Пуешко филе",base:"пуйка",herbs:["мащерка","магданоз","босилек","розмарин"],t:60,oven:"45 мин на 180 °C",air:"180 °C, 25 мин; разбъркай по средата",stove:35,slow:"4 часа на високо",tips:["Пуешкото е постно – не го прегрявай, за да не изсъхне.","Готово е при 74 °C в центъра.","Подходящо за замразяване на порции."]},
+ tele:{k:"телешко",n:"Телешко",base:"телешко",herbs:["розмарин","мащерка","магданоз"],t:120,oven:"90–100 мин на 170 °C до пълно омекване",stove:75,slow:"7–8 часа на ниско",tips:["Червеното месо – не повече от 1–2 пъти седмично.","Купувай младо, крехко месо без сухожилия."]},
+ svin:{k:"свинско бонфиле",n:"Свинско бонфиле",base:"свинско",herbs:["мащерка","розмарин","магданоз"],t:80,oven:"55–60 мин на 180 °C",air:"180 °C, 25–30 мин на порции; разбъркай по средата",stove:45,slow:"5 часа на високо",tips:["Само чисто бонфиле или контрафиле – без врат и тлъсти части.","Червеното месо – ограничено до 1–2 пъти седмично."]}
+};
+for(const key in P){const p=P[key];
+ for(const A of ["картофи","сладък картоф","пащърнак"])
+ for(const B of ["моркови","тиквички","тиква","броколи","карфиол","аспержи","целина","бамя"])
+ for(const fk in FIN){const f=FIN[fk],h=herb(p.herbs);
+  const cook={oven:`Подреди месото, ${A} и ${B} в тава, добави 100 мл вода и покрий с фолио. Пече ${p.oven}.${soft(B,25)} ${f.t}`,
+   stove:`Задуши месото с малко вода на слаб огън, покрито. ${cap1(A)} добави за последните 25 мин, ${B} – за последните ${V[B].b+5} мин. Общо около ${p.stove} мин. ${f.t}`,
+   slow:`Всичко в купата с малко вода – ${p.slow}.${soft(B,60)} ${f.t}`};
+  if(p.air)cook.air=`Всичко в кошницата, ${p.air}. ${f.t}`;
+  add(`${p.n} ${WITH(A)} и ${B}${f.suf}`,"main",p.base,p.t,[I(p.k,300,"г","m"),vi(A,.8),vi(B,.6),h.i,...f.ing,I("зехтин",1,"ч.л.","o")],
+   ["Нарежи месото на малки хапки, без мазнина и сухожилия.",`Обели и нарежи ${A} и ${B} на еднакви парчета.`,`Подправи с ${h.n} и малко сол.`],cook,pk(p.tips));
+ }}
+
+/* ---- 2. Риба със гарнитура и зеленчук ---- */
+const FSH={hek:{k:"хек",n:"Хек",oven:"180 °C, 15–18 мин върху хартия",air:"180 °C, 10–12 мин",steam:"на пара 12–14 мин",stove:"в покрита тенджера с малко вода 8–10 мин",tip:"Рибата да е без кожа и кости."},
+ past:{k:"пъстърва",n:"Пъстърва",oven:"180 °C, 18–20 мин върху хартия",air:"180 °C, 12–14 мин",steam:"на пара 14–16 мин",stove:"в покрита тенджера с малко вода 10 мин",tip:"Пъстървата е нетлъста и мека – една от най-подходящите риби."},
+ som:{k:"сьомга",n:"Сьомга",oven:"180 °C, 15 мин върху хартия",air:"180 °C, 10 мин",steam:"на пара 12 мин",stove:"в покрита тенджера с малко вода 8–10 мин",tip:"Сьомгата е тлъста риба – в категория „ограничено“, най-много 1 път седмично."}};
+const SIDE={"картофи":{q:400,u:"г",c:"z",t:"Свари картофите 15–20 мин (или на пара 25 мин)."},"сладък картоф":{q:350,u:"г",c:"z",t:"Свари сладкия картоф на кубчета 15 мин."},
+ "ориз":{q:150,u:"г",c:"g",t:"Свари ориза в двойно количество вода 15 мин."},"кускус":{q:120,u:"г",c:"g",t:"Залей кускуса с равно количество вряла вода, покрий 5 мин и разроши с вилица."},
+ "елда":{q:130,u:"г",c:"g",t:"Свари елдата в двойно количество вода 15 мин."}};
+for(const fk in FSH){const f=FSH[fk];
+ for(const s of ["картофи","сладък картоф","ориз","кускус"])
+ for(const v of ["моркови","тиквички","броколи","карфиол","аспержи","тиква","целина"])
+ for(const fin of ["билки","сметана"]){
+  const h=herb(["копър","магданоз","босилек"]);
+  const sauce=fin==="сметана"?" Смеси 80 мл нискомаслена сметана (10–12 %) с билките и полей рибата непосредствено преди сервиране.":" Поръси с билките и 1 ч.л. зехтин в чинията.";
+  const common=` ${SIDE[s].t} ${cap1(v)} задуши или свари ${V[v].b} мин.${sauce}`;
+  add(`${f.n} ${WITH(s)} и ${v}${fin==="сметана"?", със сметанов сос":", с "+h.n}`,"main","риба",35,
+   [I(f.k,300,"г","m"),I(s,SIDE[s].q,SIDE[s].u,SIDE[s].c),vi(v,.7),h.i,...(fin==="сметана"?[I("сметана",80,"мл","d")]:[]),I("зехтин",1,"ч.л.","o")],
+   ["Нарежи рибата на порции – без кожа и кости.",`Нарежи ${v} на парчета.`,"Подправи с малко сол."],
+   {oven:`Рибата ${f.oven}.`+common,air:`Рибата ${f.air}.`+common,steam:`Рибата ${f.steam}.`+common,stove:`Рибата ${f.stove}.`+common},f.tip);
+ }}
+
+/* ---- 3. Месо с гарнитура на зърнено ---- */
+const GR={"ориз":{q:150,t:"Измий ориза"},"елда":{q:130,t:"Измий елдата"},"кускус":{q:120,t:"Подготви кускуса"},"макарони":{q:140,t:"Подготви макароните"}};
+for(const key in P){const p=P[key];
+ for(const g of ["ориз","елда","кускус","макарони"])
+ for(const v of ["моркови","тиквички","броколи","карфиол","тиква","аспержи","бамя"])
+ for(const fk of ["","сметана"]){const f=FIN[fk],h=herb(p.herbs);
+  const gtxt=g==="кускус"?"Кускусът залей с равно количество вряла вода, покрий 5 мин.":g==="макарони"?"Свари макароните отделно по указанията на опаковката, отцеди.":`Свари ${g} отделно в двойно количество вода 15 мин.`;
+  const cook={stove:`Задуши месото с малко вода ${p.stove} мин, добави ${v} за последните ${V[v].b+3} мин. ${gtxt} Поднеси върху гарнитурата. ${f.t}`,
+   slow:`Месо и ${v} с малко вода – ${p.slow}. ${gtxt} ${f.t}`};
+  if(g==="ориз"||g==="елда")cook.oven=`Нареди месото, ${g}, ${v} в тава с ${g==="ориз"?"450":"450"} мл вода, покрий с фолио и пече ${p.oven}.${soft(v,20)} ${f.t}`;
+  add(`${p.n} ${WITH(g)} и ${v}${f.suf}`,"main",p.base,p.t-5,[I(p.k,300,"г","m"),I(g,GR[g].q,"г","g"),vi(v,.7),h.i,...f.ing,I("зехтин",1,"ч.л.","o")],
+   ["Нарежи месото на малки хапки.",`${GR[g].t}.`,`Нарежи ${v} и подправи с ${h.n}.`],cook,pk(p.tips));
+ }}
+
+/* ---- 4. Кюфтета ---- */
+const MINC={pile:{k:"пилешка кайма",n:"пилешка кайма",base:"пиле"},pue:{k:"пуешка кайма",n:"пуешка кайма",base:"пуйка"},tele:{k:"телешка кайма",n:"телешка кайма",base:"телешко"}};
+const BIND={"картофи":{q:100,t:"Настъргай картофа и го изцеди."},"моркови":{q:80,t:"Настъргай морковите на ситно."},"тиквички":{q:150,t:"Настъргай тиквичките и ги изцеди много добре."},"карфиол":{q:120,t:"Настъргай карфиола на ситно."}};
+const SIDES2={"ориз":{i:I("ориз",120,"г","g"),t:"Свари ориза отделно."},"картофено пюре":{i:I("картофи",400,"г","z"),t:"Свари картофите и ги намачкай с малко от водата и 1 ч.л. масло."},"пюре от карфиол":{i:I("карфиол",300,"г","z"),t:"Свари карфиола 12 мин, отцеди и пасирай с 1 ч.л. масло."},
+ "елда":{i:I("елда",120,"г","g"),t:"Свари елдата отделно."},"кускус":{i:I("кускус",100,"г","g"),t:"Залей кускуса с вряла вода и покрий 5 мин."},"броколи на пара":{i:I("броколи",250,"г","z"),t:"Задуши броколите на пара 6–7 мин."},"моркови на пара":{i:I("моркови",250,"г","z"),t:"Задуши морковите на пара 12–15 мин."}};
+for(const mk in MINC){const m=MINC[mk];
+ for(const b in BIND)for(const s in SIDES2)for(const b2 of ["котидж","овесени ядки"]){
+  const bi=b2==="котидж"?I("котидж",50,"г","d"):I("овесени ядки",2,"с.л.","g");
+  const h=herb(["магданоз","копър","босилек"]);
+  const sidet=" "+SIDES2[s].t;
+  add(`Кюфтета от ${m.n} с ${b} и ${b2}, с гарнитура ${s}`,"main",m.base,40,[I(m.k,300,"г","m"),I(b,BIND[b].q,"г","z"),bi,SIDES2[s].i,h.i,I("зехтин",1,"ч.л.","o")],
+   [BIND[b].t,`Смеси с каймата и ${b2==="котидж"?"котиджа":"овесените ядки"}, без яйце. Подправи с ${h.n} и малко сол.`,"Оформи малки кюфтета."],
+   {air:"Кюфтетата 180 °C, 12–14 мин, обръщай по средата."+sidet,oven:"Кюфтетата 180 °C, 20–25 мин върху хартия."+sidet,steam:"Кюфтетата на пара 22–25 мин."+sidet},
+   mk==="tele"?"Червеното месо – не повече от 1–2 пъти седмично.":"Настърганият зеленчук замества яйцето и ги прави сочни.");
+ }}
+
+/* ---- 5. Запеканки ---- */
+const GV=["картофи","карфиол","броколи","тиквички","тиква","моркови"];
+for(let i=0;i<GV.length;i++)for(let j=i+1;j<GV.length;j++){const A=GV[i],B=GV[j];
+ for(const sc of ["сметана","котидж"])for(const ad of ["","pile","pue"]){
+  const p=ad?P[ad]:null;
+  const sauce=sc==="сметана"?[I("сметана",100,"мл","d")]:[I("котидж",150,"г","d")];
+  const pre=(V[A].root||V[B].root)?`Подвари ${V[A].root?A:B} 8–10 мин, ${V[A].root?B:A} бланширай 3–4 мин.`:"Бланширай зеленчуците 3–4 мин.";
+  add(`Запеканка с ${p?p.n.toLowerCase()+", ":""}${A} и ${B}, ${sc==="сметана"?"със сметанов сос":"с котидж сос"}`,"main",p?p.base:"без месо",55,
+   [...(p?[I(p.k,200,"г","m")]:[]),vi(A,.8),vi(B,.7),...sauce,I("кашкавал",30,"г","d"),I("зехтин",1,"ч.л.","o")],
+   [pre,p?"Нарежи месото на малки кубчета.":"Нарежи зеленчуците на еднакви парчета.",sc==="сметана"?"Разбий сметаната с малко сол и билки.":"Пасирай котиджа с 3 с.л. вода до гладък сос."],
+   {oven:`Нареди пластове в намаслена форма, залей със соса и покрий с фолио. 180 °C, 25–30 мин; после 10 мин без фолио с настърган кашкавал.`},
+   "Кашкавалът да е несолен. Преди сервиране изчакай 10 мин – ще се реже по-лесно.");
+ }}
+
+/* ---- 6. Супи ---- */
+const SV=["картофи","моркови","тиква","броколи","карфиол","тиквички","сладък картоф","пащърнак"];
+for(let i=0;i<SV.length;i++)for(let j=i+1;j<SV.length;j++){const A=SV[i],B=SV[j];
+ for(const fk of ["зехтин","котидж","бадемово мляко"]){
+  const extra=fk==="котидж"?[I("котидж",80,"г","d")]:fk==="бадемово мляко"?[I("бадемово мляко",100,"мл","d")]:[];
+  const fin=fk==="котидж"?"Разбий котиджа в пасираната супа.":fk==="бадемово мляко"?"Добави бадемовото мляко след пасирането и затопли, без да завира.":"Капни 1 ч.л. зехтин в чинията.";
+  add(`Крем супа от ${A} и ${B}${fk==="котидж"?" с котидж":fk==="бадемово мляко"?" с бадемово мляко":""}`,"soup","без месо",35,
+   [vi(A,.8),vi(B,.7),...extra,I("вода",800,"мл","o"),I("зехтин",1,"ч.л.","o")],["Обели и нарежи зеленчуците на едро."],
+   {stove:`Свари ${A} 10 мин, добави ${B} и вари още ${V[B].b+4} мин. Пасирай с блендер (или намачкай и прецеди). ${fin}`,slow:`Зеленчуците с водата – 3 часа на високо, после пасирай. ${fin}`},
+   "Нямаш блендер? Свари по-дълго и намачкай с картофомачкалка.");
+ }}
+for(const pk2 of ["pile","pue"])for(const v of ["моркови","картофи","тиквички","тиква","карфиол","броколи"])for(const g of ["ориз","елда","фиде"]){const p=P[pk2];
+ add(`Супа с ${p.n.toLowerCase()}, ${v} и ${g}`,"soup",p.base,45,[I(p.k,250,"г","m"),vi(v,.7),I(g,40,"г","g"),I("магданоз",3,"стръка","o"),I("вода",1200,"мл","o")],
+  ["Нарежи зеленчука на кубчета.","Измий зърненото."],
+  {stove:`Свари месото в студена вода 20 мин, като махаш пяната. Извади и нарежи. Добави ${v} и ${g} за ${V[v].b+2} мин, върни месото, магданоз накрая.`,slow:"Всичко без магданоза – 4 часа на ниско. Магданоз накрая."},"Лек бульон: излей първата вода след завиране. Без лимон и пипер.");}
+for(const mk in MINC)for(const v of ["моркови","картофи","тиквички","тиква","карфиол"])for(const g of ["ориз","фиде"]){const m=MINC[mk];
+ add(`Супа топчета от ${m.n} с ${v} и ${g}`,"soup",m.base,45,[I(m.k,250,"г","m"),I(g,50,"г","g"),vi(v,.7),I("магданоз",3,"стръка","o"),I("вода",1200,"мл","o")],
+  ["Смеси каймата с 20 г от ориза (или фидето счупено) и 1 с.л. вода – без яйце. Оформи малки топчета."],
+  {stove:`Свари ${v} с останалото зърнено ${V[v].b} мин. Пусни топчетата и вари още 15 мин на слаб огън. Магданоз накрая.`,slow:"Всичко заедно 4 часа на ниско."},mk==="tele"?"Червеното месо – не повече от 1–2 пъти седмично.":"Не запържвай нищо – супата е по-лека.");}
+
+/* ---- 7. Пълнени ---- */
+const XS={"тиквички":{q:500,t:"45 мин"},"картофи":{q:600,t:"50 мин"},"тиква":{q:500,t:"45 мин"}};
+const FILL=[{n:"пуешка кайма и ориз",b:"пуйка",i:[I("пуешка кайма",250,"г","m"),I("ориз",70,"г","g")]},{n:"пилешка кайма и ориз",b:"пиле",i:[I("пилешка кайма",250,"г","m"),I("ориз",70,"г","g")]},
+ {n:"телешка кайма и ориз",b:"телешко",i:[I("телешка кайма",250,"г","m"),I("ориз",70,"г","g")]},{n:"котидж, ориз и моркови",b:"без месо",i:[I("котидж",100,"г","d"),I("ориз",70,"г","g"),I("моркови",80,"г","z")]},
+ {n:"котидж, броколи и моцарела",b:"без месо",i:[I("котидж",100,"г","d"),I("броколи",100,"г","z"),I("моцарела",60,"г","d")]},{n:"пилешка кайма и котидж",b:"пиле",i:[I("пилешка кайма",250,"г","m"),I("котидж",80,"г","d")]}];
+for(const x in XS)for(const f of FILL){
+ const cook={oven:`Напълни, подреди в тава със 150 мл вода, покрий и пече ${XS[x].t} на 180 °C. Последните 10 мин – без фолио.`};
+ if(x!=="картофи")cook.slow="Подредени в купата с малко вода – 4 часа на ниско.";
+ add(`Пълнени ${x} с ${f.n}`,"main",f.b,60,[vi(x,1).slice(0,1).concat([XS[x].q,"г","z"]),...f.i,I("зехтин",1,"ч.л.","o"),I("вода",150,"мл","o")],
+  [x==="картофи"?"Свари картофите почти до готовност, разреж и издълбай.":`Разреж ${x} по дължина и издълбай.`,`Смеси плънката с малко от издълбаното и малко сол.`],cook,"Нищо от издълбаното не се хвърля – влиза в плънката или в супа.");}
+
+/* ---- 8. Ризото, пилаф, кускус, елда, макарони ---- */
+for(const g of ["ориз","кускус","елда"])for(const v of ["моркови","тиквички","броколи","карфиол","тиква","аспержи","бамя"])for(const ad of ["","pile","pue"]){
+ const p=ad?P[ad]:null;
+ const nm=g==="ориз"?"Ризото":g==="кускус"?"Кускус":"Елда";
+ const ings=[I(g,g==="ориз"?150:130,"г","g"),vi(v,.8),...(p?[I(p.k,200,"г","m")]:[]),I("зехтин",1,"ч.л.","o"),I("вода",600,"мл","o")];
+ add(`${nm} ${WITH(v)}${p?" и "+p.n.toLowerCase():""}`,"main",p?p.base:"без месо",35,ings,
+  [p?"Нарежи месото на малки хапки.":"Нарежи зеленчука на малки кубчета."],
+  g==="кускус"?{stove:`Задуши ${p?"месото 15 мин и ":""}${v} в малко вода ${V[v].b} мин. Залей кускуса със 150 мл вряла вода и покрий 5 мин. Смеси и добави 1 ч.л. зехтин.`}:
+   {stove:`${p?"Задуши месото 15 мин с малко вода. ":""}Добави ${g} и ${v} с останалата вода и вари на слаб огън ${g==="ориз"?"18":"20"} мин, докато поеме течността.`,slow:`Всичко заедно – ${g==="ориз"?"40 мин на високо":"1 час на високо"}.`},"Не запържвай зърненото – ястието е по-леко и пак е вкусно.");}
+for(const v of ["тиквички","броколи","карфиол","моркови","тиква","аспержи"])for(const ad of ["","pile","pue"])for(const sc of ["сметана","зехтин"]){
+ const p=ad?P[ad]:null;
+ add(`Макарони ${WITH(v)}${p?" и "+p.n.toLowerCase():""}${sc==="сметана"?", със сметанов сос":", със зехтин и билки"}`,"main",p?p.base:"без месо",30,
+  [I("макарони",140,"г","g"),vi(v,.8),...(p?[I(p.k,200,"г","m")]:[]),...(sc==="сметана"?[I("сметана",80,"мл","d")]:[I("магданоз",3,"стръка","o")]),I("зехтин",1,"ч.л.","o")],
+  ["Нарежи зеленчука и месото на малки хапки."],
+  {stove:`Свари макароните по указанията. ${p?"Задуши месото 15 мин с малко вода. ":""}Добави ${v} за ${V[v].b} мин. Смеси с макароните и ${sc==="сметана"?"сметаната (10–12 %), без да завира":"билките и зехтина"}.`},"Макароните са от бяло брашно и без яйце.");}
+
+/* ---- 9. Салати (топли, от варени/печени зеленчуци) ---- */
+const SAL=["картофи","цвекло","тиква","моркови","тиквички","броколи","карфиол","сладък картоф","пащърнак"];
+for(let i=0;i<SAL.length;i++)for(let j=i+1;j<SAL.length;j++){const A=SAL[i],B=SAL[j];
+ for(const d of [["копър",""],["кисело мляко",""],["босилек",""]]){
+  const di=d[0]==="кисело мляко"?[I("кисело мляко",80,"г","d"),I("магданоз",3,"стръка","o")]:[I(d[0],3,"стръка","o")];
+  add(`Топла салата от ${A} и ${B} ${WITH(d[0])}`,"salad","без месо",35,[vi(A,.8),vi(B,.7),...di,I("зехтин",1,"ч.л.","o")],
+   [`Нарежи ${A} и ${B} на кубчета.`],
+   {stove:`Свари ${A} ${V[A].b} мин, добави ${B} за още ${V[B].b} мин. Отцеди, подправи, докато са още топли.`,steam:`${cap1(A)} и ${B} на пара ${Math.max(V[A].b,V[B].b)+8} мин.`,oven:`Печи ${A} и ${B} 25–30 мин на 190 °C. Подправи топли.`},
+   "Без лук и оцет. Билките дават цялото ухание.");
+ }}
+for(const pp of ["pile","pue","eggs"])for(const v of ["картофи","моркови","тиква","тиквички","броколи","карфиол"])for(const d of ["копър","кисело мляко"]){
+ const p=pp==="eggs"?null:P[pp];
+ add(`Салата с ${p?p.n.toLowerCase():"варени яйца"} и ${v} ${WITH(d)}`,"salad",p?p.base:"без месо",35,
+  [p?I(p.k,200,"г","m"):I("яйца",3,"бр","d"),vi(v,.9),d==="копър"?I("копър",3,"стръка","o"):I("кисело мляко",80,"г","d"),I("зехтин",1,"ч.л.","o")],
+  [p?"Свари или изпечи месото и го нарежи на фини ивици.":"Свари яйцата 9 мин, охлади и нарежи.",`Нарежи ${v} на кубчета.`],
+  {stove:`${cap1(v)} свари ${V[v].b} мин. Смеси с ${p?"месото":"яйцата"} и ${d}.`,steam:`${cap1(v)} на пара ${V[v].b+6} мин. Смеси с ${p?"месото":"яйцата"} и ${d}.`,oven:`Печи ${v} 25 мин на 190 °C. Смеси с ${p?"месото":"яйцата"} и ${d}.`},"Подходяща като лека вечеря.");}
+
+/* ---- 10. Закуски ---- */
+const FR={"ябълки":{s:"ябълка",q:1,u:"бр",pr:"Обели ябълката и я настъргай."},"банани":{s:"банан",q:1,u:"бр",pr:"Намачкай банана с вилица (най-добре е леко покафенял)."},"круши":{s:"круша",q:1,u:"бр",pr:"Обели крушата (мека, сладка) и я настъргай."},
+ "праскови":{s:"праскова",q:1,u:"бр",pr:"Обели зряла, мека праскова и я нарежи на малки парчета."},"тиква":{s:"тиква",q:150,u:"г",pr:"Настъргай тиквата на ситно."},"папая":{s:"папая",q:150,u:"г",pr:"Обели папаята и нарежи."},"пъпеш":{s:"пъпеш",q:150,u:"г",pr:"Обели зрелия пъпеш и нарежи."},"авокадо":{s:"авокадо",q:.5,u:"бр",pr:"Обели авокадото."}};
+const frI=k=>I(k,FR[k].q,FR[k].u,k==="тиква"?"z":"f");
+const KASHA={"овесени ядки":{n:"Овесена каша",q:70,m:9},"ориз":{n:"Оризова каша",q:70,m:22},"елда":{n:"Каша от елда",q:60,m:15}};
+const LIQ=[["вода",350,null],["прясно мляко",350,"d"],["бадемово мляко",350,"d"],["оризово мляко",350,"d"]];
+for(const g in KASHA)for(const fr of ["ябълки","банани","круши","праскови","тиква"])for(const l of LIQ)for(const sw of [1,0]){
+ const k=KASHA[g];
+ add(`${k.n} с ${FR[fr].s} на ${l[0]}${sw?" и мед":""}`,"bf","-",k.m+8,[I(g,k.q,"г","g"),frI(fr),l[0]==="вода"?I("вода",350,"мл","o"):I(l[0],350,"мл","d"),...(sw?[I("мед",1,"ч.л.","o")]:[])],
+  [FR[fr].pr],
+  {stove:`Вари ${g} в ${l[0]} ${k.m} мин на слаб огън, като бъркаш. ${fr==="тиква"?"Тиквата добави в началото.":"Плодът добави за последните 2 мин."}${sw?" Медът – накрая, когато поизстине.":""}`,micro:`Всичко в купа – 3–4 мин на средна мощност, разбъркай на всеки минута.${sw?" Подсладни с мед накрая.":""}`},
+  "Яж топла, не гореща. Пий вода между храненията, не по време.");}
+const SIDEB={"бял хляб":I("бял хляб",2,"филии","g"),"картофено пюре":I("картофи",300,"г","z"),"броколи на пара":I("броколи",200,"г","z"),"моркови на пара":I("моркови",200,"г","z"),"тиква на пара":I("тиква",250,"г","z"),"тиквички на пара":I("тиквички",250,"г","z"),"ориз":I("ориз",100,"г","g")};
+for(const e of [["Рохки яйца","bo"],["Омлет на водна баня","om"],["Омлет от белтъци на водна баня","bel"]])for(const s in SIDEB){
+ const ing=e[1]==="bo"?[I("яйца",3,"бр","d")]:e[1]==="om"?[I("яйца",3,"бр","d"),I("прясно мляко",80,"мл","d")]:[I("яйца",4,"бр","d")];
+ const st=e[1]==="bo"?{stove:"Спусни яйцата във вряща вода за 5–6 мин. Охлади и обели. Белтъкът е стегнат, жълтъкът – рохък.",steam:"Яйцата на пара 8 мин."}:{steam:"Купата над врящата вода, покрито, 10–12 мин, докато стегне.",slow:"Купата над вода в мултикукъра – 15 мин на пара."};
+ add(`${e[0]} ${WITH(s)}`,"bf","-",20,[...ing,SIDEB[s],I("масло",1,"ч.л.","o")],
+  [e[1]==="bel"?"Раздели белтъците от жълтъците (жълтъците не използваш) и ги разбий с малко сол.":e[1]==="om"?"Разбий яйцата с млякото и малко сол.":"Извади яйцата от хладилника 10 мин по-рано.",`Приготви гарнитурата: ${s}.`],st,
+  "Пържени яйца и омлет са забранени – водната баня го прави пухкав. Жълтъкът е „ограничен“.");}
+for(const fr of ["банани","ябълки","круши","тиква"])for(const b of ["овесени ядки","оризово брашно"])for(const bd of ["кисело мляко","бадемово мляко"]){
+ add(`Мъфини с ${FR[fr].s} и ${b}, с ${bd}`,"bf","-",35,[frI(fr),I(b,b==="овесени ядки"?150:120,"г","g"),bd==="кисело мляко"?I("кисело мляко",100,"г","d"):I("бадемово мляко",100,"мл","d"),I("мед",1,"с.л.","o")],
+  [FR[fr].pr,"Смеси всичко до гъста смес (овесените ядки фино смели). Разпредели в 6 формички."],{oven:"180 °C, 20–25 мин.",air:"160 °C, 15–18 мин в силиконови формички."},"Стигат за 2 порции. Стоят 2 дни в хладилник.");}
+const CF=[{k:"ябълки",l:"печена ябълка",pr:"Изпечи ябълката"},{k:"круши",l:"печена круша",pr:"Изпечи крушата"},{k:"банани",l:"банан"},{k:"праскови",l:"праскова"},{k:"папая",l:"папая"},{k:"пъпеш",l:"пъпеш"}];
+const TOP=[["мед",I("мед",1,"ч.л.","o")],["овесени ядки",I("овесени ядки",2,"с.л.","g")],["ябълково пюре",I("ябълки",1,"бр","f")]];
+for(const f of CF)for(const t of TOP)for(const base of ["котидж","кисело мляко"]){
+ const cook=f.pr?{oven:`${f.pr} 20 мин на 180 °C, охлади до топло. Сложи ${base} в купа, добави плода и ${t[0]}.`,air:`${f.pr} 12–15 мин на 180 °C. Смеси с ${base} и ${t[0]}.`}:{raw:`Нарежи плода. Смеси с ${base} и ${t[0]}.`};
+ add(`${cap1(base)} с ${f.l} и ${t[0]}`,"bf","-",f.pr?30:10,[I(base,base==="котидж"?200:250,"г","d"),frI(f.k),t[1]],["Измий и нарежи плода."],cook,"Прясно подквасено кисело мляко – не престояло. Не го яж ледено.");}
+const SF=["банани","круши","праскови","папая","пъпеш","авокадо"];
+const SMUT=[];for(let i=0;i<SF.length;i++){SMUT.push([SF[i]]);for(let j=i+1;j<SF.length;j++)SMUT.push([SF[i],SF[j]]);}
+for(const c of SMUT)for(const ml of ["бадемово мляко","оризово мляко"]){
+ add(`Смути с ${c.map(x=>FR[x].s).join(" и ")} на ${ml}`,"bf","-",5,[...c.map(frI),I(ml,300,"мл","d")],c.map(x=>FR[x].pr),
+  {blend:"Блендирай всичко до гладко. Пий бавно, на малки глътки, на стайна температура.",raw:"Без блендер: намачкай плодовете с вилица и разбий с млякото."},
+  "Правило: на 1 чаша плод – 2 чаши растително мляко. Така киселинността се неутрализира.");}
+
+/* ---- 11. Десерти и леки закуски ---- */
+const BF=["ябълки","круши","праскови","банани"];
+const FILL2=[["мед",[I("мед",2,"ч.л.","o")]],["овесени ядки и мед",[I("овесени ядки",2,"с.л.","g"),I("мед",1,"ч.л.","o")]],["котидж и мед",[I("котидж",100,"г","d"),I("мед",1,"ч.л.","o")]],["кисело мляко",[I("кисело мляко",100,"г","d")]],["бадемово мляко",[I("бадемово мляко",100,"мл","d")]]];
+for(const f of BF)for(const fl of FILL2){
+ const pl={"ябълки":"ябълки","круши":"круши","праскови":"праскови","банани":"банани"}[f];
+ add(`Печени ${pl} с ${fl[0]}`,"dessert","-",30,[I(f,f==="банани"?2:3,"бр","f"),...fl[1]],["Измий и раздели на половинки, махни семките."],
+  {oven:`180 °C, 20–25 мин. Сервирай топли, с ${fl[0]}.`,air:`180 °C, 12–15 мин. Сервирай с ${fl[0]}.`,micro:`3–4 мин на средна мощност, покрито. Сервирай с ${fl[0]}.`},"Печените плодове са много по-щадящи от суровите.");}
+const PF=["ябълки","круши","праскови","тиква","сладък картоф"];
+for(let i=0;i<PF.length;i++)for(let j=i+1;j<PF.length;j++)for(const kind of ["пюре","компот"]){const a=PF[i],b=PF[j];
+ const ia=a==="сладък картоф"?I(a,150,"г","z"):frI(a),ib=b==="сладък картоф"?I(b,150,"г","z"):frI(b);
+ add(`${cap1(kind)} от ${a} и ${b}`,"dessert","-",25,[ia,ib,I("вода",kind==="компот"?400:80,"мл","o"),I("мед",1,"ч.л.","o",1)],["Обели и нарежи на кубчета."],
+  kind==="пюре"?{stove:"Вари с водата 15 мин, пасирай. Охлади до стайна температура.",steam:"На пара 15 мин, после пасирай.",micro:"Покрито 6–8 мин на висока мощност, после пасирай."}:{stove:"Вари с водата 12–15 мин. Слабо подсладено или без захар. Пий на стайна температура."},
+  "Стои 3–4 дни в хладилник.");}
+for(const ml of ["прясно мляко","бадемово мляко","оризово мляко"])for(const fr of ["ябълки","круши","банани","праскови","тиква",""]){
+ add(`Оризов пудинг ${fr?"с "+FR[fr].s+" ":""}на ${ml}`,"dessert","-",40,[I("ориз",70,"г","g"),I(ml,500,"мл","d"),...(fr?[frI(fr)]:[]),I("мед",1,"с.л.","o")],[fr?FR[fr].pr:"Измий ориза."],
+  {stove:"Вари ориза в млякото на слаб огън 30 мин, като бъркаш. Добави плода и меда накрая.",slow:"Всичко заедно – 2 часа на високо."},"Яж го топъл или на стайна температура.");}
+for(const o of ["","праскови","папая","пъпеш","круши"])add(`Бананов сладолед${o?" с "+FR[o].s:""}`,"dessert","-",10,[I("банани",3,"бр","f"),...(o?[frI(o)]:[])],["Нарежи плодовете и ги замрази поне 4 часа."],{blend:"Блендирай замразените плодове до кремообразна консистенция."},"Изчакай 5 мин преди да ядеш – силно студеното дразни.");
+for(const x of ["тиква","сладък картоф"])for(const t of FILL2.slice(0,3)){
+ add(`Печен${x==="тиква"?"а":""} ${x} с ${t[0]}`,"dessert","-",35,[x==="тиква"?I(x,400,"г","z"):I(x,350,"г","z"),...t[1]],["Нарежи на кубчета."],{oven:"180 °C, 25–30 мин.",air:"180 °C, 15–18 мин."},"Подходящо и като гарнитура.");}
+for(const fr of ["банани","ябълки","круши","тиква"])add(`Овесени барчета с ${FR[fr].s}`,"dessert","-",30,[I("овесени ядки",150,"г","g"),frI(fr),I("мед",1,"с.л.","o")],[FR[fr].pr,"Смеси с овесените ядки и меда."],{oven:"Притисни във форма и пече 20 мин на 170 °C. Нарежи изстинали.",air:"160 °C, 12–14 мин."},"Умерено – сладкото не е за всеки ден.");
+
+/* ============ изчисляване ============ */
+const DAIRY=new Set(["котидж","кашкавал","моцарела","кисело мляко","сметана","прясно мляко","крема сирене","прясно сирене","бадемово мляко-"]);
+const RED=new Set(["телешко","телешка кайма","свинско бонфиле"]);
+const GLU=new Set(["бял хляб","брашно","макарони","кускус","фиде"]);
+const FISHK=new Set(["хек","пъстърва","сьомга"]);
+const FATFISH=new Set(["сьомга"]);
+const PROT=new Set(["пилешко филе","пилешка кайма","пуешко филе","пуешка кайма","телешко","телешка кайма","свинско бонфиле","хек","пъстърва","сьомга"]);
+const STAPLE=new Set(["сол","зехтин","вода","масло","мед"]);
+const CATS=[["z","Зеленчуци"],["f","Плодове"],["m","Месо и риба"],["d","Млечни и яйца"],["g","Хляб, ориз и зърнени"],["o","Билки и други"],["s","Основни – провери вкъщи"]];
+const RECIPES=RAW.concat(GEN).map(a=>{
+  const ing=a[6].map(i=>({n:i[0],q:i[1],u:i[2],c:i[3],opt:!!i[4]}));
+  const tags=[];const nonopt=ing.filter(i=>!i.opt);
+  if(nonopt.some(i=>DAIRY.has(i.n)))tags.push("dairy");
+  if(nonopt.some(i=>RED.has(i.n)))tags.push("red");
+  if(nonopt.some(i=>GLU.has(i.n)))tags.push("gluten");
+  if(nonopt.some(i=>FATFISH.has(i.n)))tags.push("fatfish");
+  if(nonopt.some(i=>FISHK.has(i.n)))tags.push("fish");
+  return {keys:nonopt.map(i=>i.n),id:a[0],n:a[1],meal:a[2],base:a[3],time:a[4],src:a[5],ing,prep:a[7],cook:a[8],tip:a[9],tags,
+    prot:ing.filter(i=>PROT.has(i.n)).map(i=>i.n)};
+});
+const PKEYS=(()=>{const m={};RECIPES.forEach(r=>r.ing.forEach(i=>{if(i.c!=="o"&&!STAPLE.has(i.n))m[i.n]=i.c;}));const o={};Object.entries(m).forEach(([k,c])=>{(o[c]=o[c]||[]).push(k);});Object.values(o).forEach(a=>a.sort((x,y)=>x.localeCompare(y,"bg")));return o;})();
+const BY=Object.fromEntries(RECIPES.map(r=>[r.id,r]));
+const BASES=["пиле","пуйка","телешко","свинско","риба","без месо"];
+
+/* ============ ДАННИ: какво може ============ */
+const FOOD=[
+ {c:"Месо",ok:["пилешки гърди","пуешки гърди","пилешки и пуешки бутчета (без кожа)","нетлъсто свинско (бонфиле)","желирани меса"],
+  lim:["младо телешко (кюфтета на пара)","добре сварен език","несолена шунка","нетлъста патица"],
+  no:["колбаси","наденица","луканка","пастърма","сланина","свински врат","пушени меса","дивеч","вътрешности","силни месни бульони"]},
+ {c:"Риба",ok:["хек","мерлуза","пъстърва","кефал","шаран (нетлъст)","треска","сом"],
+  lim:["сьомга","риба тон","скумрия","сардини"],
+  no:["рибни консерви","пушена и осолена риба","мариновани риби","хайвер","морски дарове|разминаване в източниците"]},
+ {c:"Мляко и яйца",ok:["котидж","прясно несолено сирене","несолен кашкавал","прясно подквасено кисело мляко","сметана 10–12 %","рохки яйца","белтък","омлет на водна баня"],
+  lim:["прясно мляко|част от източниците го ограничават","яйчен жълтък"],
+  no:["солено сирене","мазни сирена","престояло кисело мляко","майонеза","пържени яйца и омлет","яйца на прах"]},
+ {c:"Зърнени",ok:["ориз","овесени ядки (сварени)","елда","бял хляб (не топъл, препечен)","бели сухари","макарони без яйце","кускус"],
+  lim:["глутен|някои източници съветват пауза 3 месеца"],
+  no:["топъл хляб","пълнозърнест хляб","царевица, пуканки","булгур","баници, понички","кроасан","качамак"]},
+ {c:"Зеленчуци",ok:["картофи","моркови","тиквички","тиква","карфиол","броколи|започни с малко","цвекло","бамя","сладък картоф","пащърнак","целина","аспержи","крехка марула"],
+  lim:["спанак","зеле","гъби","зелен фасул","печени червени чушки|разминаване","зряло домати|разминаване"],
+  no:["лук","чесън","краставици","репички","патладжан","кисело зеле","туршии","лютеница","нахут, соя, зрял фасул","сурови чушки"]},
+ {c:"Плодове",ok:["сладка зряла ябълка (печена)","мека сладка круша","банан (леко кафеникав)","сладки мандарини","мека обелена праскова","папая","пъпеш, диня","авокадо"],
+  lim:["ягоди и малини (само в смути с бадемово мляко)","белени накиснати бадеми"],
+  no:["лимон, портокал, грейпфрут","ананас","нар","киви","кисели ябълки","сливи, череши","грозде","сушени плодове","орехи, лешници","слънчогледови семки"]},
+ {c:"Напитки",ok:["чай от лайка","липа","жълт кантарион","копър","анасон","бадемово и оризово мляко","слабо минерализирана вода"],
+  lim:["слаб черен чай|разминаване","слабо кафе|разминаване"],
+  no:["силно кафе","газирани напитки (дори вода)","алкохол (и бира, и вино)","какао","силно горещи или студени напитки","бутилирани сокове"]},
+ {c:"Мазнини и подправки",ok:["студенопресован зехтин","прясно краве масло","авокадово масло","магданоз","копър","босилек","мащерка","риган","розмарин","кимион","кориандър","морска сол (6–8 г/ден)"],
+  lim:["ванилия","доматено пюре","разреден лимонов сок|избягвай"],
+  no:["свинска мас","лой","гхи","чесън","лют и черен пипер","чили","горчица","хрян","канела, карамфил","оцет","кетчуп и сосове"]},
+ {c:"Сладко",ok:["мед","мармалад и конфитюр","желе","компот (от разрешени плодове)","кленов сироп"],
+  lim:[],no:["шоколад","халва","нуга","локум","вафли","марципан"]}
+];
+const SUBS=[
+ ["Лук","Луковица от копър, бялата част на праз, асафетида"],
+ ["Чесън","Асафетида, смлян кимион, италианска смес без чесън или билки (босилек, риган, розмарин, мащерка)"],
+ ["Чили, лют и червен пипер, черен пипер","Смлян кимион, смлян кориандър"],
+ ["Оцет, лайм, лимон","Смрадлика, настъргана кора от цитрус"],
+ ["Готови подправъчни миксове","Сол със сушени билки (мащерка, розмарин, босилек, риган)"],
+ ["Шоколад","Рожков"],
+ ["Мляко","Бадемово, оризово или друго растително мляко"],
+ ["Протеин вместо месо","Оризов, грахов или конопен протеин на прах"]
+];
+const HABITS=[
+ ["Топло, не горещо","Нито горещи, нито ледени храни и напитки."],
+ ["Малки порции, често","5–6 малки хранения; не пропускай храна."],
+ ["Бавно и добре сдъвкано","Колкото повече дъвчеш, толкова по-малко работа за стомаха."],
+ ["Без вода по време на хранене","Само малки глътки. Пий между храненията."],
+ ["Не лягай след хранене","Кратка разходка. Спи на лявата страна, с по-висока възглавница."],
+ ["Мазнината – накрая","Зехтин и масло се слагат в готовото ястие, не по време на готвене."],
+ ["Сол на минимум","6–8 г на ден; при висока киселинност 4–5 г."],
+ ["Без дъвка на гладно","Стимулира образуването на киселина."],
+ ["Движение 3 пъти седмично","20–30 мин, без упражнения, които стягат корема."],
+ ["Не спирай режима рано","Нови храни – по една, през 3 дни или седмица, и то след около 90 дни."]
+];
+const TRICKS=[
+ ["Готви веднъж – яж два пъти","Всички основни ястия са за 2 порции. Удвои количеството и утре обядът е готов. Планерът го прави автоматично."],
+ ["Замразявай по порции","Кюфтета, супи и запеканки се замразяват в отделни кутии. Размразявай в хладилник от вечерта."],
+ ["Паро-ситото е най-лесният уред","Положи рибата, пилето и зеленчуците над врящата вода – без мазнина и без следене."],
+ ["Еърфрайър за 15 минути","Кюфтета, риба и тиква стават за 10–15 мин. Обръщай по средата."],
+ ["Фурна с фолио","Покритото печене пази сока. Махни фолиото в последните 10 мин за коричка."],
+ ["Купувай по списък","Седмичният списък в приложението се събира от плана. Така не пазаруваш излишни продукти."],
+ ["Дъвчи месото по-малко","Режи на малки хапки, готви до пълно омекване – по-лесно се смила."],
+ ["Дневник на храненето","Записвай какво е яденото преди болка. Новите храни въвеждай по една."]
+];
+const CONFLICTS=[
+ ["Домати и червени чушки","Единият списък разрешава добре узрели и печени, другият ги забранява (киселинност). Не ги слагаме в нито една рецепта."],
+ ["Млечни продукти","Единият списък разрешава нискомаслени, другият казва, че увеличават киселинността. Превключвател „Млечни“ в профила (по подразбиране включено)."],
+ ["Червено месо","Единият разрешава нетлъсто свинско и младо телешко, другият съветва да се избягва. Превключвател „Червено месо“ – най-много 1–2 ястия седмично."],
+ ["Глутен","Втората страна съветва пауза поне 3 месеца. Превключвател „Без глутен“ – скрива рецептите с брашно и хляб."],
+ ["Морски дарове","Едната страна ги забранява, другата ги разрешава. Не ги включваме."],
+ ["Кафе, черен чай","Слабото кафе е разрешено в единия списък, кофеинът е забранен в другия. Не ги предлагаме."],
+ ["Джинджифил, дафинов лист","В едната част са забранени като подправка, в другата – разрешени. Само като билков чай, не в ястия."]
+];
+const EXCLUDED=[
+ ["Шопска салата, салата с моцарела, краставица и домат, Бурата","домат, краставица, лук, солено сирене"],
+ ["Салата с краставици и кисело мляко","краставиците са в забранения списък"],
+ ["Салата с печен пипер и сиренце","пипер (кисел, pH под 4)"],
+ ["Зелена салата с риба тон","консервирана риба, тлъста риба"],
+ ["Боб с наденица, Наденички на фурна","наденица (колбаси) и бобови са трудно смилаеми"],
+ ["Зеленчукова лазаня","доматен сос; може да се върне със сметанов сос"],
+ ["Лимон и пипер в пилешката супа","махнати от нашата версия на рецептата"]
+];
+const TIPS_HOME=[
+ "Мазнината – накрая: зехтинът отива в чинията, не в тавата.",
+ "Готви двойно количество. Утрешният обяд е вече готов.",
+ "Банани само леко кафеникави – зелените дразнят.",
+ "Хлябът да е препечен и не топъл. Топлият хляб е забранен.",
+ "Печените плодове са много по-щадящи от суровите.",
+ "Билките дават вкус вместо лука и чесъна: копър, магданоз, босилек, мащерка."
+];
+const GROUPS=[
+ {c:"Месо и риба",l:"Пилешко",k:["пилешко филе","пилешка кайма"],p:1},{c:"Месо и риба",l:"Пуешко",k:["пуешко филе","пуешка кайма"],p:1},
+ {c:"Месо и риба",l:"Телешко",k:["телешко","телешка кайма"],p:1},{c:"Месо и риба",l:"Свинско",k:["свинско бонфиле"],p:1},
+ {c:"Месо и риба",l:"Бяла риба",k:["хек","пъстърва"],p:1},{c:"Месо и риба",l:"Сьомга",k:["сьомга"],p:1},
+ {c:"Зеленчуци",l:"Картофи",k:["картофи"]},{c:"Зеленчуци",l:"Моркови",k:["моркови"]},{c:"Зеленчуци",l:"Броколи",k:["броколи"]},{c:"Зеленчуци",l:"Карфиол",k:["карфиол"]},
+ {c:"Зеленчуци",l:"Тиквички",k:["тиквички"]},{c:"Зеленчуци",l:"Тиква",k:["тиква"]},{c:"Зеленчуци",l:"Цвекло",k:["цвекло"]},{c:"Зеленчуци",l:"Сладък картоф",k:["сладък картоф"]},
+ {c:"Зеленчуци",l:"Пащърнак",k:["пащърнак"]},{c:"Зеленчуци",l:"Целина",k:["целина"]},{c:"Зеленчуци",l:"Аспержи",k:["аспержи"]},{c:"Зеленчуци",l:"Бамя",k:["бамя"]},{c:"Зеленчуци",l:"Марула",k:["марула"]},
+ {c:"Зърнени",l:"Ориз",k:["ориз"]},{c:"Зърнени",l:"Овесени ядки",k:["овесени ядки"]},{c:"Зърнени",l:"Елда",k:["елда"]},{c:"Зърнени",l:"Кускус",k:["кускус"]},{c:"Зърнени",l:"Макарони",k:["макарони"]},
+ {c:"Зърнени",l:"Бял хляб",k:["бял хляб"]},{c:"Зърнени",l:"Брашно",k:["брашно","оризово брашно"]},
+ {c:"Млечни и яйца",l:"Яйца",k:["яйца"]},{c:"Млечни и яйца",l:"Котидж",k:["котидж"]},{c:"Млечни и яйца",l:"Кисело мляко",k:["кисело мляко"]},{c:"Млечни и яйца",l:"Сметана",k:["сметана"]},
+ {c:"Млечни и яйца",l:"Кашкавал и сирена",k:["кашкавал","моцарела","прясно сирене","крема сирене"]},{c:"Млечни и яйца",l:"Мляко",k:["прясно мляко","бадемово мляко","оризово мляко"]},
+ {c:"Плодове",l:"Банани",k:["банани"]},{c:"Плодове",l:"Ябълки",k:["ябълки"]},{c:"Плодове",l:"Круши",k:["круши"]},{c:"Плодове",l:"Праскови",k:["праскови"]},
+ {c:"Плодове",l:"Папая",k:["папая"]},{c:"Плодове",l:"Пъпеш",k:["пъпеш"]},{c:"Плодове",l:"Авокадо",k:["авокадо"]}
+];
+
+/* ============ СЪСТОЯНИЕ ============ */
+const DEF={equip:{oven:1,air:1,stove:1,steam:0,slow:0,blend:1,micro:0},people:2,dairy:1,red:1,fish:1,gf:0,pref:{},fav:{},look:{skin:"auto",fs:1,r:"mid",font:"serif"},plan:null,planDays:3,mode:"simple",extra:[],checked:{}};
+let S=(function(){try{const x=JSON.parse(localStorage.getItem("layka-v2")||"null");if(x)return Object.assign({},DEF,x,{equip:Object.assign({},DEF.equip,x.equip||{}),look:Object.assign({},DEF.look,x.look||{}),pref:x.pref||{},fav:x.fav||{}});}catch(e){}return JSON.parse(JSON.stringify(DEF));})();
+let DIRTY=false;
+function save(){try{localStorage.setItem("layka-v2",JSON.stringify(S));}catch(e){}}
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function dietOK(r){if((!S.dairy&&r.tags.includes("dairy"))||(!S.red&&r.tags.includes("red"))||(!S.fish&&r.tags.includes("fish"))||(S.gf&&r.tags.includes("gluten")))return false;for(const k of r.keys){if(S.pref[k]===-1)return false;}return true;}
+function ownedMethods(r,eq){return Object.keys(r.cook).filter(m=>m==="raw"||eq[m]);}
+function eligible(r){return dietOK(r)&&ownedMethods(r,S.equip).length>0;}
+function num(x){return x===0.5?"½":String(x).replace(".",",");}
+function fmtQ(q,u){
+  if(u==="г"){return q>=1000?num(Math.round(q/50)*50/1000)+" кг":(q>=100?Math.round(q/10)*10:Math.round(q/5)*5)+" г";}
+  if(u==="мл"){return q>=1000?num(Math.round(q/50)*50/1000)+" л":Math.round(q/10)*10+" мл";}
+  return num(Math.ceil(q*2-1e-9)/2)+" "+u;
+}
+function toast(t){const e=document.createElement("div");e.className="toast";e.textContent=t;e.setAttribute("role","status");document.body.appendChild(e);setTimeout(()=>e.remove(),2200);}
+const dayName=i=>cap(new Date(Date.now()+i*864e5).toLocaleDateString("bg-BG",{weekday:"long"}));
+
+/* ============ ВИД: теми и персонализация ============ */
+const SK=(bg,sf,ink,mu,ln,br,onb,so,ch,onc,dark)=>({"--bg":bg,"--surface":sf,"--ink":ink,"--muted":mu,"--line":ln,"--brand":br,"--on-brand":onb,"--soft":so,"--chamomile":ch,"--on-chamomile":onc,
+ "--ok":dark?"#78D0A3":"#2E7D5B","--ok-bg":dark?"#17352A":"#DDF0E4","--lim":dark?"#E8BE5A":"#8F6310","--lim-bg":dark?"#3A3115":"#FBEFCB","--no":dark?"#F09089":"#B0382E","--no-bg":dark?"#43211F":"#F8DEDA",
+ "--shadow":dark?"0 6px 20px rgba(0,0,0,.3)":"0 1px 2px rgba(30,40,40,.06),0 6px 20px rgba(30,40,40,.08)"});
+const SKINS={
+ auto:{n:"Лайка",sw:["#F5F8F2","#2D6A58","#EBBD3F"],v:null},
+ mint:{n:"Мента",sw:["#EEF7F6","#0F7C7A","#F2C94C"],v:SK("#EEF7F6","#FFFFFF","#12353A","#4A6B6F","#CFE3E2","#0F7C7A","#FFFFFF","#DCEFED","#F2C94C","#3B2E00")},
+ peach:{n:"Праскова",sw:["#FFF4EC","#C2603F","#F2B84B"],v:SK("#FFF4EC","#FFFFFF","#4A2C22","#85604F","#F1DCCF","#B9532F","#FFFFFF","#FCE5D8","#F2B84B","#3B2A00")},
+ lav:{n:"Лавандула",sw:["#F5F2FB","#6247AA","#F0C14B"],v:SK("#F5F2FB","#FFFFFF","#2D2650","#64608A","#E1DBF1","#6247AA","#FFFFFF","#E9E3F7","#F0C14B","#33270A")},
+ night:{n:"Нощ",sw:["#0E1626","#7FA7FF","#F0C14B"],dark:1,v:SK("#0E1626","#162036","#E4EAF7","#9AA8C7","#27344F","#7FA7FF","#0B1226","#1B2945","#F0C14B","#2A2000",1)},
+ forest:{n:"Гора",sw:["#10170F","#8FCB8A","#E6C25A"],dark:1,v:SK("#10170F","#182217","#E6EFE2","#9DB296","#273526","#8FCB8A","#0D1A0C","#1D2B1C","#E6C25A","#2A2200",1)},
+ hc:{n:"Висок контраст",sw:["#FFFFFF","#0B3D91","#FFD400"],v:SK("#FFFFFF","#FFFFFF","#000000","#262626","#222222","#0B3D91","#FFFFFF","#E6EDF9","#FFD400","#000000")}
+};
+const SKV=Object.keys(SK("","","","","","","","","","")).concat([]);
+function applyLook(){
+  const L=S.look,root=document.documentElement,sk=SKINS[L.skin]||SKINS.auto;
+  SKV.forEach(v=>root.style.removeProperty(v));
+  if(sk.v){Object.entries(sk.v).forEach(([k,v])=>root.style.setProperty(k,v));root.style.colorScheme=sk.dark?"dark":"light";}else root.style.removeProperty("color-scheme");
+  root.style.setProperty("--fs",String(L.fs));
+  const rd={sharp:["6px","4px"],mid:["18px","12px"],round:["28px","20px"]}[L.r]||["18px","12px"];
+  root.style.setProperty("--r",rd[0]);root.style.setProperty("--r-sm",rd[1]);
+  root.style.setProperty("--f-display",L.font==="sans"?'"Manrope",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif':'"Alegreya",Georgia,"Times New Roman",serif');
+}
+/* ============ ДИАЛОГ ============ */
+const dlg=$("#dlg");
+function showDlg(html){dlg.innerHTML='<div class="dlg-in">'+html+'</div>';if(!dlg.open)dlg.showModal();}
+function closeDlg(){if(dlg.open)dlg.close();}
+dlg.addEventListener("click",e=>{if(e.target===dlg)closeDlg();});
+const xbtn='<button class="x" data-act="close" aria-label="Затвори">×</button>';
+
+/* ============ ПОГЛЕДИ ============ */
+const views={
+home(){
+  const idea=HOME_IDEA||(HOME_IDEA=rnd(RECIPES.filter(r=>r.meal==="main"&&eligible(r))));
+  const tip=HOME_TIP||(HOME_TIP=rnd(TIPS_HOME));
+  const cnt=m=>RECIPES.filter(r=>r.meal===m).length;
+  return `
+  <section class="hero">
+    <svg class="daisy" viewBox="0 0 40 40" aria-hidden="true"><g fill="var(--surface)" opacity=".8">${[0,45,90,135,180,225,270,315].map(a=>`<ellipse cx="20" cy="9" rx="3.6" ry="7.5" transform="rotate(${a} 20 20)"/>`).join("")}</g><circle cx="20" cy="20" r="5.2" fill="var(--chamomile)"/></svg>
+    <div class="eyebrow">Меню при хроничен гастрит</div>
+    <h1>Какво ще готвим днес?</h1>
+    <p class="lead">Нежни ястия без лук, чесън, домати, люти подправки и пържене. Кажи какво имаш у дома – ще предложим какво да сготвиш.</p>
+    <div class="row">
+      <button class="btn big cham" data-act="quick">Бърза рецепта</button>
+    </div>
+    <div class="row">
+      <button class="btn" data-act="plan-days" data-n="1">План за деня</button>
+      <button class="btn" data-act="plan-days" data-n="3">План за 3 дни</button>
+      <button class="btn" data-act="plan-days" data-n="7">План за седмицата</button>
+    </div>
+  </section>
+
+  <section class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
+    <div class="card" style="display:grid;gap:10px;align-content:start">
+      <div class="eyebrow">Идея за днес</div>
+      ${idea?`<h3>${idea.n}</h3><div class="meta small muted">${idea.time} мин · ${idea.base}</div>
+      <div><button class="btn sm" data-act="open" data-id="${idea.id}">Виж рецептата</button> <button class="btn sm ghost" data-act="idea">Друга идея</button></div>`:`<p class="muted">Няма рецепти за избраните уреди и режим. Промени профила.</p>`}
+    </div>
+    <div class="card" style="display:grid;gap:10px;align-content:start">
+      <div class="eyebrow">Съвет</div><p style="font-size:1.05rem">${tip}</p>
+      <div><a class="btn sm ghost" href="#guide">Всички правила и съвети</a></div>
+    </div>
+  </section>
+
+  <section style="display:grid;gap:14px">
+    <h2>Правилата на масата</h2>
+    <div class="rules">
+      <div class="rule"><b>1</b><p><b style="font:700 1rem var(--f-body);color:var(--ink)">Топло, не горещо</b><br><span class="muted small">Нито горещо, нито студено.</span></p></div>
+      <div class="rule"><b>2</b><p><b style="font:700 1rem var(--f-body);color:var(--ink)">5–6 малки хранения</b><br><span class="muted small">Не пропускай храна.</span></p></div>
+      <div class="rule"><b>3</b><p><b style="font:700 1rem var(--f-body);color:var(--ink)">Без лук, чесън, люто</b><br><span class="muted small">Билките дават вкуса.</span></p></div>
+      <div class="rule"><b>4</b><p><b style="font:700 1rem var(--f-body);color:var(--ink)">Мазнина накрая</b><br><span class="muted small">След готвенето, не по време.</span></p></div>
+    </div>
+  </section>
+
+  <section style="display:grid;gap:14px">
+    <h2>Разгледай по вид</h2>
+    <div class="chips">
+      ${Object.entries(MEALS).map(([k,l])=>`<button class="chip" data-act="browse" data-meal="${k}">${l} <span class="muted">${cnt(k)}</span></button>`).join("")}
+    </div>
+    <p class="muted small">${RECIPES.length} рецепти, подредени по ястие, основа и уред. Търси по продукт или добави любими с ♥.</p>
+  </section>`;
+},
+
+recipes(){
+  return `
+  <section class="filters">
+    <div><div class="eyebrow">Рецепти</div><h1 style="font-size:clamp(1.8rem,5vw,2.4rem)">Всички ястия</h1></div>
+    <input class="search" id="rq" type="search" placeholder="Търси рецепта или продукт…" value="${esc(RF.q)}" aria-label="Търсене">
+    <div class="chips" id="rmeal"></div>
+    <div class="chips" id="rbase"></div>
+    <div class="chips" id="rtools"></div>
+    <div class="muted small" id="rcount"></div>
+  </section>
+  <section><div class="grid" id="rgrid"></div><div class="more" id="rmore"></div></section>`;
+},
+
+plan(){
+  const p=S.plan;
+  return `
+  <section style="display:grid;gap:14px">
+    <div><div class="eyebrow">Планер</div><h1 style="font-size:clamp(1.8rem,5vw,2.4rem)">Какво ядем</h1></div>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center">
+      <div class="seg" role="group" aria-label="Брой дни">
+        ${[[1,"Ден"],[3,"3 дни"],[7,"Седмица"]].map(([n,l])=>`<button data-act="plan-set" data-n="${n}" aria-pressed="${S.planDays==n}">${l}</button>`).join("")}
+      </div>
+      <div class="seg" role="group" aria-label="Режим">
+        <button data-act="mode" data-m="simple" aria-pressed="${S.mode==="simple"}">Просто</button>
+        <button data-act="mode" data-m="varied" aria-pressed="${S.mode==="varied"}">Разнообразно</button>
+      </div>
+      <button class="btn ghost" data-act="regen">Нов план</button>
+    </div>
+    <p class="muted small">${S.mode==="simple"?"Просто: ново основно ястие на всеки 2 дни; обяд и вечеря са едно и също. Най-малко готвене.":"Разнообразно: ново основно ястие всеки ден за обяд, вечерята е лека супа."}</p>
+  </section>
+  ${p&&p.days.length?planBody(p):`<div class="card"><p>Няма рецепти за твоите уреди и режим. Отвори настройките и включи още уреди или храни.</p></div>`}`;
+},
+
+list(){
+  const items=aggregate();
+  if(!items.length)return `
+  <section style="display:grid;gap:14px"><div class="eyebrow">Пазаруване</div><h1 style="font-size:clamp(1.8rem,5vw,2.4rem)">Списък за пазаруване</h1>
+  <div class="card" style="display:grid;gap:12px"><p>Списъкът се събира от плана или от рецепти, които добавиш ръчно.</p>
+  <div><a class="btn" href="#plan">Към планера</a></div></div></section>`;
+  const groups=CATS.map(([k,l])=>[k,l,items.filter(i=>i.c===k).sort((a,b)=>a.n.localeCompare(b.n,"bg"))]).filter(g=>g[2].length);
+  const total=items.length,done=items.filter(i=>S.checked[i.n+"|"+i.u]).length;
+  return `
+  <section style="display:grid;gap:14px">
+    <div><div class="eyebrow">Пазаруване · за ${S.people} ${S.people==1?"човек":"души"}</div><h1 style="font-size:clamp(1.8rem,5vw,2.4rem)">Списък за пазаруване</h1></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+      <span class="tag ok">${done} от ${total} взети</span>
+      <button class="btn sm" data-act="copy">Копирай списъка</button>
+      <button class="btn sm ghost" data-act="uncheck">Изчисти отметките</button>
+    </div>
+    ${S.extra.length?`<div class="card"><div class="eyebrow">Добавени ръчно</div><div class="chips" style="margin-top:8px">${S.extra.map((x,i)=>`<button class="chip" data-act="rm-extra" data-i="${i}" title="Махни">${BY[x.id].n} · ${x.p} порц. ×</button>`).join("")}</div></div>`:""}
+  </section>
+  ${groups.map(([k,l,arr])=>`
+  <section class="lgroup card">
+    <h3>${l}<span class="muted small">${arr.length}</span></h3>
+    ${arr.map(i=>{const key=i.n+"|"+i.u,on=!!S.checked[key];return `<label class="lrow ${on?"done":""}"><input type="checkbox" data-act="chk" data-k="${esc(key)}" ${on?"checked":""}><span>${cap(i.n)}</span><span class="q">${fmtQ(i.q,i.u)}</span></label>`;}).join("")}
+  </section>`).join("")}`;
+},
+
+prefs(){
+  const L=S.look;
+  const sw=(k,t,d)=>`<label class="sw"><span><b>${t}</b><br><span class="muted small">${d}</span></span><input type="checkbox" role="switch" data-act="set-diet" data-k="${k}" ${S[k]?"checked":""}></label>`;
+  const segB=(p,arr)=>`<div class="seg" role="group">${arr.map(([v,l])=>`<button data-act="look" data-p="${p}" data-v="${v}" aria-pressed="${L[p]==v}">${l}</button>`).join("")}</div>`;
+  const cats=[["m","Месо и риба"],["z","Зеленчуци"],["f","Плодове"],["d","Млечни и яйца"],["g","Зърнени"]];
+  const nPref=Object.keys(S.pref).length;
+  return `
+  <section><div class="eyebrow">Настройки</div><h1 style="font-size:clamp(1.8rem,5vw,2.4rem)">Твоят вкус и кухня</h1>
+    <p class="muted" style="margin-top:6px;max-width:60ch">Всичко се пази в този браузър. Когато промениш уреди или храни, предложенията и планът се обновяват.</p></section>
+  <section class="card" style="display:grid;gap:16px"><h2>Вид</h2>
+    <div class="swatches">${Object.entries(SKINS).map(([k,sk])=>`<button class="sw-opt" data-act="skin" data-k="${k}" aria-pressed="${L.skin===k}"><span class="sw-prev">${sk.sw.map(c=>`<i style="background:${c}"></i>`).join("")}</span>${sk.n}</button>`).join("")}</div>
+    <div style="display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
+      <div><div class="eyebrow" style="margin-bottom:6px">Размер на текста</div>${segB("fs",[[.9,"Малък"],[1,"Среден"],[1.12,"Голям"],[1.25,"Най-голям"]])}</div>
+      <div><div class="eyebrow" style="margin-bottom:6px">Ъгли</div>${segB("r",[["sharp","Остри"],["mid","Меки"],["round","Овални"]])}</div>
+      <div><div class="eyebrow" style="margin-bottom:6px">Заглавия</div>${segB("font",[["serif","С засечки"],["sans","Без засечки"]])}</div>
+    </div>
+    <p class="muted small">„Лайка“ следва тъмния или светлия режим на устройството. Останалите теми са с фиксирани цветове.</p></section>
+  <section class="card" style="display:grid;gap:14px"><h2>Кухня</h2>
+    <p class="muted small">С какво готвиш? Показват се само рецепти, които могат да се сготвят с тези уреди. Котлонът е за готвене в тенджера без мазнина.</p>
+    <div class="chips">${Object.entries(METHODS).filter(([k])=>k!=="raw").map(([k,l])=>`<button class="chip" data-act="set-eq" data-m="${k}" aria-pressed="${!!S.equip[k]}">${l}</button>`).join("")}</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><div><b>Порции на хранене</b><div class="muted small">Влияе на количествата в плана и списъка за пазаруване</div></div>
+      <div class="stepper"><button data-act="set-ppl" data-d="-1" aria-label="Намали">−</button><b>${S.people}</b><button data-act="set-ppl" data-d="1" aria-label="Увеличи">+</button></div></div></section>
+  <section class="card"><h2 style="margin-bottom:6px">Режим на храна</h2>
+    ${sw("dairy","Млечни продукти","Котидж, нискомаслена сметана, прясно кисело мляко")}
+    ${sw("red","Червено месо","Нетлъсто телешко и свинско – най-много 1–2 ястия седмично")}
+    ${sw("fish","Риба","Хек, пъстърва, сьомга")}
+    ${sw("gf","Без глутен","Скрива ястията с брашно, хляб, макарони и кускус")}</section>
+  <section class="card" style="display:grid;gap:16px"><div><h2>Какво обича и какво не яде</h2>
+    <p class="muted small" style="margin-top:4px">Докосни продукт: веднъж – харесва (♥), втори път – не го яде (зачертан), трети път – без значение. Ястия със зачертан продукт не се показват и не влизат в плана. Харесваните се предлагат по-често.</p></div>
+    <div class="legend"><span class="pref like">♥ харесва</span><span class="pref no">не го яде</span><span>${nPref?nPref+" избрани":"нищо избрано"}</span>${nPref?'<button class="btn sm ghost" data-act="pref-clear">Изчисти всичко</button>':""}</div>
+    ${cats.map(([c,l])=>`<div><div class="eyebrow" style="margin-bottom:8px">${l}</div><div class="chips">${(PKEYS[c]||[]).map(k=>{const st=S.pref[k];return `<button class="pref ${st===1?"like":st===-1?"no":""}" data-act="pref" data-k="${esc(k)}" aria-label="${cap(k)}: ${st===1?"харесва":st===-1?"не го яде":"без предпочитание"}">${st===1?"♥ ":""}${cap(k)}</button>`;}).join("")}</div></div>`).join("")}
+    <p class="muted small">Продуктите от забранения списък (лук, чесън, домати, люти подправки…) така или иначе не присъстват в рецептите.</p></section>`;
+},
+guide(){
+  return `
+  <section style="display:grid;gap:14px">
+    <div><div class="eyebrow">Правила и съвети</div><h1 style="font-size:clamp(1.8rem,5vw,2.4rem)">Какво може, какво не</h1></div>
+    <div class="seg" role="group" aria-label="Раздел">
+      ${[["food","Какво може"],["habits","Навици"],["tricks","Трикове"],["subs","Замени"],["notes","За изследването"]].map(([k,l])=>`<button data-act="gtab" data-t="${k}" aria-pressed="${GT===k}">${l}</button>`).join("")}
+    </div>
+  </section>
+  <section id="gbody" style="display:grid;gap:14px">${guideBody()}</section>
+  <p class="disc">Всичко тук е изградено върху направено проучване. Не е медицински съвет. Съгласувайте менюто с лекаря или диетолога на Момо, особено при болка, кръв, повръщане или отслабване.</p>`;
+}
+};
+let HOME_IDEA=null,HOME_TIP=null,GT="food",FQ="",FS="all";
+const RF={q:"",meal:"all",base:"all",mine:false,fav:false};let RLIM=48;
+
+function guideBody(){
+  if(GT==="food"){
+    const rows=FOOD.map(c=>{
+      const mk=(arr,s)=>arr.map(x=>{const [n,note]=x.split("|");return {n,note,s};});
+      return {c:c.c,items:[...mk(c.ok,"ok"),...mk(c.lim,"lim"),...mk(c.no,"no")]};
+    }).map(c=>({c:c.c,items:c.items.filter(i=>(FS==="all"||i.s===FS)&&(!FQ||(i.n.toLowerCase().includes(FQ.toLowerCase())||c.c.toLowerCase().includes(FQ.toLowerCase()))))})).filter(c=>c.items.length);
+    return `
+    <input class="search" id="fq" type="search" placeholder="Може ли… (напр. лук, банан, сьомга)" value="${esc(FQ)}" aria-label="Търси продукт">
+    <div class="chips">
+      ${[["all","Всички"],["ok","Може"],["lim","Внимателно"],["no","Не"]].map(([k,l])=>`<button class="chip" data-act="fs" data-s="${k}" aria-pressed="${FS===k}">${l}</button>`).join("")}
+    </div>
+    <div class="grid" id="fgrid">${foodCards(rows)}</div>`;
+  }
+  if(GT==="habits")return `<div class="grid">${HABITS.map((h,i)=>`<div class="card"><div class="eyebrow">${i+1}</div><h3>${h[0]}</h3><p class="muted" style="margin-top:6px">${h[1]}</p></div>`).join("")}</div>`;
+  if(GT==="tricks")return `<div class="grid">${TRICKS.map(h=>`<div class="card"><h3>${h[0]}</h3><p class="muted" style="margin-top:6px">${h[1]}</p></div>`).join("")}</div>`;
+  if(GT==="subs")return `<div class="card scroll-x"><table class="sub"><thead><tr><th>Махни</th><th>Замести с</th></tr></thead><tbody>${SUBS.map(s=>`<tr><td><b>${s[0]}</b></td><td>${s[1]}</td></tr>`).join("")}</tbody></table></div>
+    <div class="tipbox"><b>Вкус без дразнене:</b> магданоз, копър, девисил, босилек и мащерка. Зехтинът или маслото се добавят, след като храната е сготвена.</div>`;
+  return `
+    <div class="card" style="display:grid;gap:10px"><h3>Къде двата списъка си противоречат</h3>
+      <p class="muted small">Проучването има две части, които не винаги се съгласуват. Ето как сме решили всяко разминаване. Решава лекарят.</p>
+      ${CONFLICTS.map(c=>`<div><b>${c[0]}</b><div class="muted small">${c[1]}</div></div>`).join("")}</div>
+    <div class="card" style="display:grid;gap:10px"><h3>Ястия от таблицата, които засега не включваме</h3>
+      ${EXCLUDED.map(c=>`<div><b>${c[0]}</b><div class="muted small">Причина: ${c[1]}</div></div>`).join("")}</div>`;
+}
+function foodCards(rows){
+  if(!rows.length)return `<div class="card"><p>Не намерихме такъв продукт. Ако не е в списъка, по-добре питай лекаря или диетолога.</p></div>`;
+  return rows.map(c=>`<div class="card fcat"><h3>${c.c}</h3>
+    ${["ok","lim","no"].map(s=>{const it=c.items.filter(i=>i.s===s);return it.length?`<div class="fl"><span class="lb tag ${s}">${{ok:"Може",lim:"Внимателно",no:"Не"}[s]}</span>${it.map(i=>`<span class="fi ${s}">${i.n}${i.note?` <small>· ${i.note}</small>`:""}</span>`).join("")}</div>`:"";}).join("")}</div>`).join("");
+}
+
+/* ---- рецепти: филтриран списък ---- */
+const ICON={bf:'<path d="M5 10h12v3a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5zM17 11h1.5a2.5 2.5 0 0 1 0 5H16M8 4c0 1.5 1 1.5 1 3M12 4c0 1.5 1 1.5 1 3"/>',
+ soup:'<path d="M3 11h18a9 9 0 0 1-18 0zM9 3c0 1.5 1 1.5 1 3M14 3c0 1.5 1 1.5 1 3"/>',
+ main:'<circle cx="12" cy="13" r="7"/><circle cx="12" cy="13" r="3.2"/><path d="M3 4v5M21 4v5"/>',
+ salad:'<path d="M12 21c-5-3-7-7-7-12 4 0 7 2 7 5 0-3 3-5 7-5 0 5-2 9-7 12z"/>',
+ dessert:'<path d="M12 8c-3-3-8-1-8 4s4 8 8 8 8-3 8-8-5-7-8-4zM12 8c0-2 1-3 3-4"/>'};
+const icon=m=>'<span class="micon"><svg viewBox="0 0 24 24">'+ICON[m]+'</svg></span>';
+function rcardHTML(r){return `<div class="rwrap"><button class="rcard" data-act="open" data-id="${r.id}" style="padding-right:50px">
+  <div class="rhead" style="justify-content:flex-start">${icon(r.meal)}<div class="meta"><span class="tag">${MEALS[r.meal]}</span>${r.base!=="-"?`<span class="tag">${r.base}</span>`:""}<span>${r.time} мин</span></div></div>
+  <h3>${r.n}</h3>
+  <div class="meta">${Object.keys(r.cook).map(m=>`<span class="mchip ${m==="raw"||S.equip[m]?"have":""}">${METHODS[m]}</span>`).join("")}</div>
+  <div class="meta">${r.tags.includes("dairy")?'<span>млечни</span>':""}${r.tags.includes("red")?'<span>червено месо</span>':""}${r.tags.includes("fatfish")?'<span>тлъста риба</span>':""}</div>
+ </button><button class="heart" data-act="fav" data-id="${r.id}" aria-pressed="${!!S.fav[r.id]}" aria-label="В любими">${S.fav[r.id]?"♥":"♡"}</button></div>`;}
+function filteredRecipes(){
+  const q=RF.q.trim().toLowerCase();
+  return RECIPES.filter(r=>dietOK(r)&&(RF.meal==="all"||r.meal===RF.meal)&&(RF.base==="all"||r.base===RF.base)&&(!RF.mine||eligible(r))&&(!RF.fav||S.fav[r.id])
+    &&(!q||r.n.toLowerCase().includes(q)||r.keys.some(k=>k.toLowerCase().includes(q))));
+}
+function recipeGrid(){
+  const list=filteredRecipes();
+  $("#rcount").textContent=list.length+" "+(list.length===1?"рецепта":"рецепти");
+  $("#rgrid").innerHTML=list.length?list.slice(0,RLIM).map(rcardHTML).join(""):'<div class="card"><p>Нищо не съвпада. Махни филтър или провери настройките за храни.</p></div>';
+  $("#rmore").innerHTML=list.length>RLIM?'<button class="btn ghost" data-act="more">Покажи още ('+(list.length-RLIM)+')</button>':"";
+}
+function recipeFilters(){
+  $("#rmeal").innerHTML=[["all","Всички"],...Object.entries(MEALS)].map(([k,l])=>`<button class="chip" data-act="rf" data-f="meal" data-v="${k}" aria-pressed="${RF.meal===k}">${l}</button>`).join("");
+  $("#rbase").innerHTML=[["all","Всякаква основа"],...BASES.map(b=>[b,cap(b)])].map(([k,l])=>`<button class="chip" data-act="rf" data-f="base" data-v="${k}" aria-pressed="${RF.base===k}">${l}</button>`).join("");
+  $("#rtools").innerHTML=`<button class="chip" data-act="rf" data-f="mine" data-v="x" aria-pressed="${RF.mine}">Само с моите уреди</button><button class="chip" data-act="rf" data-f="fav" data-v="x" aria-pressed="${RF.fav}">♥ Любими</button>`;
+}
+
+/* ---- детайл на рецепта ---- */
+let CUR={id:null,m:null,p:2};
+function openRecipe(id,method){
+  const r=BY[id];if(!r)return;
+  const own=ownedMethods(r,S.equip);
+  CUR={id,m:(method&&r.cook[method]?method:own[0]||Object.keys(r.cook)[0]),p:CUR.id===id?CUR.p:S.people};
+  renderRecipe();
+}
+function renderRecipe(){
+  const r=BY[CUR.id],f=CUR.p/2;
+  showDlg(`
+  <div class="dlg-head"><div style="display:grid;gap:8px"><div class="meta" style="display:flex;gap:6px;flex-wrap:wrap"><span class="tag">${MEALS[r.meal]}</span>${r.base!=="-"?`<span class="tag">${r.base}</span>`:""}<span class="tag">${r.time} мин</span>${r.src==="gen"?'<span class="tag">вариация</span>':""}${r.src==="осн"?'<span class="tag ok">от основната колекция</span>':""}${r.tags.includes("fatfish")?'<span class="tag lim">ограничено</span>':""}</div><h2>${r.n}</h2></div><div style="display:flex;gap:6px;align-items:flex-start"><button class="heart" data-act="fav" data-id="${r.id}" aria-pressed="${!!S.fav[r.id]}" aria-label="В любими">${S.fav[r.id]?"♥":"♡"}</button>${xbtn}</div></div>
+  <div style="display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap">
+    <div class="stepper" aria-label="Порции"><button data-act="pp" data-d="-1" aria-label="Намали">−</button><b>${CUR.p} ${CUR.p==1?"порция":"порции"}</b><button data-act="pp" data-d="1" aria-label="Увеличи">+</button></div>
+  </div>
+  <div><h3 style="margin-bottom:6px">Продукти</h3>
+    <ul class="ings">${r.ing.filter(i=>i.n!=="вода").map(i=>`<li><span>${cap(i.n)}${i.opt?' <span class="muted small">(по желание)</span>':""}</span><b>${fmtQ(i.q*f,i.u)}</b></li>`).join("")}</ul>
+    ${r.ing.some(i=>i.n==="вода")?`<p class="muted small" style="margin-top:6px">Вода: ${fmtQ(r.ing.find(i=>i.n==="вода").q*f,"мл")}</p>`:""}</div>
+  <div><h3 style="margin-bottom:8px">Как го готвиш</h3>
+    <div class="chips" role="group" aria-label="Начин на готвене" style="margin-bottom:12px">
+      ${Object.keys(r.cook).map(m=>`<button class="chip" data-act="meth" data-m="${m}" aria-pressed="${CUR.m===m}">${METHODS[m]}${m==="raw"||S.equip[m]?"":' <span class="small" style="opacity:.7">· нямаш</span>'}</button>`).join("")}
+    </div>
+    <ol class="steps">${r.prep.map(s=>`<li><span>${s}</span></li>`).join("")}<li><span><b>${METHODS[CUR.m]}:</b> ${r.cook[CUR.m]}</span></li></ol></div>
+  <div class="tipbox"><b>Съвет:</b> ${r.tip}</div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" data-act="tolist">Добави в списъка за пазаруване</button><button class="btn ghost" data-act="close">Затвори</button></div>
+  <p class="disc" style="margin:0">Сол – малко, 6–8 г за целия ден. Подправките са само от разрешените билки.</p>`);
+}
+
+/* ---- бърза рецепта ---- */
+let Q={};
+function openQuick(){Q={step:1,meal:"any",picks:new Set(),equip:Object.assign({},S.equip),time:90};renderQuick();}
+function renderQuick(){
+  const dots=`<div class="dots" aria-hidden="true">${[1,2,3,4].map(i=>`<i class="${i<=Q.step?"on":""}"></i>`).join("")}</div>`;
+  let body="",foot="";
+  if(Q.step===1){
+    body=`<h2>Какво искаш да сготвиш?</h2><div style="display:grid;gap:8px">
+    ${[["any","Все едно","Покажи всичко подходящо"],["main","Основно ястие","Обяд или вечеря"],["soup","Супа","Нежна, лесна за готвене"],["bf","Закуска","Каша, яйца, мъфини"],["salad","Салата","Топла или с настъргани зеленчуци"],["dessert","Десерт или лека закуска","Печени плодове, кремове"]].map(([k,l,d])=>`<button class="opt" data-act="q-meal" data-v="${k}" aria-pressed="${Q.meal===k}"><span>${l}<small>${d}</small></span></button>`).join("")}</div>`;
+    foot=`<button class="btn" data-act="q-next">Напред</button>`;
+  }else if(Q.step===2){
+    body=`<h2>Какво имаш у дома?</h2><p class="muted small">Избери колкото искаш. Сол, зехтин, масло и мед се броят за налични.</p>
+    ${[...new Set(GROUPS.map(g=>g.c))].map(c=>`<div><div class="eyebrow" style="margin-bottom:6px">${c}</div><div class="chips">${GROUPS.map((g,i)=>g.c===c?`<button class="chip" data-act="q-pick" data-i="${i}" aria-pressed="${Q.picks.has(i)}">${g.l}</button>`:"").join("")}</div></div>`).join("")}`;
+    foot=`<button class="btn ghost" data-act="q-back">Назад</button><button class="btn" data-act="q-next">Напред</button>`;
+  }else if(Q.step===3){
+    body=`<h2>С какво готвиш и колко време имаш?</h2>
+    <div class="chips">${Object.entries(METHODS).filter(([k])=>k!=="raw").map(([k,l])=>`<button class="chip" data-act="q-eq" data-m="${k}" aria-pressed="${!!Q.equip[k]}">${l}</button>`).join("")}</div>
+    <div><div class="eyebrow" style="margin-bottom:8px">Колко време</div><div class="chips">${[[20,"до 20 мин"],[45,"до 45 мин"],[90,"до 1,5 часа"],[999,"без значение"]].map(([v,l])=>`<button class="chip" data-act="q-time" data-v="${v}" aria-pressed="${Q.time===v}">${l}</button>`).join("")}</div></div>`;
+    foot=`<button class="btn ghost" data-act="q-back">Назад</button><button class="btn cham" data-act="q-next">Покажи рецепти</button>`;
+  }else{
+    const res=quickResults();
+    body=`<h2>${res.length?"Ето какво предлагаме":"Няма точно съвпадение"}</h2>
+    ${res.length?`<div style="display:grid;gap:10px">${res.map(x=>`
+      <button class="rcard" data-act="open-q" data-id="${x.r.id}" data-m="${x.m}">
+        <div class="meta"><span class="tag">${MEALS[x.r.meal]}</span><span>${x.r.time} мин</span><span class="dot"></span><span>${METHODS[x.m]}</span></div>
+        <h3>${x.r.n}</h3>
+        ${x.miss.length?`<div class="small" style="color:var(--lim)">Трябва ти още: ${x.miss.join(", ")}</div>`:`<div class="small" style="color:var(--ok);font-weight:700">Имаш всичко необходимо</div>`}
+      </button>`).join("")}</div>`:`<p class="muted">Опитай с повече време, повече уреди или други продукти.</p>`}`;
+    foot=`<button class="btn ghost" data-act="q-back">Промени отговорите</button>`;
+  }
+  showDlg(`<div class="dlg-head"><div style="flex:1;display:grid;gap:10px"><div class="eyebrow">Бърза рецепта · стъпка ${Math.min(Q.step,3)} от 3</div>${dots}</div>${xbtn}</div>${body}<div style="display:flex;gap:10px;flex-wrap:wrap">${foot}</div>`);
+}
+function quickResults(){
+  const sel=new Set();Q.picks.forEach(i=>GROUPS[i].k.forEach(k=>sel.add(k)));
+  const selProt=[...Q.picks].some(i=>GROUPS[i].p);
+  const out=[];
+  for(const r of RECIPES){
+    if(!dietOK(r))continue;
+    if(Q.meal!=="any"&&r.meal!==Q.meal)continue;
+    const ms=ownedMethods(r,Q.equip);if(!ms.length)continue;
+    if(r.time>Q.time)continue;
+    if(selProt&&r.prot.some(p=>!sel.has(p)))continue;
+    const main=r.ing.filter(i=>!i.opt&&!STAPLE.has(i.n)&&i.c!=="o");
+    const miss=[...new Set(main.filter(i=>!sel.has(i.n)).map(i=>i.n))];
+    if(Q.picks.size&&main.length&&main.every(i=>!sel.has(i.n)))continue;
+    const have=main.length-main.filter(i=>!sel.has(i.n)).length;
+    out.push({r,m:ms[0],miss,s:miss.length*100-have*30+r.time/10-likeScore(r)*20+Math.random()*8});
+  }
+  {const seen={},res=[];for(const x of out.sort((a,b)=>a.s-b.s)){const k=x.r.n.split(" ").slice(0,2).join(" ");seen[k]=(seen[k]||0)+1;if(seen[k]<=2)res.push(x);if(res.length>=8)break;}return res;}
+}
+
+/* ============ ПЛАНЕР ============ */
+function likeScore(r){let n=0;for(const k of r.keys)if(S.pref[k]===1)n++;return n;}
+function pickL(arr){const lk=arr.filter(r=>likeScore(r)>0);return(lk.length&&Math.random()<.7)?rnd(lk):rnd(arr);}
+function pickN(arr,n){const lk=shuffle(arr.filter(r=>likeScore(r)>0)),rest=shuffle(arr.filter(r=>!likeScore(r)));return lk.concat(rest).slice(0,n);}
+function genPlan(days,mode){
+  const el=m=>RECIPES.filter(r=>r.meal===m&&eligible(r));
+  const mains=el("main"),soups=el("soup"),bfs=el("bf"),des=el("dessert");
+  if(!mains.length)return {days:[],n:days,mode};
+  const need=mode==="simple"?Math.ceil(days/2):days;
+  const redMax=days>=7?2:1;let red=0,fat=0;const dishes=[];
+  const byBase={};mains.forEach(r=>(byBase[r.base]=byBase[r.base]||[]).push(r));
+  const wants=["пиле","пуйка","риба","без месо","телешко","свинско"].filter(b=>byBase[b]);
+  const all=wants.length?wants:Object.keys(byBase);let order=[];
+  while(dishes.length<need){
+    if(!order.length)order=shuffle(all);
+    const prev=dishes.length?dishes[dishes.length-1].base:null;
+    let bi=order.findIndex(b=>b!==prev&&!((b==="телешко"||b==="свинско")&&red>=redMax));
+    if(bi<0)bi=0;
+    const b=order.splice(bi,1)[0];
+    let cand=byBase[b].filter(r=>!dishes.includes(r)&&!(r.tags.includes("fatfish")&&fat>=1));
+    if(!cand.length)cand=byBase[b];
+    const c=pickL(cand);dishes.push(c);if(c.tags.includes("red"))red++;if(c.tags.includes("fatfish"))fat++;
+  }
+  const sp=pickN(soups,Math.min(days,7)),bp=pickN(bfs,Math.min(3,bfs.length)),dp=pickN(des,Math.min(3,des.length));
+  const pl=[];
+  for(let d=0;d<days;d++){
+    const dish=dishes[mode==="simple"?Math.floor(d/2):d];
+    const dinner=mode==="simple"?dish:(sp.length?sp[d%sp.length]:dish);
+    pl.push({b:bp.length?bp[d%bp.length].id:null,l:dish.id,d:dinner.id,s:dp.length?dp[d%dp.length].id:null});
+  }
+  return {days:pl,n:days,mode};
+}
+function planBody(p){
+  const seq=[];p.days.forEach(d=>{seq.push(d.l,d.d);});
+  const cooks=[];let i=0;
+  while(i<seq.length){let j=i;while(j+1<seq.length&&seq[j+1]===seq[i])j++;cooks.push({day:Math.floor(i/2),id:seq[i],meals:j-i+1});i=j+1;}
+  const uniq=new Set(seq).size;
+  return `
+  <section class="stats">
+    <div class="stat"><b>${cooks.length}</b><span>готвения общо</span></div>
+    <div class="stat"><b>${uniq}</b><span>различни ястия</span></div>
+    <div class="stat"><b>${p.days.length}</b><span>${p.days.length==1?"ден":"дни"}</span></div>
+  </section>
+  <section class="card" style="display:grid;gap:10px"><h3>Кога готвиш</h3>
+    <ul class="cooks">${cooks.map(c=>`<li><span class="d">${dayName(c.day)}</span><span><button class="slot-name" data-act="open" data-id="${c.id}" style="background:none;border:0;padding:0;font-weight:700;color:var(--ink);text-align:left;text-decoration:underline;text-decoration-color:var(--line)">${BY[c.id].n}</button> <span class="muted small">· стига за ${c.meals} ${c.meals==1?"хранене":"хранения"}</span></span></li>`).join("")}</ul></section>
+  <section class="grid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))">
+    ${p.days.map((d,di)=>`<div class="card pday"><h3>${dayName(di)}<span class="muted small" style="font-family:var(--f-body)">Ден ${di+1}</span></h3>
+      ${[["b","Закуска"],["l","Обяд"],["d","Вечеря"],["s","Лека закуска"]].map(([k,l])=>d[k]?`<div class="slot"><span class="lbl">${l}</span><button class="nm" data-act="open" data-id="${d[k]}">${BY[d[k]].n}</button><button class="btn sm ghost" data-act="swap" data-d="${di}" data-k="${k}" aria-label="Смени ${l}">смени</button></div>`:"").join("")}
+    </div>`).join("")}
+  </section>
+  <section style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn big" href="#list">Списък за пазаруване</a></section>
+  <p class="muted small">Между храненията: 1–2 лесни закуски с печен плод, каша или котидж. Червеното месо е ограничено до ${p.n>=7?"2":"1"} ястие${p.n>=7?"я":""}.</p>`;
+}
+function swapMeal(di,k){
+  const cur=S.plan.days[di][k];
+  const pools={b:["bf"],l:["main"],d:S.plan.mode==="simple"?["main"]:["soup","main"],s:["dessert"]}[k];
+  let c=RECIPES.filter(r=>pools.includes(r.meal)&&eligible(r)&&r.id!==cur);
+  if(k==="l"||k==="d"){const used=S.plan.days.map(d=>d.l).concat(S.plan.days.map(d=>d.d));const f=c.filter(r=>!used.includes(r.id));if(f.length)c=f;}
+  if(!c.length){toast("Няма друга подходяща рецепта");return;}
+  S.plan.days[di][k]=rnd(c).id;save();render();
+}
+
+/* ============ СПИСЪК ============ */
+function mealInstances(){
+  const out=[];
+  if(S.plan)S.plan.days.forEach(d=>["b","l","d","s"].forEach(k=>{if(d[k])out.push({id:d[k],f:S.people/2});}));
+  S.extra.forEach(x=>out.push({id:x.id,f:x.p/2}));
+  return out;
+}
+function aggregate(){
+  const m=new Map();
+  for(const it of mealInstances()){
+    const r=BY[it.id];if(!r)continue;
+    for(const i of r.ing){
+      if(i.opt||i.n==="вода")continue;
+      const c=STAPLE.has(i.n)?"s":i.c;
+      const key=i.n+"|"+i.u;const o=m.get(key)||{n:i.n,u:i.u,c,q:0};o.q+=i.q*it.f;m.set(key,o);
+    }
+  }
+  return [...m.values()];
+}
+function listText(){
+  const items=aggregate();
+  return "Списък за пазаруване\n"+CATS.map(([k,l])=>{const a=items.filter(i=>i.c===k).sort((x,y)=>x.n.localeCompare(y.n,"bg"));return a.length?"\n"+l+"\n"+a.map(i=>"• "+cap(i.n)+" – "+fmtQ(i.q,i.u)).join("\n"):"";}).join("");
+}
+
+/* ============ РУТЕР И СЪБИТИЯ ============ */
+const ROUTES=["home","recipes","plan","list","guide","prefs"];
+function route(){const h=location.hash.slice(1);return ROUTES.includes(h)?h:"home";}
+function render(){
+  const r=route();
+  $("#view").innerHTML=views[r]();
+  document.querySelectorAll("nav a").forEach(a=>{if(a.getAttribute("href")==="#"+r)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
+  if(r==="recipes"){recipeFilters();recipeGrid();}
+  document.title="Лайка";
+}
+window.addEventListener("hashchange",()=>{if(DIRTY&&route()!=="prefs"){S.plan=genPlan(S.planDays,S.mode);DIRTY=false;HOME_IDEA=null;save();}render();window.scrollTo(0,0);});
+
+document.addEventListener("click",e=>{
+  const t=e.target.closest("[data-act]");if(!t)return;
+  const a=t.dataset.act,d=t.dataset;
+  switch(a){
+    case "close":closeDlg();break;
+    case "quick":openQuick();break;
+    case "settings":location.hash="#prefs";break;
+    case "skin":S.look.skin=d.k;save();applyLook();render();break;
+    case "look":S.look[d.p]=d.p==="fs"?+d.v:d.v;save();applyLook();render();break;
+    case "pref":{const v=S.pref[d.k];if(v===1)S.pref[d.k]=-1;else if(v===-1)delete S.pref[d.k];else S.pref[d.k]=1;DIRTY=true;save();render();break;}
+    case "pref-clear":S.pref={};DIRTY=true;save();render();break;
+    case "fav":{if(S.fav[d.id])delete S.fav[d.id];else S.fav[d.id]=1;save();if(t.closest("dialog"))renderRecipe();else{t.setAttribute("aria-pressed",!!S.fav[d.id]);t.textContent=S.fav[d.id]?"♥":"♡";}break;}
+    case "more":RLIM+=48;recipeGrid();break;
+    case "open":openRecipe(d.id);break;
+    case "open-q":openRecipe(d.id,d.m);break;
+    case "idea":HOME_IDEA=null;render();break;
+    case "browse":RF.meal=d.meal;RF.base="all";RF.q="";location.hash="#recipes";if(route()==="recipes")render();break;
+    case "plan-days":S.planDays=+d.n;S.plan=genPlan(S.planDays,S.mode);save();if(route()==="plan")render();else location.hash="#plan";break;
+    case "plan-set":S.planDays=+d.n;S.plan=genPlan(S.planDays,S.mode);save();render();break;
+    case "mode":S.mode=d.m;S.plan=genPlan(S.planDays,S.mode);save();render();break;
+    case "regen":S.plan=genPlan(S.planDays,S.mode);save();render();break;
+    case "swap":swapMeal(+d.d,d.k);break;
+    case "rf":RLIM=48;if(d.f==="mine")RF.mine=!RF.mine;else if(d.f==="fav")RF.fav=!RF.fav;else RF[d.f]=d.v;recipeFilters();recipeGrid();break;
+    case "gtab":GT=d.t;render();break;
+    case "fs":FS=d.s;$("#gbody").innerHTML=guideBody();document.querySelectorAll('[data-act="gtab"]').forEach(b=>b.setAttribute("aria-pressed",b.dataset.t===GT));break;
+    case "pp":CUR.p=Math.min(12,Math.max(1,CUR.p+ +d.d));renderRecipe();break;
+    case "meth":CUR.m=d.m;renderRecipe();break;
+    case "tolist":S.extra.push({id:CUR.id,p:CUR.p});save();toast("Добавено в списъка");closeDlg();if(route()==="list")render();break;
+    case "rm-extra":S.extra.splice(+d.i,1);save();render();break;
+    case "copy":{const txt=listText();
+      const fb=()=>{const ta=document.createElement("textarea");ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");toast("Списъкът е копиран");}catch(_){toast("Маркирай и копирай ръчно");}ta.remove();};
+      if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(()=>toast("Списъкът е копиран"),fb);else fb();break;}
+    case "uncheck":S.checked={};save();render();break;
+    case "q-meal":Q.meal=d.v;renderQuick();break;
+    case "q-pick":{const i=+d.i;Q.picks.has(i)?Q.picks.delete(i):Q.picks.add(i);t.setAttribute("aria-pressed",Q.picks.has(i));break;}
+    case "q-eq":Q.equip[d.m]=Q.equip[d.m]?0:1;t.setAttribute("aria-pressed",!!Q.equip[d.m]);break;
+    case "q-time":Q.time=+d.v;renderQuick();break;
+    case "q-next":Q.step++;renderQuick();break;
+    case "q-back":Q.step=Math.max(1,Q.step-1);renderQuick();break;
+    case "set-eq":S.equip[d.m]=S.equip[d.m]?0:1;DIRTY=true;save();t.setAttribute("aria-pressed",!!S.equip[d.m]);break;
+    case "set-ppl":S.people=Math.min(6,Math.max(1,S.people+ +d.d));save();render();break;
+  }
+});
+document.addEventListener("change",e=>{
+  const t=e.target.closest("[data-act]");if(!t)return;
+  if(t.dataset.act==="chk"){S.checked[t.dataset.k]=t.checked;if(!t.checked)delete S.checked[t.dataset.k];save();render();}
+  if(t.dataset.act==="set-diet"){S[t.dataset.k]=t.checked?1:0;DIRTY=true;save();HOME_IDEA=null;}
+});
+dlg.addEventListener("close",()=>{if(route()!=="home")render();else render();});
+document.addEventListener("input",e=>{
+  if(e.target.id==="rq"){RF.q=e.target.value;RLIM=48;recipeGrid();}
+  if(e.target.id==="fq"){FQ=e.target.value;$("#fgrid").innerHTML=foodCards(FOOD.map(c=>{const mk=(arr,s)=>arr.map(x=>{const [n,note]=x.split("|");return {n,note,s};});return {c:c.c,items:[...mk(c.ok,"ok"),...mk(c.lim,"lim"),...mk(c.no,"no")].filter(i=>(FS==="all"||i.s===FS)&&(i.n.toLowerCase().includes(FQ.toLowerCase())||c.c.toLowerCase().includes(FQ.toLowerCase())))};}).filter(c=>c.items.length));}
+});
+
+applyLook();
+if(!S.plan||!S.plan.days)S.plan=genPlan(S.planDays,S.mode);
+render();
+</script>
+
+</body>
+</html>
