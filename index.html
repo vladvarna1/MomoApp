@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Щадящо меню и рецепти при гастрит">
-<meta name="theme-color" content="#2D6A58">
+<meta name="theme-color" content="#6247AA">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Pissi">
@@ -21,23 +21,23 @@
 .hs{display:flex;gap:8px;max-width:520px}.hs .search{flex:1;min-width:0}
 .brand b{font-size:1.45rem}
 /* Layout: мобилно приложение с долна навигация; на широк екран – централна колона до 1040px.
-   Палитра: бор (мастило), градинска лайка (акцент), мъхесто зелено (основен бутон), порцелан (фон). */
+   Палитра: лавандула (основен бутон), златисто (акцент), тъмна слива (мастило). */
 :root{
-  --bg:#F5F8F2; --surface:#FFFFFF; --ink:#1B3832; --muted:#587068; --line:#DCE6DD;
-  --brand:#2D6A58; --on-brand:#FFFFFF; --soft:#E5F0E7; --chamomile:#EBBD3F; --on-chamomile:#3B2E00;
+  --bg:#F5F2FB; --surface:#FFFFFF; --ink:#2D2650; --muted:#64608A; --line:#E1DBF1;
+  --brand:#6247AA; --on-brand:#FFFFFF; --soft:#E9E3F7; --accent2:#F0C14B; --on-accent2:#33270A;
   --ok:#2E7D5B; --ok-bg:#DDF0E4; --lim:#9A6A10; --lim-bg:#FBEFCB; --no:#B04438; --no-bg:#F8DEDA;
   --shadow:0 1px 2px rgba(27,56,50,.06),0 6px 20px rgba(27,56,50,.07);
   --f-display:"Alegreya",Georgia,"Times New Roman",serif; --r:18px; --r-sm:12px; --fs:1;
   --f-body:"Manrope",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#0F1B18; --surface:#16251F; --ink:#E5F0EA; --muted:#9BB3A9; --line:#27392F;
-  --brand:#74C6A8; --on-brand:#0C1D17; --soft:#1C2E27; --chamomile:#EBC253; --on-chamomile:#2E2300;
+  --bg:#15121F; --surface:#1E1A2E; --ink:#ECE8F7; --muted:#A9A3C4; --line:#342E4D;
+  --brand:#B9A4FF; --on-brand:#1A1030; --soft:#28223D; --accent2:#F0C14B; --on-accent2:#2A2000;
   --ok:#78D0A3; --ok-bg:#1B3528; --lim:#E5B94F; --lim-bg:#3A3015; --no:#EE8D82; --no-bg:#40201C;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25); color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0F1B18; --surface:#16251F; --ink:#E5F0EA; --muted:#9BB3A9; --line:#27392F;
-  --brand:#74C6A8; --on-brand:#0C1D17; --soft:#1C2E27; --chamomile:#EBC253; --on-chamomile:#2E2300;
+  --bg:#15121F; --surface:#1E1A2E; --ink:#ECE8F7; --muted:#A9A3C4; --line:#342E4D;
+  --brand:#B9A4FF; --on-brand:#1A1030; --soft:#28223D; --accent2:#F0C14B; --on-accent2:#2A2000;
   --ok:#78D0A3; --ok-bg:#1B3528; --lim:#E5B94F; --lim-bg:#3A3015; --no:#EE8D82; --no-bg:#40201C;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25); color-scheme:dark}
 
@@ -54,7 +54,7 @@ h3{font-size:1.2rem}
 p{margin:0}
 button{font:inherit;color:inherit;cursor:pointer}
 a{color:var(--brand)}
-:focus-visible{outline:3px solid var(--chamomile);outline-offset:2px;border-radius:8px}
+:focus-visible{outline:3px solid var(--accent2);outline-offset:2px;border-radius:8px}
 .wrap{max-width:1040px;margin:0 auto}
 .eyebrow{font-size:.74rem;letter-spacing:.09em;text-transform:uppercase;font-weight:700;color:var(--muted)}
 .muted{color:var(--muted)}
@@ -80,7 +80,7 @@ nav.bottom a{display:flex;flex-direction:column;align-items:center;gap:2px;paddi
 nav.bottom a svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 nav.bottom a[aria-current="page"]{color:var(--brand);background:var(--soft)}
 .fab{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:19;
-  background:var(--chamomile);color:var(--on-chamomile);border:0;border-radius:99px;padding:13px 18px;font-weight:800;box-shadow:var(--shadow);display:flex;gap:8px;align-items:center}
+  background:var(--accent2);color:var(--on-accent2);border:0;border-radius:99px;padding:13px 18px;font-weight:800;box-shadow:var(--shadow);display:flex;gap:8px;align-items:center}
 .fab svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
 main{padding-top:22px;display:flex;flex-direction:column;gap:30px}
@@ -89,7 +89,7 @@ section{min-width:0}
 /* buttons & chips */
 .btn{border:0;background:var(--brand);color:var(--on-brand);border-radius:var(--r-sm);padding:12px 18px;font-weight:700;display:inline-flex;gap:8px;align-items:center;justify-content:center;text-decoration:none}
 .btn.big{padding:17px 26px;font-size:1.12rem;border-radius:var(--r)}
-.btn.cham{background:var(--chamomile);color:var(--on-chamomile)}
+.btn.cham{background:var(--accent2);color:var(--on-accent2)}
 .btn.ghost{background:transparent;color:var(--brand);border:1.5px solid var(--line)}
 .btn.sm{padding:7px 12px;font-size:.85rem;border-radius:10px}
 .btn[disabled]{opacity:.45;cursor:not-allowed}
@@ -110,7 +110,6 @@ section{min-width:0}
 .hero{display:grid;gap:18px;padding:26px 22px;border-radius:calc(var(--r)*1.5);background:var(--soft);position:relative;overflow:hidden}
 .hero p.lead{max-width:46ch;color:var(--muted);font-size:1.05rem}
 .hero .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.hero .daisy{position:absolute;right:-38px;top:-38px;width:190px;height:190px;opacity:.9}
 .rules{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
 .rule{display:flex;gap:12px;align-items:flex-start}
 .rule b{font:800 1.6rem/1 var(--f-display);color:var(--brand);min-width:1.4em}
@@ -206,6 +205,10 @@ table.sub th{font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;colo
 .pref.no{background:var(--no-bg);border-color:var(--no);color:var(--no);text-decoration:line-through}
 .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.82rem;color:var(--muted)}
 .sticky-note{position:sticky;top:calc(64px + env(safe-area-inset-top,0px));z-index:5}
+
+.hero-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.otter-s{display:block;flex:none}.otter-big{display:none}
+@media(min-width:820px){.otter-s{display:none}.otter-big{display:block;position:absolute;right:40px;bottom:26px;opacity:.96}.hero p.lead,.hero .hs{max-width:46ch}}
 
 *,*::before,*::after{font-feature-settings:"locl" 0 !important}
 body{padding-block:0 150px}
@@ -1047,6 +1050,7 @@ function uid(){return Math.random().toString(36).slice(2,9);}
 function todayISO(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
 function dateOf(iso,add){const [y,m,d]=iso.split("-").map(Number);return new Date(y,m-1,d+add);}
 function loadState(){
+  /* стара тема „lav“ е вече основната */
   const raw=lsGet(KEY);
   if(raw){try{return mergeState(JSON.parse(raw));}catch(e){}}
   const old=lsGet("layka-v2");
@@ -1054,6 +1058,7 @@ function loadState(){
   return DEF();
 }
 let S=loadState();
+if(S.look&&S.look.skin==="lav")S.look.skin="auto";
 function save(){S.saved=Date.now();lsSet(KEY,JSON.stringify(S));}
 window.addEventListener("pagehide",save);
 document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden")save();});
@@ -1081,14 +1086,14 @@ function dayLabel(p,i){const d=dateOf(p.start,i);return cap(d.toLocaleDateString
 function dayShort(p,i){const d=dateOf(p.start,i);return cap(d.toLocaleDateString("bg-BG",{weekday:"short",day:"numeric",month:"numeric"}));}
 
 /* ============ ВИД: теми и персонализация ============ */
-const SK=(bg,sf,ink,mu,ln,br,onb,so,ch,onc,dark)=>({"--bg":bg,"--surface":sf,"--ink":ink,"--muted":mu,"--line":ln,"--brand":br,"--on-brand":onb,"--soft":so,"--chamomile":ch,"--on-chamomile":onc,
+const SK=(bg,sf,ink,mu,ln,br,onb,so,ch,onc,dark)=>({"--bg":bg,"--surface":sf,"--ink":ink,"--muted":mu,"--line":ln,"--brand":br,"--on-brand":onb,"--soft":so,"--accent2":ch,"--on-accent2":onc,
  "--ok":dark?"#78D0A3":"#2E7D5B","--ok-bg":dark?"#17352A":"#DDF0E4","--lim":dark?"#E8BE5A":"#8F6310","--lim-bg":dark?"#3A3115":"#FBEFCB","--no":dark?"#F09089":"#B0382E","--no-bg":dark?"#43211F":"#F8DEDA",
  "--shadow":dark?"0 6px 20px rgba(0,0,0,.3)":"0 1px 2px rgba(30,40,40,.06),0 6px 20px rgba(30,40,40,.08)"});
 const SKINS={
- auto:{n:"Класическа",sw:["#F5F8F2","#2D6A58","#EBBD3F"],v:null},
+ auto:{n:"Лавандула",sw:["#F5F2FB","#6247AA","#F0C14B"],v:null},
+ garden:{n:"Градина",sw:["#F5F8F2","#2D6A58","#EBBD3F"],v:SK("#F5F8F2","#FFFFFF","#1B3832","#587068","#DCE6DD","#2D6A58","#FFFFFF","#E5F0E7","#EBBD3F","#3B2E00")},
  mint:{n:"Мента",sw:["#EEF7F6","#0F7C7A","#F2C94C"],v:SK("#EEF7F6","#FFFFFF","#12353A","#4A6B6F","#CFE3E2","#0F7C7A","#FFFFFF","#DCEFED","#F2C94C","#3B2E00")},
  peach:{n:"Праскова",sw:["#FFF4EC","#C2603F","#F2B84B"],v:SK("#FFF4EC","#FFFFFF","#4A2C22","#85604F","#F1DCCF","#B9532F","#FFFFFF","#FCE5D8","#F2B84B","#3B2A00")},
- lav:{n:"Лавандула",sw:["#F5F2FB","#6247AA","#F0C14B"],v:SK("#F5F2FB","#FFFFFF","#2D2650","#64608A","#E1DBF1","#6247AA","#FFFFFF","#E9E3F7","#F0C14B","#33270A")},
  night:{n:"Нощ",sw:["#0E1626","#7FA7FF","#F0C14B"],dark:1,v:SK("#0E1626","#162036","#E4EAF7","#9AA8C7","#27344F","#7FA7FF","#0B1226","#1B2945","#F0C14B","#2A2000",1)},
  forest:{n:"Гора",sw:["#10170F","#8FCB8A","#E6C25A"],dark:1,v:SK("#10170F","#182217","#E6EFE2","#9DB296","#273526","#8FCB8A","#0D1A0C","#1D2B1C","#E6C25A","#2A2200",1)},
  hc:{n:"Висок контраст",sw:["#FFFFFF","#0B3D91","#FFD400"],v:SK("#FFFFFF","#FFFFFF","#000000","#262626","#222222","#0B3D91","#FFFFFF","#E6EDF9","#FFD400","#000000")}
@@ -1114,6 +1119,20 @@ function showDlg(html){dlg.innerHTML='<div class="dlg-in">'+html+'</div>';if(!dl
 function closeDlg(){if(dlg.open)dlg.close();}
 dlg.addEventListener("click",e=>{if(e.target===dlg)closeDlg();});
 const xbtn='<button class="x" data-act="close" aria-label="Затвори">×</button>';
+const OTTER_FACE=`<circle cx="138" cy="182" r="28" fill="#8A5A3A"/><circle cx="138" cy="182" r="13" fill="#D9A58A"/>
+<circle cx="374" cy="182" r="28" fill="#8A5A3A"/><circle cx="374" cy="182" r="13" fill="#D9A58A"/>
+<ellipse cx="256" cy="278" rx="182" ry="140" fill="#9C6841"/>
+<ellipse cx="256" cy="212" rx="96" ry="50" fill="#B27F55" opacity=".6"/>
+<ellipse cx="256" cy="340" rx="128" ry="84" fill="#F3E0C4"/><ellipse cx="256" cy="412" rx="70" ry="22" fill="#F3E0C4"/>
+<circle cx="182" cy="262" r="19" fill="#2A1810"/><circle cx="330" cy="262" r="19" fill="#2A1810"/>
+<circle cx="189" cy="255" r="7" fill="#fff"/><circle cx="337" cy="255" r="7" fill="#fff"/>
+<circle cx="158" cy="322" r="21" fill="#F2A59B" opacity=".65"/><circle cx="354" cy="322" r="21" fill="#F2A59B" opacity=".65"/>
+<path d="M222 310 q34 -26 68 0 q-5 30 -34 34 q-29 -4 -34 -34z" fill="#3B2418"/>
+<ellipse cx="243" cy="312" rx="9" ry="4" fill="#fff" opacity=".35"/>
+<path d="M256 338 v22 M256 360 q-22 22 -46 6 M256 360 q22 22 46 6" stroke="#3B2418" stroke-width="7" fill="none" stroke-linecap="round"/>
+<g fill="#B58E68"><circle cx="210" cy="346" r="4"/><circle cx="222" cy="358" r="4"/><circle cx="302" cy="346" r="4"/><circle cx="290" cy="358" r="4"/></g>
+<g stroke="#7A5535" stroke-width="5" stroke-linecap="round"><path d="M150 342 l-58 -12"/><path d="M152 358 l-58 10"/><path d="M362 342 l58 -12"/><path d="M360 358 l58 10"/></g>`;
+const otterSvg=w=>`<svg width="${w}" viewBox="70 118 372 346" aria-hidden="true">${OTTER_FACE}</svg>`;
 const ICON={bf:'<path d="M5 10h12v3a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5zM17 11h1.5a2.5 2.5 0 0 1 0 5H16M8 4c0 1.5 1 1.5 1 3M12 4c0 1.5 1 1.5 1 3"/>',
  soup:'<path d="M3 11h18a9 9 0 0 1-18 0zM9 3c0 1.5 1 1.5 1 3M14 3c0 1.5 1 1.5 1 3"/>',
  main:'<circle cx="12" cy="13" r="7"/><circle cx="12" cy="13" r="3.2"/><path d="M3 4v5M21 4v5"/>',
@@ -1327,8 +1346,8 @@ home(){
   }
   return `
   <section class="hero">
-    <svg class="daisy" viewBox="0 0 40 40" aria-hidden="true"><g fill="var(--surface)" opacity=".8">${[0,45,90,135,180,225,270,315].map(a=>`<ellipse cx="20" cy="9" rx="3.6" ry="7.5" transform="rotate(${a} 20 20)"/>`).join("")}</g><circle cx="20" cy="20" r="5.2" fill="var(--chamomile)"/></svg>
-    <div class="eyebrow">Щадящо меню при гастрит</div>
+    <span class="otter-big" aria-hidden="true">${otterSvg(230)}</span>
+    <div class="hero-top"><div class="eyebrow">Щадящо меню при гастрит</div><span class="otter-s">${otterSvg(76)}</span></div>
     <h1>Какво ще готвим днес?</h1>
     <p class="lead">Нежни ястия без пържене, люти подправки, лук, чесън, домати и лимон. Кажи какво имаш у дома и ще предложим какво да сготвиш.</p>
     <form id="hsearch" class="hs" role="search"><input class="search" id="hq" type="search" placeholder="Търси: пиле, картофи, лук…" aria-label="Търсене в приложението" autocomplete="off"><button class="btn" type="submit">Търси</button></form>
@@ -1460,7 +1479,7 @@ prefs(){
       <div><div class="eyebrow" style="margin-bottom:6px">Ъгли</div>${segB("r",[["sharp","Остри"],["mid","Меки"],["round","Овални"]])}</div>
       <div><div class="eyebrow" style="margin-bottom:6px">Заглавия</div>${segB("font",[["serif","С засечки"],["sans","Без засечки"]])}</div>
     </div>
-    <p class="muted small">„Класическа“ следва светлия или тъмния режим на устройството. Останалите теми са с фиксирани цветове.</p></section>
+    <p class="muted small">„Лавандула“ следва светлия или тъмния режим на устройството. Останалите теми са с фиксирани цветове.</p></section>
   <section class="card" style="display:grid;gap:14px"><h2>Кухня</h2>
     <p class="muted small">С какво готвиш? Показват се само рецепти, които могат да се сготвят с тези уреди. Котлонът е за готвене в тенджера без мазнина.</p>
     <div class="chips">${Object.entries(METHODS).filter(([k])=>k!=="raw").map(([k,l])=>`<button class="chip" data-act="set-eq" data-m="${k}" aria-pressed="${!!S.equip[k]}">${l}</button>`).join("")}</div>
