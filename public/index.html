@@ -206,6 +206,9 @@ table.sub th{font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;colo
 .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.82rem;color:var(--muted)}
 .sticky-note{position:sticky;top:calc(64px + env(safe-area-inset-top,0px));z-index:5}
 
+.codebox{font:700 1.5rem ui-monospace,Menlo,Consolas,monospace;letter-spacing:.1em;background:var(--soft);border-radius:var(--r-sm);padding:12px 16px;text-align:center;user-select:all;word-break:break-all}
+.codein{font-family:ui-monospace,Menlo,Consolas,monospace;letter-spacing:.1em;text-transform:uppercase}
+
 .hero-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
 .otter-s{display:block;flex:none}.otter-big{display:none}
 @media(min-width:820px){.otter-s{display:none}.otter-big{display:block;position:absolute;right:40px;bottom:26px;opacity:.96}.hero p.lead,.hero .hs{max-width:46ch}}
@@ -1059,9 +1062,10 @@ function loadState(){
 }
 let S=loadState();
 if(S.look&&S.look.skin==="lav")S.look.skin="auto";
-function save(){S.saved=Date.now();lsSet(KEY,JSON.stringify(S));}
-window.addEventListener("pagehide",save);
-document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden")save();});
+function persist(){S.saved=Date.now();lsSet(KEY,JSON.stringify(S));}
+function save(){persist();if(typeof scheduleSync==="function")scheduleSync();}
+window.addEventListener("pagehide",persist);
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden")persist();});
 try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist();}catch(e){}
 
 /* ============ ПОМОЩНИ ФУНКЦИИ ============ */
@@ -1495,6 +1499,7 @@ prefs(){
     <div class="legend"><span class="pref like">♥ харесва</span><span class="pref no">не го яде</span><span>${nPref?nPref+" избрани":"нищо избрано"}</span>${nPref?'<button class="btn sm ghost" data-act="pref-clear">Изчисти всичко</button>':""}</div>
     ${cats.map(([c,l])=>`<div><div class="eyebrow" style="margin-bottom:8px">${l}</div><div class="chips">${(PKEYS[c]||[]).map(k=>{const st=S.pref[k];return `<button class="pref ${st===1?"like":st===-1?"no":""}" data-act="pref" data-k="${esc(k)}" aria-label="${cap(k)}: ${st===1?"харесва":st===-1?"не го яде":"без предпочитание"}">${st===1?"♥ ":""}${cap(k)}</button>`;}).join("")}</div></div>`).join("")}
     <p class="muted small">Лук, чесън, домати, чушки, лимон, пипер и пържене не присъстват в рецептите по подразбиране, защото често дразнят стомаха.</p></section>
+  ${syncCard()}
   <section class="card" style="display:grid;gap:12px"><h2>Резервно копие</h2>
     <p class="muted small">Данните се пазят в браузъра на това устройство. Ако чистиш данните на браузъра или смениш телефона, ги губиш. Копирай ги като текст и ги пази в бележки или съобщение, за да ги върнеш по-късно.</p>
     <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn ghost" data-act="bk-copy">Копирай данните</button><button class="btn ghost" data-act="bk-file">Свали като файл</button></div>
@@ -1759,6 +1764,127 @@ views.search=function(){
 };
 function runSearch(){const e=$("#sres");if(e)e.innerHTML=searchHTML();}
 
+/* ============ ОБЩО ПРОСТРАНСТВО (синхронизация с код) ============
+   Споделят се: план, списък за пазаруване, любими, нежелани/любими продукти и режим на храна/уреди.
+   Не се споделя: външният вид (тема, размер на текста).
+   Сървърът пази по един документ за всеки код. Сливането е по ключ: печели по-новата промяна. */
+const CODE_RE=/^[A-HJKMNP-Z2-9]{4}-[A-HJKMNP-Z2-9]{4}-[A-HJKMNP-Z2-9]{4}$/;
+const SYNC_KEY="pissi-sync";
+const freshTs=()=>({plan:0,set:0,shop:{},fav:{},pref:{}});
+let SY=(function(){try{const x=JSON.parse(lsGet(SYNC_KEY)||"null");if(x&&x.code)return Object.assign({code:"",init:"",base:null,last:0,status:"",ts:freshTs()},x,{ts:Object.assign(freshTs(),x.ts||{})});}catch(e){}return {code:"",init:"",base:null,last:0,status:"",ts:freshTs()};})();
+function saveSY(){lsSet(SYNC_KEY,JSON.stringify(SY));}
+function sharedView(){
+  return {plan:{cur:S.cur,hist:S.hist},
+    set:{equip:S.equip,people:S.people,dairy:S.dairy,red:S.red,fish:S.fish,gf:S.gf},
+    shop:Object.fromEntries(S.shop.map(i=>[i.id,i])),fav:S.fav,pref:S.pref};
+}
+/* открива какво е променено локално, като сравнява с последното синхронизирано състояние */
+function detectLocal(){
+  const cur=sharedView(),b=SY.base,now=Date.now(),jp=JSON.stringify;
+  if(!b){
+    if(SY.init==="create"){SY.ts.plan=SY.ts.plan||now;SY.ts.set=SY.ts.set||now;}
+    for(const sec of ["shop","fav","pref"])for(const k of Object.keys(cur[sec]))if(!SY.ts[sec][k])SY.ts[sec][k]=now;
+    return;
+  }
+  if(jp(cur.plan)!==jp(b.plan))SY.ts.plan=now;
+  if(jp(cur.set)!==jp(b.set))SY.ts.set=now;
+  for(const sec of ["shop","fav","pref"]){
+    const a=cur[sec],o=b[sec]||{},t=SY.ts[sec];
+    for(const k of Object.keys(a))if(jp(a[k])!==jp(o[k]))t[k]=now;
+    for(const k of Object.keys(o))if(!(k in a))t[k]=now;
+  }
+}
+function buildPayload(){
+  const cur=sharedView(),P={plan:{ts:SY.ts.plan,data:cur.plan},set:{ts:SY.ts.set,data:cur.set},shop:{},fav:{},pref:{}};
+  for(const sec of ["shop","fav","pref"]){
+    const a=cur[sec],t=SY.ts[sec];
+    for(const k of new Set([...Object.keys(a),...Object.keys(t)]))P[sec][k]={ts:t[k]||0,d:k in a?a[k]:null};
+  }
+  return P;
+}
+/* връща true, ако локалните данни са се променили */
+function applyServer(doc){
+  let changed=false;
+  if(doc.plan&&doc.plan.ts>SY.ts.plan){S.cur=doc.plan.data.cur;S.hist=doc.plan.data.hist||[];SY.ts.plan=doc.plan.ts;changed=true;}
+  if(doc.set&&doc.set.ts>SY.ts.set){const d=doc.set.data;S.equip=Object.assign({},S.equip,d.equip);["people","dairy","red","fish","gf"].forEach(k=>{if(d[k]!==undefined)S[k]=d[k];});SY.ts.set=doc.set.ts;changed=true;}
+  const shop=new Map(S.shop.map(i=>[i.id,i]));
+  for(const [k,v] of Object.entries(doc.shop||{})){
+    if(v.ts>(SY.ts.shop[k]||0)){
+      if(v.d===null){if(shop.delete(k))changed=true;}else{shop.set(k,v.d);changed=true;}
+      SY.ts.shop[k]=v.ts;
+    }
+  }
+  S.shop=[...shop.values()];
+  for(const sec of ["fav","pref"]){
+    for(const [k,v] of Object.entries(doc[sec]||{})){
+      if(v.ts>(SY.ts[sec][k]||0)){
+        if(v.d===null||v.d===0){if(k in S[sec]){delete S[sec][k];changed=true;}}else if(S[sec][k]!==v.d){S[sec][k]=v.d;changed=true;}
+        SY.ts[sec][k]=v.ts;
+      }
+    }
+  }
+  return changed;
+}
+let syncing=false,syncAgain=false,syncTimer=null;
+function scheduleSync(){if(!SY.code)return;clearTimeout(syncTimer);syncTimer=setTimeout(syncNow,1200);}
+async function syncNow(){
+  if(!SY.code)return;
+  if(syncing){syncAgain=true;return;}
+  syncing=true;
+  try{
+    detectLocal();
+    const res=await fetch("/api/sync",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({code:SY.code,data:buildPayload()})});
+    if(!res.ok)throw new Error("http "+res.status);
+    const doc=await res.json();
+    detectLocal();                       /* промени, направени по време на заявката */
+    const changed=applyServer(doc);
+    SY.base=JSON.parse(JSON.stringify(sharedView()));SY.last=Date.now();SY.status="ok";
+    persist();saveSY();
+    if(changed&&!dlg.open&&!(document.activeElement&&/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)))render();
+  }catch(e){SY.status="error";saveSY();}
+  finally{
+    syncing=false;
+    document.querySelectorAll(".sy-status").forEach(b=>{b.innerHTML=syncStatusHTML();});
+    if(syncAgain){syncAgain=false;scheduleSync();}
+  }
+}
+function syncStatusHTML(){
+  if(!SY.code)return "";
+  const t=SY.last?new Date(SY.last).toLocaleTimeString("bg-BG",{hour:"2-digit",minute:"2-digit"}):"";
+  return SY.status==="error"?'<span class="tag lim">Няма връзка. Ще опитаме пак.</span>':(t?`<span class="tag ok">Синхронизирано в ${t}</span>`:'<span class="tag">Синхронизиране…</span>');
+}
+function genCode(){
+  const A="ABCDEFGHJKMNPQRSTUVWXYZ23456789",b=new Uint8Array(12);crypto.getRandomValues(b);
+  const c=[...b].map(x=>A[x%A.length]).join("");return c.slice(0,4)+"-"+c.slice(4,8)+"-"+c.slice(8,12);
+}
+function normCode(s){
+  const c=String(s).toUpperCase().replace(/[^A-Z0-9]/g,"");
+  return c.length===12?c.slice(0,4)+"-"+c.slice(4,8)+"-"+c.slice(8,12):String(s).toUpperCase().trim();
+}
+async function syncCheck(code){
+  const res=await fetch("/api/sync",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({code,check:true})});
+  if(!res.ok)throw new Error("http "+res.status);
+  return (await res.json()).exists;
+}
+function syncCard(){
+  const unavailable=!/^https?:$/.test(location.protocol)||/claude\.(ai|site)|claudeusercontent/i.test(location.hostname);
+  if(unavailable)return `<section class="card" style="display:grid;gap:8px"><h2>Общо пространство</h2><p class="muted small">Споделянето между два телефона работи само на основния адрес на приложението, не в тази предварителна версия.</p></section>`;
+  if(SY.code)return `<section class="card" style="display:grid;gap:12px"><h2>Общо пространство</h2>
+    <p class="muted small">Планът, списъкът за пазаруване, любимите, нежеланите продукти и режимът на храна се споделят. Външният вид остава личен. Всеки, който въведе този код, вижда и променя общите данни.</p>
+    <div class="codebox" aria-label="Код на пространството">${SY.code}</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button class="btn sm" data-act="sy-copy">Копирай кода</button><button class="btn sm ghost" data-act="sy-now">Синхронизирай сега</button><span class="sy-status">${syncStatusHTML()}</span></div>
+    ${SY.confirmLeave?`<div class="note">Да напуснеш пространството? Данните остават на този телефон, но спират да се синхронизират. <button class="btn sm" style="background:var(--no);color:#fff" data-act="sy-leave">Да, напусни</button> <button class="btn sm ghost" data-act="sy-leave-no">Не</button></div>`:`<div><button class="btn sm ghost" data-act="sy-leave-ask">Напусни пространството</button></div>`}
+    <p class="muted small">Кодът е като парола. Пази го между вас двамата и не го публикувай.</p></section>`;
+  return `<section class="card" style="display:grid;gap:14px"><h2>Общо пространство</h2>
+    <p class="muted small">Двама души могат да споделят план и списък за пазаруване с общ код, без акаунти и пароли. Единият създава пространство и праща кода на другия.</p>
+    <div><button class="btn" data-act="sy-create">Създай ново пространство</button></div>
+    <div style="border-top:1px solid var(--line);padding-top:14px;display:grid;gap:8px"><label class="fld">Имаш код? Въведи го тук<input class="search codein" id="sy-code" placeholder="XXXX-XXXX-XXXX" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="14"></label>
+    <div><button class="btn ghost" data-act="sy-join">Присъедини се</button></div><p class="muted small" id="sy-msg"></p></div></section>`;
+}
+setInterval(()=>{if(SY.code&&!document.hidden)syncNow();},20000);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&SY.code)syncNow();});
+window.addEventListener("online",()=>{if(SY.code)syncNow();});
+
 /* ============ РУТЕР И СЪБИТИЯ ============ */
 const ROUTES=["home","recipes","plan","list","guide","prefs","search"];
 function route(){const h=location.hash.slice(1);return ROUTES.includes(h)?h:"home";}
@@ -1766,6 +1892,7 @@ function render(){
   const r=route();
   $("#view").innerHTML=views[r]();
   document.querySelectorAll("nav a").forEach(a=>{if(a.getAttribute("href")==="#"+r)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
+  if(SY.code&&(r==="plan"||r==="list"))$("#view").insertAdjacentHTML("afterbegin",'<div><span class="sy-status">'+syncStatusHTML()+'</span> <span class="muted small">Общо пространство</span></div>');
   if(r==="recipes"){recipeFilters();recipeGrid();}
   if(r==="search"&&!SQ.q){const q=$("#sq");if(q)q.focus();}
   document.title="Pissi Food App";
@@ -1810,6 +1937,20 @@ document.addEventListener("click",e=>{
     case "pld-go":{const ids=[];PLD.forEach(i=>{const day=S.cur.days[i];SLOTS.forEach(([k])=>day[k].forEach(id=>ids.push(id)));});const n=addToShop(aggregateIds(ids,S.people/2),"План");PLD.forEach(i=>S.cur.days[i].listed=true);save();closeDlg();toast(n+" продукта са добавени");location.hash="#list";render();break;}
     case "rf":RLIM=48;if(d.f==="meal"&&(d.v==="bf"||d.v==="dessert"))RF.base="all";if(d.f==="mine")RF.mine=!RF.mine;else if(d.f==="fav")RF.fav=!RF.fav;else RF[d.f]=d.v;recipeFilters();recipeGrid();break;
     case "more":RLIM+=48;recipeGrid();break;
+    case "sy-create":{const code=genCode();SY={code,init:"create",base:null,last:0,status:"",ts:freshTs()};saveSY();render();syncNow();break;}
+    case "sy-join":{const code=normCode($("#sy-code").value),m=$("#sy-msg");
+      if(!CODE_RE.test(code)){m.textContent="Кодът трябва да е във вида XXXX-XXXX-XXXX.";break;}
+      m.textContent="Проверяваме…";
+      syncCheck(code).then(ex=>{
+        if(!ex){m.textContent="Няма пространство с този код. Провери го за грешки.";return;}
+        SY={code,init:"join",base:null,last:0,status:"",ts:freshTs()};saveSY();
+        syncNow().then(()=>{toast("Присъедини се към общото пространство");render();});
+      }).catch(()=>{m.textContent="Няма връзка със сървъра. Опитай пак.";});break;}
+    case "sy-copy":{const done=()=>toast("Кодът е копиран");if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(SY.code).then(done,()=>toast("Маркирай кода и го копирай ръчно"));else toast("Маркирай кода и го копирай ръчно");break;}
+    case "sy-now":syncNow();toast("Синхронизиране…");break;
+    case "sy-leave-ask":SY.confirmLeave=true;saveSY();render();break;
+    case "sy-leave-no":SY.confirmLeave=false;saveSY();render();break;
+    case "sy-leave":SY={code:"",init:"",base:null,last:0,status:"",ts:freshTs()};saveSY();render();toast("Напусна пространството");break;
     case "sq-tab":SQ.tab=d.t;SQ.lim=24;runSearch();break;
     case "sq-ex":SQ.q=d.q;{const i=$("#sq");if(i)i.value=d.q;}runSearch();break;
     case "sq-all":SQ.all=!SQ.all;runSearch();break;
@@ -1862,6 +2003,7 @@ document.addEventListener("change",e=>{
   if(e.target.id==="pstart"&&e.target.value){S.cur.start=e.target.value;save();render();}
 });
 document.addEventListener("input",e=>{
+  if(e.target.id==="sy-code"){e.target.value=e.target.value.toUpperCase().replace(/[^A-Z0-9]/g,"").replace(/(.{4})(?=.)/g,"$1-").slice(0,14);}
   if(e.target.id==="sq"){SQ.q=e.target.value;SQ.lim=24;runSearch();}
   if(e.target.id==="rq"){RF.q=e.target.value;RLIM=48;recipeGrid();}
   if(e.target.id==="pkq"){PKR.q=e.target.value;$("#pkres").innerHTML=pickerResults();}
@@ -1875,6 +2017,7 @@ applyLook();
 if(!S.cur||!S.cur.days)S.cur=genPlan(S.planDays,S.mode);
 save();
 render();
+if(SY.code)syncNow();
 
 </script>
 
